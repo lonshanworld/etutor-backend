@@ -14,9 +14,7 @@ class Logoutcontroller extends Controller
             return response()->noContent();
         } catch (\Throwable $th) {
             throw $th;
-            return response()->error([
-                'message' => 'Oops! Something went wrong!'
-            ]);
+            return response()->error();
         }
     }
 }

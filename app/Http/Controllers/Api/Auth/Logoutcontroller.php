@@ -10,9 +10,10 @@ class Logoutcontroller extends Controller
     public function __invoke(Request $request)
     {
         try {
-            $request->user->tokens()->delete();
+            $request->user()->tokens()->delete();
             return response()->noContent();
         } catch (\Throwable $th) {
+            throw $th;
             return response()->error([
                 'message' => 'Oops! Something went wrong!'
             ]);

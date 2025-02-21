@@ -123,4 +123,8 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'paginate' => [
+        'count' => env('PAGINATE_COUNT', 10)
+    ]
+
 ];

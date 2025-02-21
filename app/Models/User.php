@@ -28,7 +28,8 @@ class User extends Authenticatable
         'nationality',
         'gender_id',
         'address',
-        
+        'role_id',
+        'passport'
     ];
 
     /**

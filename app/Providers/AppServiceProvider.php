@@ -36,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
 
         Response::macro('error', function($message = 'Oops! Something went wrong!', $status = 500) {
             return response()->json([
-                'message' => $message
+                'message' => $message,
+                'errorMessage' => $message
             ], $status);
         });
 

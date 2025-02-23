@@ -19,7 +19,7 @@ Route::prefix('auth')->name('api.auth.')->group(function () {
     Route::post('logout', Logoutcontroller::class)->middleware(['auth:sanctum']);
 });
 
-Route::post('accounts/create', CreateAccountController::class);
+Route::middleware(['auth:sanctum'])->post('accounts/create', CreateAccountController::class);
 
 Route::get('students', GetStudentController::class);
 Route::get('tutors', GetTutorController::class);

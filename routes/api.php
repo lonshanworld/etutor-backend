@@ -8,7 +8,10 @@ use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
+use App\Mail\User\WelcomeUser;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -29,3 +32,9 @@ Route::get('students', GetStudentController::class);
 Route::get('tutors', GetTutorController::class);
 Route::get('roles', GetRoleController::class);
 Route::get('genders', GetGenderController::class);
+
+Route::get('send-mail', function() {
+    Mail::to(
+        User::first()->email->send(new WelcomeUser($message = 'hello'))
+    );
+});

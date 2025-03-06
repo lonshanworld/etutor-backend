@@ -12,9 +12,7 @@ class GetGenderController extends Controller
     public function __invoke()
     {
         return GenderResource::collection(
-            Gender::select('id', 'name')
-                ->orderBy('name', 'asc')
-                ->get()
+            Gender::select('id', 'name')->get()
         );
     }
 }

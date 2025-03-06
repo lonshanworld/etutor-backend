@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\WelcomeUser;
+use Illuminate\Support\Facades\Mail;
 
 class CreateAccountController extends Controller
 {
@@ -40,6 +42,9 @@ class CreateAccountController extends Controller
                 'role_id' => $request->role_id,
                 'password' => Hash::make($request->password),
             ]);
+
+            // Send welcome email
+            // Mail::to($user->email)->send(new WelcomeUser());
 
             return response()->success($user, 'User account created successfully.', 201);
         } catch (\Throwable $th) {

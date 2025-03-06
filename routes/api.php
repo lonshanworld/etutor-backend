@@ -39,7 +39,6 @@ Route::get('send-mail', function() {
         User::first()->email->send(new WelcomeUser($message = 'hello'))
     );
 });
-
 Route::get('check-email', CheckEmailController::class);
 Route::get('confirm-otp', ConfirmOtpController::class);
 ROute::post('update-password', UpdatePasswordController::class);

@@ -10,6 +10,8 @@ class ConfirmOtpController extends Controller
     public function __invoke(string $otp)
     {
         // check otp here later
+
+        // otp_placeholder[user_email, otp];
         $otpCheck = true;
 
         if(!$otpCheck) {
@@ -21,6 +23,7 @@ class ConfirmOtpController extends Controller
 
             ]);
         }
+        
         return response()->json([
             'data' => [
                 'status' => true

@@ -3,6 +3,9 @@
 use App\Http\Controllers\Api\Account\CreateAccountController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\Logoutcontroller;
+use App\Http\Controllers\Api\Auth\Password\UpdatePasswordController;
+use App\Http\Controllers\Api\Email\CheckEmailController;
+use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Gender\GetGenderController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Students\GetStudentController;
@@ -38,3 +41,7 @@ Route::get('send-mail', function() {
         User::first()->email->send(new WelcomeUser($message = 'hello'))
     );
 });
+
+Route::get('check-email', CheckEmailController::class);
+Route::get('confirm-otp', ConfirmOtpController::class);
+ROute::post('update-password', UpdatePasswordController::class);

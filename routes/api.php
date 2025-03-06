@@ -43,3 +43,4 @@ Route::get('send-mail', function() {
 Route::get('check-email', CheckEmailController::class);
 Route::get('confirm-otp', ConfirmOtpController::class);
 ROute::post('update-password', UpdatePasswordController::class);
+

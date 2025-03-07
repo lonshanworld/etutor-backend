@@ -25,6 +25,7 @@ class CreateAccountController extends Controller
                 'gender_id' => 'required|integer|exists:genders,id',
                 'role_id' => 'required|integer|exists:roles,id',
                 'password' => 'required|string|min:8|confirmed',
+                'password_confirmation' => 'required|string|min:8',
             ]);
 
             if ($validator->fails()) {
@@ -41,10 +42,8 @@ class CreateAccountController extends Controller
                 'gender_id' => $request->gender_id,
                 'role_id' => $request->role_id,
                 'password' => Hash::make($request->password),
+                'password_confirmation' => Hash::make($request->password_confirmation),
             ]);
-
-            // Send welcome email
-            // Mail::to($user->email)->send(new WelcomeUser());
 
             return response()->success($user, 'User account created successfully.', 201);
         } catch (\Throwable $th) {

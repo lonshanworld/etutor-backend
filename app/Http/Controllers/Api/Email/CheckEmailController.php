@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Mail\Message\SendOtp;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CheckEmailController extends Controller
 {
-    public function __invoke(string $email)
+    public function __invoke(Request $request)
     {
-        $user = User::where('email', $email)->first();
+        $user = User::where('email', $request->email)->first();
         if(!$user) {
             return response()->json([
                 'data' => [
@@ -21,9 +23,12 @@ class CheckEmailController extends Controller
             ], 404);
         }
         // send otp to email
-        new SendOtp();
+        $otp = rand(100000, 999999);
+        Mail::to($request->email)->send(new SendOtp($otp));
         return response()->json([
-            'data' => [],
+            'data' => [
+                'otp' => $otp
+            ],
             'message' => 'email found!'
         ], 200);
     }

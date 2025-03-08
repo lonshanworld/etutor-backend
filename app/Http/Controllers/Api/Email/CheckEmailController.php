@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Email;
 use App\Http\Controllers\Controller;
 use App\Mail\Message\SendOtp;
 use App\Models\User;
+use App\Models\UserOtp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -14,7 +15,7 @@ class CheckEmailController extends Controller
     public function __invoke(Request $request)
     {
         $user = User::where('email', $request->email)->first();
-        if(!$user) {
+        if (!$user) {
             return response()->json([
                 'data' => [
                     'status' => true
@@ -22,14 +23,25 @@ class CheckEmailController extends Controller
                 'message' => 'email not found!'
             ], 404);
         }
-        // send otp to email
         $otp = rand(100000, 999999);
-        Mail::to($request->email)->send(new SendOtp($otp));
-        return response()->json([
-            'data' => [
+        UserOtp::upsert(
+            [
+                [
+                    'otp' => $otp,
+                    'email' => $user->email
+                ],
+            ],
+            ['email'],
+            ['otp']
+        );
+
+        Mail::to($user->email)->send(new SendOtp($otp));
+        return response()->success(
+            [
                 'otp' => $otp
             ],
-            'message' => 'email found!'
-        ], 200);
+            'email found !',
+            200
+        );
     }
 }

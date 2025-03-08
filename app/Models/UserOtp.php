@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class UserOtp extends Model
 {
     protected $fillable = [
-        'email', 'otp'
+        'email',
+        'otp',
+        'confirmed'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'confirmed' => 'boolean'
+        ];
+    }
 }

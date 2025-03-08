@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api\Tutors;
+namespace App\Http\Controllers\Api\Staff;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\Tutors\TutorResource;
+use App\Http\Resources\Api\Staff\StaffResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class GetTutorController extends Controller
+class GetStaffController extends Controller
 {
     public function __invoke(Request $request)
     {
         try {
-            $tutors = User::whereHas('role', function ($query) {
-                $query->where('name', 'tutor');
+            $staffs = User::whereHas('role', function ($query) {
+                $query->where('name', 'staff');
             })
             ->when($request->name, function($query) use($request) {
                 $query->where('first_name', 'like', '%'.$request->name.'%')
@@ -22,7 +22,7 @@ class GetTutorController extends Controller
             })
             ->paginate(config('app.paginate.count'));
 
-            return TutorResource::collection($tutors);
+            return StaffResource::collection($staffs);
         } catch (\Throwable $th) {
             return response()->error();
         }

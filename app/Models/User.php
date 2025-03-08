@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\AccountStatus;
+use App\Enums\GenderType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,6 +21,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
     protected $fillable = [
         'first_name',
         'middle_name',
@@ -26,10 +30,11 @@ class User extends Authenticatable
         'email',
         'password',
         'nationality',
-        'gender_id',
+        'gender',
         'address',
         'role_id',
-        'passport'
+        'passport',
+        'status'
     ];
 
     /**
@@ -52,6 +57,13 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'gender' => GenderType::class,
+            'status' => AccountStatus::class
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

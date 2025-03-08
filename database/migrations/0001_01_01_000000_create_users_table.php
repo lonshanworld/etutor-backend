@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->date('date_of_birth');
             $table->string('nationality');
-            $table->foreignId('gender_id');
-            $table->foreignId('role_id');
+            $table->string('gender');
+            $table->foreignId('role_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('passport')->default("not yet");
+            $table->foreignId('image_id')->nullable();
+            $table->string('status')->default('activated');
             $table->rememberToken();
             $table->timestamps();
         });

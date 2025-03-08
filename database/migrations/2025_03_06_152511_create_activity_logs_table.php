@@ -12,10 +12,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('action');
-            $table->foreignId('entity_id');
-            $table->foreignId('web_page_id');
-            $table->foreignId('web_browser_id');
-            $table->integer('visit_count');
+            $table->foreignId('entity_id')->nullable();
+            $table->foreignId('web_page_id')->nullable();
+            $table->foreignId('web_browser_id')->nullable();
+            $table->integer('visit_count')->nullable();
             $table->ipAddress('ip_address');
             $table->string('user_agents');
             $table->timestamps();

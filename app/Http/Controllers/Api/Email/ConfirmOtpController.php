@@ -3,27 +3,26 @@
 namespace App\Http\Controllers\Api\Email;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ConfirmOtpRequest;
+use App\Models\UserOtp;
 use Illuminate\Http\Request;
 
 class ConfirmOtpController extends Controller
 {
-    public function __invoke(string $otp)
+    public function __invoke(ConfirmOtpRequest $confirmOtpRequest)
     {
-        // check otp here later
-
-        // otp_placeholder[user_email, otp];
-        $otpCheck = true;
-
-        if(!$otpCheck) {
+        $otpCheck = UserOtp::where('email', $confirmOtpRequest->email)->where('otp', $confirmOtpRequest->otp)->first();
+        if (!$otpCheck) {
             return response()->json([
                 'data' => [
                     'status' => false
                 ],
-                'message' => 'Wrong OTP',
-
+                'message' => 'Invalid OTP',
             ]);
         }
-        
+        $otpCheck->update([
+            'confirmed' => true
+        ]);
         return response()->json([
             'data' => [
                 'status' => true

@@ -27,11 +27,14 @@ Route::prefix('auth')->name('api.auth.')->group(function () {
     Route::post('logout', Logoutcontroller::class)->middleware(['auth:sanctum']);
 });
 
-Route::get('user/{id}/profile', GetUserProfileController::class);
+Route::middleware('auth:sanctum')->get('user/{id}/profile', GetUserProfileController::class);
 
-Route::get('staffs', GetStaffController::class);
-Route::get('students', GetStudentController::class);
-Route::get('tutors', GetTutorController::class);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('staffs', GetStaffController::class);
+    Route::get('students', GetStudentController::class);
+    Route::get('tutors', GetTutorController::class);
+});
+
 Route::get('roles', GetRoleController::class);
 
 // Route::get('send-mail', function() {

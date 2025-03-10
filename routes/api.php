@@ -34,11 +34,11 @@ Route::get('students', GetStudentController::class);
 Route::get('tutors', GetTutorController::class);
 Route::get('roles', GetRoleController::class);
 
-Route::get('send-mail', function() {
-    Mail::to(
-        User::first()->email->send(new WelcomeUser($message = 'hello'))
-    );
-}); 
+// Route::get('send-mail', function() {
+//     Mail::to(
+//         User::first()->email->send(new WelcomeUser($message = 'hello'))
+//     );
+// }); 
 
 Route::get('check-email', CheckEmailController::class);
 Route::get('confirm-otp', ConfirmOtpController::class);

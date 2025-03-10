@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
@@ -27,8 +28,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email', 'exists:users,email'],
-            'password' => ['required', 'string', 'min:6', 'max:20'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
         ];
     }
 
@@ -51,6 +52,15 @@ class LoginRequest extends FormRequest
 
         RateLimiter::clear($this->throttleKey());
     }
+
+    /**
+     * Check if the provided password is correct.
+     */
+    public function checkPassword($user): bool
+    {
+        return Hash::check($this->input('password'), $user->password);
+    }
+
 
     /**
      * Ensure the login request is not rate limited.
@@ -76,10 +86,10 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * <div class="env"></div>Get the rate limiting throttle key for the request.
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }

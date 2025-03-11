@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repositories\UserRepository\UserRepository;
 use App\Http\Resources\Api\Users\UserProfileResource;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class GetUserProfileController extends Controller
 {
-    public function __invoke(string $id)
+    public function __invoke(string $id, UserRepository $userRepository)
     {
-        return UserProfileResource::collection(
-            User::where('id', $id)->first()
+        return new UserProfileResource(
+            $userRepository->getUserById($id)
         );
     }
 }

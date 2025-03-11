@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Numeric;
@@ -30,20 +31,18 @@ class AppServiceProvider extends ServiceProvider
 
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
-        Response::macro('success', function(array $data = [], string $message, int $status = 200) {
+        Response::macro('success', function(array $data = [], string $message = 'success', int $status = 200): JsonResponse {
             return response()->json([
                 'data' => $data,
                 'message' => $message,
-                
             ], $status);
         });
 
-        Response::macro('error', function($message = 'Oops! Something went wrong!', $status = 500) {
+        Response::macro('error', function(string $message = 'Oops! Something went wrong!', int $status = 500): JsonResponse {
             return response()->json([
                 'message' => $message,
                 'errorMessage' => $message
             ], $status);
         });
-
     }
 }

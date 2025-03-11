@@ -9,11 +9,13 @@ use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\CreateStudentAccountController;
 use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\GetStaffController;
+use App\Http\Controllers\Api\Staff\UpdateStudentAccountController;
 use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
+use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
+use App\Http\Resources\Api\Users\UserProfileResource;
 use App\Mail\User\WelcomeUser;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +29,15 @@ Route::prefix('auth')->name('api.auth.')->group(function () {
     Route::post('logout', Logoutcontroller::class)->middleware(['auth:sanctum']);
 });
 
-Route::middleware('auth:sanctum')->get('user/{id}/profile', GetUserProfileController::class);
+// Route::middleware('auth:sanctum')->get('user/{id}/profile', GetUserProfileController::class);
+
+Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+    Route::get('profile', function (Request $request) {
+        return new UserProfileResource($request->user());
+    });
+    Route::get('/{id}/profile', GetUserProfileController::class);
+    Route::post('change-password', ChangePasswordController::class);
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('staffs', GetStaffController::class);
@@ -37,15 +47,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::get('roles', GetRoleController::class);
 
-// Route::get('send-mail', function() {
-//     Mail::to(
-//         User::first()->email->send(new WelcomeUser($message = 'hello'))
-//     );
-// }); 
-
 Route::get('check-email', CheckEmailController::class);
 Route::get('confirm-otp', ConfirmOtpController::class);
 Route::post('update-password', UpdatePasswordController::class);
 
-Route::middleware(['auth:sanctum'])->post('students/account/create', CreateStudentAccountController::class);
-Route::middleware(['auth:sanctum'])->post('students/account/deactivate', DeactivateStudentAccountController::class);
+Route::middleware('auth:sanctum')->prefix('students')->group(function () {  // fixed typo from 'studets' to 'students'
+    Route::middleware(['auth:sanctum'])->post('account/create', CreateStudentAccountController::class);
+    Route::middleware(['auth:sanctum'])->post('{id}/account/update', UpdateStudentAccountController::class); // reordered path segments
+    Route::middleware(['auth:sanctum'])->post('account/deactivate', DeactivateStudentAccountController::class);
+});

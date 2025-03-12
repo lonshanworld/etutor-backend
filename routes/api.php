@@ -51,8 +51,8 @@ Route::get('check-email', CheckEmailController::class);
 Route::get('confirm-otp', ConfirmOtpController::class);
 Route::post('update-password', UpdatePasswordController::class);
 
-Route::middleware('auth:sanctum')->prefix('students')->group(function () {  // fixed typo from 'studets' to 'students'
+Route::middleware('auth:sanctum')->prefix('students')->group(function () {
     Route::middleware(['auth:sanctum'])->post('account/create', CreateStudentAccountController::class);
-    Route::middleware(['auth:sanctum'])->post('{id}/account/update', UpdateStudentAccountController::class); // reordered path segments
+    Route::middleware(['auth:sanctum'])->post('{id}/account/update', UpdateStudentAccountController::class);
     Route::middleware(['auth:sanctum'])->post('account/deactivate', DeactivateStudentAccountController::class);
 });

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('passport')->default("not yet");
             $table->foreignId('image_id')->nullable();
             $table->string('status')->default('activated');
+            $table->string('profile_picture')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

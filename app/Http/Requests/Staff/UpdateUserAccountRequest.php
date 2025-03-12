@@ -38,6 +38,7 @@ class UpdateUserAccountRequest extends FormRequest
             'gender' => 'nullable|string',
             'password' => 'nullable|string|min:8|confirmed',
             'password_confirmation' => 'nullable|string|min:8|required_with:password',
+            'profile_picture' => 'nullable|image'
         ];
     }
 }

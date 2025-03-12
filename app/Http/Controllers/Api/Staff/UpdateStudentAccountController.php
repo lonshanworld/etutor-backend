@@ -7,6 +7,7 @@ use App\Http\Requests\Staff\UpdateUserAccountRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateStudentAccountController extends Controller
 {
@@ -22,10 +23,18 @@ class UpdateStudentAccountController extends Controller
             if (isset($validatedData['password'])) {
                 $validatedData['password'] = bcrypt($validatedData['password']);
             }
+
+            if ($updateUserAccountRequest->hasFile('profile_picture')) {
+                $file = $updateUserAccountRequest->file('profile_picture');
+                $path = $file->store('etuto/profile', 's3');
+                $validatedData['profile_picture'] = Storage::disk('s3')->url($path);
+            }
+
             User::where('id', $id)->first()->update($validatedData);
 
             return response()->success(
-            [], 'success', 200);
+                [], 'success', 200
+            );
 
         } catch (\Throwable $th) {
             Log::info('update student api', [

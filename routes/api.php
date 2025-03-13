@@ -5,12 +5,14 @@ use App\Http\Controllers\Api\Auth\Logoutcontroller;
 use App\Http\Controllers\Api\Auth\Password\UpdatePasswordController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
+use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\CreateStudentAccountController;
 use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\GetStaffController;
 use App\Http\Controllers\Api\Staff\UpdateStudentAccountController;
 use App\Http\Controllers\Api\Students\GetStudentController;
+use App\Http\Controllers\Api\Subjects\GetSubjectController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
@@ -43,6 +45,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('staffs', GetStaffController::class);
     Route::get('students', GetStudentController::class);
     Route::get('tutors', GetTutorController::class);
+    Route::get('subjects', GetSubjectController::class);
+    Route::get('majors', GetMajorController::class);
 });
 
 Route::get('roles', GetRoleController::class);

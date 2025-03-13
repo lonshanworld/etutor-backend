@@ -16,7 +16,7 @@ class GetMajorController extends Controller
             return MajorResource::collection(
                 Major::orderBy('name', 'asc')->get()
             );
-        } catch (\Throwable $th) {˝
+        } catch (\Throwable $th) {
             //throw $th;
         Log::info('get major api', [
                 'message' => $th->getMessage()

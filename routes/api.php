@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\GetStaffController;
 use App\Http\Controllers\Api\Staff\UpdateStudentAccountController;
 use App\Http\Controllers\Api\Students\GetStudentController;
+use App\Http\Controllers\Api\Subjects\GetSubjectController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
@@ -43,6 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('staffs', GetStaffController::class);
     Route::get('students', GetStudentController::class);
     Route::get('tutors', GetTutorController::class);
+    Route::get('subjects', GetSubjectController::class);
 });
 
 Route::get('roles', GetRoleController::class);

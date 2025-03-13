@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\Logoutcontroller;
 use App\Http\Controllers\Api\Auth\Password\UpdatePasswordController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
+use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\CreateStudentAccountController;
 use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
@@ -45,6 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('students', GetStudentController::class);
     Route::get('tutors', GetTutorController::class);
     Route::get('subjects', GetSubjectController::class);
+    Route::get('majors', GetMajorController::class);
 });
 
 Route::get('roles', GetRoleController::class);

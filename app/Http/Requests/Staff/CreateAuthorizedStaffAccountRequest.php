@@ -5,7 +5,7 @@ namespace App\Http\Requests\Staff;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\PasswordValidationMessages;
 
-class CreateStudentAccountRequest extends FormRequest
+class CreateAuthorizedStaffAccountRequest extends FormRequest
 {
     use PasswordValidationMessages;
     /**
@@ -13,7 +13,7 @@ class CreateStudentAccountRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -33,11 +33,11 @@ class CreateStudentAccountRequest extends FormRequest
             'gender' => 'required|string',
             'password' => 'required|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|confirmed',
             'password_confirmation' => 'required|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|required_with:password',
-            'major_id' => 'required|exists:majors,id',
             'emergency_contact_name' => 'required|string',
-            'emergency_contact_phone' => 'required|string'
+            'emergency_contact_phone' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date',
+            'access_level' => 'required|string'
         ];
     }
 }
-
-

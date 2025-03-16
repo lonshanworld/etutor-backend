@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Staff;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Staff\CreateStudentAccountRequest;
 use App\Models\Major;
-use App\Models\Student;
 use App\Models\User;
 
 use Illuminate\Http\Request;

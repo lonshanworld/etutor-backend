@@ -9,12 +9,10 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('major_sub', function (Blueprint $table) {
+        Schema::create('major_subjects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('major_id');  
             $table->foreignId('subject_id');
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 

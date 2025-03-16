@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Major;
 use App\Models\Role;
+use App\Models\Subject;
 use App\Models\User;
+use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -14,23 +17,36 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        foreach (['admin', 'staff', 'student'] as $role) {
+        foreach (['admin', 'tutor', 'student'] as $role) {
             Role::create(['name' => $role]);
         }
 
-        User::factory()->create([
-            'first_name' => 'User',
-            'middle_name' => 'Mid',
-            'last_name' => 'Last',
-            'email' => 'admin@gmail.com',
-            'date_of_birth' => fake()->date(),
-            'nationality' => 'MM',
-            'gender' => 'male',
-            'role_id' => 1,
-            'password' => Hash::make('password')
-        ]);
+        // create 10 user for each role
+        foreach (Role::cursor() as $key => $role) {
+            for ($i = 1; $i < 11; $i++) {
+                User::factory()->create([
+                    'first_name' => fake()->firstName(),
+                    'middle_name' => 'Mid',
+                    'last_name' => fake()->lastName(),
+                    'email' => $role->name . $i . '@gmail.com',
+                    'date_of_birth' => fake()->date(),
+                    'nationality' => 'MM',
+                    'gender' => fake()->randomElement(['male', 'female']),
+                    'role_id' => $role->id,
+                    'password' => Hash::make('password')
+                ]);
+            }
+        }
 
         // Create 50 users with student role
-        User::factory(50)->create(['role_id' => 3]);
+        // User::factory(50)->create(['role_id' => 3]);
+
+        // create major dummy data
+        Major::factory(10)->has(
+            Subject::factory()->count(3)
+        )
+            ->create([
+                'education_year' => Carbon::now()->year
+            ]);
     }
 }

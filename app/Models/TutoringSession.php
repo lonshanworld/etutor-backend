@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Entity extends Model
+class TutoringSession extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'subject_id',
+        'tutor_id',
+        'student_id',
+        'assigned_by',
+        'deleted_by'
     ];
 }

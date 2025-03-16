@@ -16,10 +16,10 @@ class LoginController extends Controller
         try {
             $user = User::where('email', $loginRequest->email)->first();
             if(! $user) {
-                return response()->error('email not found !', 422);
+                return response()->error('The email address you entered was not found. Please check and try again!', 422);
             }
             if (!Hash::check($loginRequest->password, $user->password)) {
-                return response()->error('incorrect password ', 422);
+                return response()->error('The password you entered was incorrect!.', 401);
             }
 
             ActivityLog::create([

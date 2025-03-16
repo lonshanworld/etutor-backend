@@ -6,12 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     public function up(): void
     {
-        Schema::create('majors', function (Blueprint $table) {
+        Schema::create('major_sub', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('education_year')->nullable(false);
+            $table->foreignId('major_id');  
+            $table->foreignId('subject_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -19,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('majors');
+        Schema::dropIfExists('major_sub');
     }
 };

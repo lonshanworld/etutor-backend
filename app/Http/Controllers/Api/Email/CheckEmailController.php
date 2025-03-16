@@ -20,7 +20,7 @@ class CheckEmailController extends Controller
                 'data' => [
                     'status' => true
                 ],
-                'message' => 'email not found!'
+                'message' => 'Email Not Found!'
             ], 404);
         }
         $otp = rand(100000, 999999);
@@ -40,7 +40,7 @@ class CheckEmailController extends Controller
             [
                 'otp' => $otp
             ],
-            'email found !',
+            'Email Found!',
             200
         );
     }

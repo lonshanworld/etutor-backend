@@ -18,7 +18,7 @@ class ConfirmOtpController extends Controller
                     'status' => false
                 ],
                 'message' => 'Invalid OTP',
-            ]);
+            ], 422);
         }
         $otpCheck->update([
             'confirmed' => true

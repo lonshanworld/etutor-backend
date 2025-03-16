@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Role\GetRoleController;
+use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
 use App\Http\Controllers\Api\Staff\CreateStudentAccountController;
 use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\GetStaffController;
@@ -47,12 +48,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('tutors', GetTutorController::class);
     Route::get('subjects', GetSubjectController::class);
     Route::get('majors', GetMajorController::class);
+    Route::get('roles', GetRoleController::class);
 });
 
-Route::get('roles', GetRoleController::class);
+
 
 Route::get('check-email', CheckEmailController::class);
-Route::get('confirm-otp', ConfirmOtpController::class);
+Route::get('confirm-otp', ConfirmOtpController::class); 
 Route::post('update-password', UpdatePasswordController::class);
 
 Route::middleware('auth:sanctum')->prefix('students')->group(function () {
@@ -60,3 +62,5 @@ Route::middleware('auth:sanctum')->prefix('students')->group(function () {
     Route::middleware(['auth:sanctum'])->post('{id}/account/update', UpdateStudentAccountController::class);
     Route::middleware(['auth:sanctum'])->post('account/deactivate', DeactivateStudentAccountController::class);
 });
+
+Route::post('allocate-student-tutor', AllocateStudentTutorController::class);

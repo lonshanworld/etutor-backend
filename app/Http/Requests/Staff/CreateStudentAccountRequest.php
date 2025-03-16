@@ -4,7 +4,7 @@ namespace App\Http\Requests\Staff;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserAccountRequest extends FormRequest
+class CreateStudentAccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,6 +31,9 @@ class CreateUserAccountRequest extends FormRequest
             'gender' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required|string|min:8',
+            'major_id' => 'required|exists:majors,id',
+            'emergency_contact_name' => 'required|string',
+            'emergency_contact_phone' => 'required|string'
         ];
     }
 }

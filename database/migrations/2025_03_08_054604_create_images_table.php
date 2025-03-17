@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->longText('base64')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

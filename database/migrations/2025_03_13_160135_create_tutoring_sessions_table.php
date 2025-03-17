@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('student_id');
             $table->foreignId('assigned_by');
             $table->foreignId('deleted_by')->nullable();
+            $table->unique(['subject_id', 'tutor_id', 'student_id'], 'session_unique');
             $table->timestamps();
             $table->softDeletes();
         });

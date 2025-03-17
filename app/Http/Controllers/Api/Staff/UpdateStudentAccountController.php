@@ -30,7 +30,14 @@ class UpdateStudentAccountController extends Controller
                 $validatedData['profile_picture'] = Storage::disk('s3')->url($path);
             }
 
-            User::where('id', $id)->first()->update($validatedData);
+            $userData = User::where('id', $id)->first();
+            $userData->update($validatedData);
+            
+            $userData->student()->update([
+                'major_id' => $validatedData['major_id'],
+                'emergency_contact_name' => $validatedData['emergency_contact_name'],
+                'emergency_contact_phone' => $validatedData['emergency_contact_phone'],
+            ]);
 
             return response()->success(
                 [], 'success', 200

@@ -62,21 +62,21 @@ Route::get('confirm-otp', ConfirmOtpController::class);
 Route::post('update-password', UpdatePasswordController::class);
 
 Route::middleware('auth:sanctum')->prefix('students')->group(function () {
-    Route::middleware(['auth:sanctum'])->post('account/create', CreateStudentAccountController::class);
-    Route::middleware(['auth:sanctum'])->post('{id}/account/update', UpdateStudentAccountController::class);
-    Route::middleware(['auth:sanctum'])->post('account/deactivate', DeactivateStudentAccountController::class);
+    Route::post('account/create', CreateStudentAccountController::class);
+    Route::post('{id}/account/update', UpdateStudentAccountController::class);
+    Route::post('account/deactivate', DeactivateStudentAccountController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
-    Route::middleware(['auth:sanctum'])->post('account/create', CreateTutorAccountController::class);
+    Route::post('account/create', CreateTutorAccountController::class);
     // Route::post('{id}/account/update', UpdateTutorAccountController::class);
     // Route::post('account/deactivate', DeactivateTutorAccountController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
-    Route::middleware(['auth:sanctum'])->post('account/create', CreateAutheroisedStaffAccountController::class);
+    Route::post('account/create', CreateAutheroisedStaffAccountController::class);
 //     Route::post('{id}/account/update', UpdateStaffAccountController::class);
 //     Route::post('account/deactivate', DeactivateStaffAccountController::class);
 });
 
-Route::post('allocate-student-tutor', AllocateStudentTutorController::class);
+Route::middleware('auth:sanctum')->post('allocate-student-tutor', AllocateStudentTutorController::class);

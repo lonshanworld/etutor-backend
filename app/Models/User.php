@@ -34,6 +34,7 @@ class User extends Authenticatable
         'nationality',
         'gender',
         'address',
+        'phone_number',
         'role_id',
         'passport',
         'status',

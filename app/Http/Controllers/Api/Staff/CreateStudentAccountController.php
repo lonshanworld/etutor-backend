@@ -23,8 +23,8 @@ class CreateStudentAccountController extends Controller
             $user->role()->associate(3); // for now use static number ***
             $user->save();
 
-            // insert data to student table
-            $major = Major::where('id', $createStudentAccountRequest->validated()['major_id'])->first();
+            // Set current year for new students
+            $currentYear = 'Year 1';
 
             $user->student()->create([
                 'major_id' => $createStudentAccountRequest->validated()['major_id'],
@@ -33,8 +33,8 @@ class CreateStudentAccountController extends Controller
                 'emergency_contact_name' => $createStudentAccountRequest->validated()['emergency_contact_name'],
                 'emergency_contact_phone' => $createStudentAccountRequest->validated()['emergency_contact_phone'],
                 'enrollment_date' => Carbon::now(),
-                'graduation_date' => Carbon::now()->addYears((int)$major->education_year),
-                'current_year' => Carbon::now()
+                'graduation_date' => Carbon::now()->addYears(1),
+                'current_year' => $currentYear
             ]);
             
             DB::commit();

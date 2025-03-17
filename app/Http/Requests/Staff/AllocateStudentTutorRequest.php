@@ -23,7 +23,7 @@ class AllocateStudentTutorRequest extends FormRequest
     {
         return [
             'subject_id' => 'required|exists:subjects,id',
-            'tutor_id' => 'required|exists:personal_tutors,id',
+            'tutor_id' => 'required|exists:tutors,id',
             'student_id' => 'required|exists:students,id',
             'deleted_by' => 'nullable|exists:users,id'
         ];

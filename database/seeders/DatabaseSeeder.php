@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
             Role::create(['name' => $role]);
         }
 
+        User::factory()->create(['role_id' => 1, 'email' => 'admin@gmail.com']);
+
+
         // create 10 user for each role
         foreach (Role::cursor() as $key => $role) {
             for ($i = 1; $i < 11; $i++) {
@@ -38,15 +41,12 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Create 50 users with student role
-        // User::factory(50)->create(['role_id' => 3]);
-
         // create major dummy data
-        Major::factory(10)->has(
-            Subject::factory()->count(3)
-        )
-            ->create([
-                'education_year' => Carbon::now()->year
-            ]);
+        // Major::factory(10)->has(
+        //     Subject::factory()->count(3)
+        // )
+        // ->create([
+        //     'education_year' => Carbon::now()->year
+        // ]);
     }
 }

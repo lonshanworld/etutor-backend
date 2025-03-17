@@ -23,9 +23,7 @@ class AllocateStudentTutorController extends Controller
                     'subject_id' => $validatedData['subject_id'],
                     'tutor_id' => $validatedData['tutor_id'],
                     'student_id' => $student,
-                    'assigned_by' => $allocateStudentTutorRequest->user()->id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'assigned_by' => $allocateStudentTutorRequest->user()->id
                 ];
             }
             // Perform bulk upsert - unique by subject_id, tutor_id, student_id

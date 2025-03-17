@@ -25,6 +25,7 @@ use App\Mail\User\WelcomeUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -58,7 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 Route::get('check-email', CheckEmailController::class);
-Route::get('confirm-otp', ConfirmOtpController::class); 
+Route::get('confirm-otp', ConfirmOtpController::class);
 Route::post('update-password', UpdatePasswordController::class);
 
 Route::middleware('auth:sanctum')->prefix('students')->group(function () {
@@ -75,8 +76,21 @@ Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
     Route::post('account/create', CreateAutheroisedStaffAccountController::class);
-//     Route::post('{id}/account/update', UpdateStaffAccountController::class);
-//     Route::post('account/deactivate', DeactivateStaffAccountController::class);
+    Route::post('allocate-student-tutor', AllocateStudentTutorController::class);
+    //     Route::post('{id}/account/update', UpdateStaffAccountController::class);
+    //     Route::post('account/deactivate', DeactivateStaffAccountController::class);
 });
 
-Route::middleware('auth:sanctum')->post('allocate-student-tutor', AllocateStudentTutorController::class);
+Route::middleware('auth:sanctum')->prefix('upload/attachments')->group(function () {
+    Route::post('/', function (Request $request) {
+        dd(
+            $request->file('images'),
+            $request->file('documents'),
+            $request->file('videos')
+        );
+        // attachments[] file will come with this key save all the file to the aws light sail
+
+        $path = $file->store('etuto/profile', 's3');
+        $validatedData['profile_picture'] = Storage::disk('s3')->url($path);
+    });
+});

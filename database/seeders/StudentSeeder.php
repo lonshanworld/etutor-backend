@@ -1,0 +1,355 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Major;
+use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class StudentSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        // Get all majors with their education years
+        $majors = Major::pluck('education_year', 'id')->toArray();
+
+        $students = [
+            [
+                'user_id' => 7,
+                'emergency_contact_name' => 'John Smith',
+                'emergency_contact_phone' => '123-555-7890',
+                'enrollment_date' => '2024-01-10',
+                'graduation_date' => '2025-01-10',
+                'current_year' => 'Year 1',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 8,
+                'emergency_contact_name' => 'Emma Johnson',
+                'emergency_contact_phone' => '987-555-3210',
+                'enrollment_date' => '2024-02-15',
+                'graduation_date' => '2025-02-15',
+                'current_year' => 'Year 1',
+                'major_id' => 2,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 9,
+                'emergency_contact_name' => 'Liam Brown',
+                'emergency_contact_phone' => '555-555-6789',
+                'enrollment_date' => '2024-03-05',
+                'graduation_date' => '2025-03-05',
+                'current_year' => 'Year 2',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 10,
+                'emergency_contact_name' => 'Olivia Davis',
+                'emergency_contact_phone' => '444-555-8901',
+                'enrollment_date' => '2024-04-10',
+                'graduation_date' => '2025-04-10',
+                'current_year' => 'Year 2',
+                'major_id' => 3,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 11,
+                'emergency_contact_name' => 'Noah Wilson',
+                'emergency_contact_phone' => '222-999-8888',
+                'enrollment_date' => '2024-05-20',
+                'graduation_date' => '2025-05-20',
+                'current_year' => 'Year 3',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 12,
+                'emergency_contact_name' => 'Ava Martinez',
+                'emergency_contact_phone' => '777-888-9999',
+                'enrollment_date' => '2024-06-30',
+                'graduation_date' => '2025-06-30',
+                'current_year' => 'Year 3',
+                'major_id' => 2,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 13,
+                'emergency_contact_name' => 'William Thomas',
+                'emergency_contact_phone' => '333-444-5555',
+                'enrollment_date' => '2024-07-01',
+                'graduation_date' => '2025-07-01',
+                'current_year' => 'Year 4',
+                'major_id' => 3,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 14,
+                'emergency_contact_name' => 'Sophia White',
+                'emergency_contact_phone' => '666-777-8888',
+                'enrollment_date' => '2024-08-15',
+                'graduation_date' => '2025-08-15',
+                'current_year' => 'Year 4',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 15,
+                'emergency_contact_name' => 'James Harris',
+                'emergency_contact_phone' => '555-666-7777',
+                'enrollment_date' => '2024-09-20',
+                'graduation_date' => '2025-09-20',
+                'current_year' => 'Year 1',
+                'major_id' => 2,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 16,
+                'emergency_contact_name' => 'Mia Clark',
+                'emergency_contact_phone' => '444-555-6666',
+                'enrollment_date' => '2024-10-05',
+                'graduation_date' => '2025-10-05',
+                'current_year' => 'Year 2',
+                'major_id' => 3,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 17,
+                'emergency_contact_name' => 'Benjamin Lewis',
+                'emergency_contact_phone' => '333-222-1111',
+                'enrollment_date' => '2024-11-15',
+                'graduation_date' => '2025-11-15',
+                'current_year' => 'Year 3',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 18,
+                'emergency_contact_name' => 'Charlotte Hall',
+                'emergency_contact_phone' => '777-999-2222',
+                'enrollment_date' => '2024-12-01',
+                'graduation_date' => '2025-12-01',
+                'current_year' => 'Year 4',
+                'major_id' => 2,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 19,
+                'emergency_contact_name' => 'Elijah Allen',
+                'emergency_contact_phone' => '999-888-7777',
+                'enrollment_date' => '2025-01-05',
+                'graduation_date' => '2026-01-05',
+                'current_year' => 'Year 1',
+                'major_id' => 3,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 20,
+                'emergency_contact_name' => 'Amelia Young',
+                'emergency_contact_phone' => '888-777-6666',
+                'enrollment_date' => '2025-02-10',
+                'graduation_date' => '2026-02-10',
+                'current_year' => 'Year 2',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 21,
+                'emergency_contact_name' => 'Lucas King',
+                'emergency_contact_phone' => '666-555-4444',
+                'enrollment_date' => '2025-03-15',
+                'graduation_date' => '2026-03-15',
+                'current_year' => 'Year 3',
+                'major_id' => 2,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 22,
+                'emergency_contact_name' => 'Harper Scott',
+                'emergency_contact_phone' => '444-333-2222',
+                'enrollment_date' => '2025-04-20',
+                'graduation_date' => '2026-04-20',
+                'current_year' => 'Year 4',
+                'major_id' => 3,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 23,
+                'emergency_contact_name' => 'Henry Green',
+                'emergency_contact_phone' => '333-222-1111',
+                'enrollment_date' => '2025-05-25',
+                'graduation_date' => '2026-05-25',
+                'current_year' => 'Year 1',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 24,
+                'emergency_contact_name' => 'Evelyn Adams',
+                'emergency_contact_phone' => '111-000-9999',
+                'enrollment_date' => '2025-06-30',
+                'graduation_date' => '2026-06-30',
+                'current_year' => 'Year 2',
+                'major_id' => 2,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 25,
+                'emergency_contact_name' => 'Alexander Baker',
+                'emergency_contact_phone' => '888-777-6666',
+                'enrollment_date' => '2025-07-05',
+                'graduation_date' => '2026-07-05',
+                'current_year' => 'Year 3',
+                'major_id' => 3,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 26,
+                'emergency_contact_name' => 'Scarlett Cooper',
+                'emergency_contact_phone' => '777-666-5555',
+                'enrollment_date' => '2025-08-10',
+                'graduation_date' => '2026-08-10',
+                'current_year' => 'Year 4',
+                'major_id' => 1,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 27,
+                'emergency_contact_name' => 'Daniel Rodriguez',
+                'emergency_contact_phone' => '666-555-4444',
+                'enrollment_date' => '2025-09-15',
+                'graduation_date' => '2026-09-15',
+                'current_year' => 'Year 1',
+                'major_id' => 2,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ],
+            [
+                'user_id' => 28,
+                'emergency_contact_name' => 'Aria Murphy',
+                'emergency_contact_phone' => '555-444-3333',
+                'enrollment_date' => '2025-10-20',
+                'graduation_date' => '2026-10-20',
+                'current_year' => 'Year 2',
+                'major_id' => 3,
+                'created_by' => 1,
+                'created_at' => now(),
+                'deleted_by' => null,
+                'deleted_at' => null,
+                'updated_by' => 1,
+                'updated_at' => now()
+            ]
+        ];
+
+        DB::table('students')->insert($students);
+    }
+}

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('nationality');
             $table->string('gender');
+            $table->string('address');
+            $table->string('phone_number');
             $table->foreignId('role_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

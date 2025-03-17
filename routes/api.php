@@ -73,10 +73,10 @@ Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     // Route::post('account/deactivate', DeactivateTutorAccountController::class);
 });
 
-// Route::middleware('auth:sanctum')->prefix('staff')->group(function () {
-//     Route::middleware(['auth:sanctum'])->post('account/create', CreateAutheroisedStaffAccountController::class);
+Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
+    Route::middleware(['auth:sanctum'])->post('account/create', CreateAutheroisedStaffAccountController::class);
 //     Route::post('{id}/account/update', UpdateStaffAccountController::class);
 //     Route::post('account/deactivate', DeactivateStaffAccountController::class);
-// });
+});
 
 Route::post('allocate-student-tutor', AllocateStudentTutorController::class);

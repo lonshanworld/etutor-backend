@@ -13,7 +13,8 @@ class GetStaffController extends Controller
     {
         try {
             $staffs = User::whereHas('role', function ($query) {
-                $query->where('name', 'staff');
+                $query->where('name', 'admin')
+                    ->orWhere('name', 'staff');
             })
             ->when($request->name, function($query) use($request) {
                 $query->where('first_name', 'like', '%'.$request->name.'%')

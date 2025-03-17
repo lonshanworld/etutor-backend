@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         }
         // create 10 user for each role
         foreach (Role::cursor() as $key => $role) {
-            for ($i = 1; $i < 11; $i++) {
+            for ($i = 1; $i < 7; $i++) {
                 User::factory()->create([
                     'first_name' => fake()->firstName(),
                     'middle_name' => 'Mid',

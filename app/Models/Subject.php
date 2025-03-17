@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subject extends Model
 {
-    use SoftDeletes, HasFactory;
-
     protected $fillable = [
         'name',
         'major_id'

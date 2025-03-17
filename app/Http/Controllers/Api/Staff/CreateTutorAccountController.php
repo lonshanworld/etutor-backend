@@ -24,6 +24,7 @@ class CreateTutorAccountController extends Controller
             
             // insert data to tutor table
             $user->tutor()->create([
+                'subject_id' => $createTutorAccountRequest->validated()['subject_id'],
                 'qualifications' => $createTutorAccountRequest->validated()['qualifications'],
                 'experience' => $createTutorAccountRequest->validated()['experience'],
                 'created_by' => $createTutorAccountRequest->user()->id,

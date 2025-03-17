@@ -18,7 +18,7 @@ class GetMajorController extends Controller
             );
         } catch (\Throwable $th) {
             //throw $th;
-        Log::info('get major api', [
+        Log::info('get majors api', [
                 'message' => $th->getMessage()
             ]);
             return response()->error();

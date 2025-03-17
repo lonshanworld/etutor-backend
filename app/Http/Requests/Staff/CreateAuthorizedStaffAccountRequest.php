@@ -13,7 +13,7 @@ class CreateAuthorizedStaffAccountRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -36,8 +36,7 @@ class CreateAuthorizedStaffAccountRequest extends FormRequest
             'emergency_contact_name' => 'required|string',
             'emergency_contact_phone' => 'required|string',
             'start_date' => 'required|date',
-            'end_date' => 'nullable|date',
-            'access_level' => 'required|string'
+            'end_date' => 'nullable|date'
         ];
     }
 }

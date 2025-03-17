@@ -18,7 +18,7 @@ class GetSubjectController extends Controller
             );
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info('get subject api', [
+            Log::info('get subjects api', [
                 'message' => $th->getMessage()
             ]);
             return response()->error();

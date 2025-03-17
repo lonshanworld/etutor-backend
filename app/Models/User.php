@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\AccountStatus;
 use App\Enums\GenderType;
+use App\Http\Resources\Api\Staff\StaffResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -77,8 +78,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Tutor::class);
     }
-    // public function staff() : HasOne
-    // {
-    //     return $this->hasOne(Staff::class);
-    // }
+    public function staff() : HasOne
+    {
+        return $this->hasOne(AuthorizedStaff::class);
+    }
 }

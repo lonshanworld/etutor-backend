@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('emergency_contact_phone');
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->string('access_level')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

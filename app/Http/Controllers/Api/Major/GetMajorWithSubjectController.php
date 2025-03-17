@@ -14,11 +14,11 @@ class GetMajorWithSubjectController extends Controller
     {
         try {
             return MajorSubjectResource::collection(
-                MajorSubject::orderBy('name', 'asc')->get()
+                MajorSubject::orderBy('major_id', 'asc')->get()
             );
         } catch (\Throwable $th) {
             //throw $th;
-        Log::info('get major api', [
+        Log::info('get majors-with-subjects api', [
                 'message' => $th->getMessage()
             ]);
             return response()->error();

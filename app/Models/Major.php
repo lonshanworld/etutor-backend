@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Major extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'major_name',

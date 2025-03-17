@@ -15,15 +15,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Roles creation
         foreach (['admin', 'tutor', 'student'] as $role) {
             Role::create(['name' => $role]);
         }
-
         // create 10 user for each role
         foreach (Role::cursor() as $key => $role) {
-            for ($i = 1; $i < 11; $i++) {
+            for ($i = 1; $i < 7; $i++) {
                 User::factory()->create([
                     'first_name' => fake()->firstName(),
                     'middle_name' => 'Mid',
@@ -38,15 +36,11 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Create 50 users with student role
-        // User::factory(50)->create(['role_id' => 3]);
+        // Call the Subject and Major Seeder
+        $this->call(SubjectSeeder::class);
+        $this->call(MajorSeeder::class);
 
-        // create major dummy data
-        Major::factory(10)->has(
-            Subject::factory()->count(3)
-        )
-            ->create([
-                'education_year' => Carbon::now()->year
-            ]);
+        // Assign subjects to majors
+        $this->call(MajorSubjectSeeder::class);
     }
 }

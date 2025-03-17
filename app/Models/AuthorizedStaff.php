@@ -17,7 +17,6 @@ class AuthorizedStaff extends Model
         'emergency_contact_name',
         'emergency_contact_phone',
         'start_date',
-        'end_date',
-        'access_level'
+        'end_date'
     ];
 }

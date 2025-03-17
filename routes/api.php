@@ -6,9 +6,12 @@ use App\Http\Controllers\Api\Auth\Password\UpdatePasswordController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Major\GetMajorController;
+use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
+use App\Http\Controllers\Api\Staff\CreateAutheroisedStaffAccountController;
 use App\Http\Controllers\Api\Staff\CreateStudentAccountController;
+use App\Http\Controllers\Api\Staff\CreateTutorAccountController;
 use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\GetStaffController;
 use App\Http\Controllers\Api\Staff\UpdateStudentAccountController;
@@ -49,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('subjects', GetSubjectController::class);
     Route::get('majors', GetMajorController::class);
     Route::get('roles', GetRoleController::class);
+    Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
 });
 
 
@@ -61,6 +65,18 @@ Route::middleware('auth:sanctum')->prefix('students')->group(function () {
     Route::middleware(['auth:sanctum'])->post('account/create', CreateStudentAccountController::class);
     Route::middleware(['auth:sanctum'])->post('{id}/account/update', UpdateStudentAccountController::class);
     Route::middleware(['auth:sanctum'])->post('account/deactivate', DeactivateStudentAccountController::class);
+});
+
+Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
+    Route::middleware(['auth:sanctum'])->post('account/create', CreateTutorAccountController::class);
+    // Route::post('{id}/account/update', UpdateTutorAccountController::class);
+    // Route::post('account/deactivate', DeactivateTutorAccountController::class);
+});
+
+Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
+    Route::middleware(['auth:sanctum'])->post('account/create', CreateAutheroisedStaffAccountController::class);
+//     Route::post('{id}/account/update', UpdateStaffAccountController::class);
+//     Route::post('account/deactivate', DeactivateStaffAccountController::class);
 });
 
 Route::post('allocate-student-tutor', AllocateStudentTutorController::class);

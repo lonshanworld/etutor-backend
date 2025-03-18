@@ -8,6 +8,7 @@ use App\Enums\AccountStatus;
 use App\Enums\GenderType;
 use App\Http\Resources\Api\Staff\StaffResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -82,5 +83,10 @@ class User extends Authenticatable
     public function staff() : HasOne
     {
         return $this->hasOne(AuthorizedStaff::class);
+    }
+
+    public function notes() : HasMany
+    {
+        return $this->hasMany(Note::class);
     }
 }

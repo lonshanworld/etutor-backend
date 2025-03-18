@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
+use App\Http\Controllers\Api\Note\CreateNoteController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
 use App\Http\Controllers\Api\Staff\CreateAutheroisedStaffAccountController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Subjects\GetSubjectController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
+use App\Http\Controllers\Api\User\GetNoteController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
 use App\Http\Resources\Api\Users\UserProfileResource;
 use App\Mail\User\WelcomeUser;
@@ -44,6 +46,9 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
     });
     Route::get('/{id}/profile', GetUserProfileController::class);
     Route::post('change-password', ChangePasswordController::class);
+
+    Route::post('add-note', CreateNoteController::class);
+    Route::get('notes', GetNoteController::class);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -90,7 +95,12 @@ Route::middleware('auth:sanctum')->prefix('upload/attachments')->group(function 
         );
         // attachments[] file will come with this key save all the file to the aws light sail
 
-        $path = $file->store('etuto/profile', 's3');
-        $validatedData['profile_picture'] = Storage::disk('s3')->url($path);
+
     });
 });
+
+
+
+// $path = $file->store('etuto/profile', 's3');
+// $validatedData['profile_picture'] = Storage::disk('s3')->url($path);
+// 

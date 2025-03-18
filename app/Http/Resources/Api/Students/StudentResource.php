@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api\Students;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Api\Roles\RoleResource;
 
 class StudentResource extends JsonResource
 {
@@ -26,7 +27,7 @@ class StudentResource extends JsonResource
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'status' => $this->status,
-            'role_id' => $this->role_id,
+            'role' => new RoleResource($this->role),
             'image_id' => $this->image_id,
             'email_verified_at' => $this->email_verified_at, 
             'profile_picture' => $this->profile_picture,

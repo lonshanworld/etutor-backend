@@ -14,7 +14,9 @@ use App\Http\Controllers\Api\Staff\CreateStudentAccountController;
 use App\Http\Controllers\Api\Staff\CreateTutorAccountController;
 use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\GetStaffController;
+use App\Http\Controllers\Api\Staff\UpdateStaffAccountController;
 use App\Http\Controllers\Api\Staff\UpdateStudentAccountController;
+use App\Http\Controllers\Api\Staff\UpdateTutorAccountController;
 use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Subjects\GetSubjectController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
@@ -70,14 +72,14 @@ Route::middleware('auth:sanctum')->prefix('students')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     Route::post('account/create', CreateTutorAccountController::class);
-    // Route::post('{id}/account/update', UpdateTutorAccountController::class);
+    Route::post('{id}/account/update', UpdateTutorAccountController::class);
     // Route::post('account/deactivate', DeactivateTutorAccountController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
     Route::post('account/create', CreateAutheroisedStaffAccountController::class);
     Route::post('allocate-student-tutor', AllocateStudentTutorController::class);
-    //     Route::post('{id}/account/update', UpdateStaffAccountController::class);
+    Route::post('{id}/account/update', UpdateStaffAccountController::class);
     //     Route::post('account/deactivate', DeactivateStaffAccountController::class);
 });
 

@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Api\Staff;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Staff\UpdateStudentAccountRequest;
+use App\Http\Requests\Staff\UpdateStaffAccountRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class UpdateStudentAccountController extends Controller
+class UpdateStaffAccountController extends Controller
 {
-    public function __invoke(UpdateStudentAccountRequest $updateStudentAccountRequest, string $id)
+    public function __invoke(UpdateStaffAccountRequest $updateStaffAccountRequest, string $id)
     {
         try {
-            $validatedData = $updateStudentAccountRequest->validated();
+            $validatedData = $updateStaffAccountRequest->validated();
 
             if (isset($validatedData['password_confirmation'])) {
                 unset($validatedData['password_confirmation']);
@@ -24,8 +24,8 @@ class UpdateStudentAccountController extends Controller
                 $validatedData['password'] = bcrypt($validatedData['password']);
             }
 
-            if ($updateStudentAccountRequest->hasFile('profile_picture')) {
-                $file = $updateStudentAccountRequest->file('profile_picture');
+            if ($updateStaffAccountRequest->hasFile('profile_picture')) {
+                $file = $updateStaffAccountRequest->file('profile_picture');
                 $path = $file->store('etuto/profile', 's3');
                 $validatedData['profile_picture'] = Storage::disk('s3')->url($path);
             }
@@ -33,18 +33,15 @@ class UpdateStudentAccountController extends Controller
             $userData = User::where('id', $id)->first();
             $userData->update($validatedData);
             
-            // Update student data only if fields exist
-            $studentData = array_filter([
-                'major_id' => $validatedData['major_id'] ?? null,
+            // Update staff data only if fields exist
+            $staffData = array_filter([
                 'emergency_contact_name' => $validatedData['emergency_contact_name'] ?? null,
                 'emergency_contact_phone' => $validatedData['emergency_contact_phone'] ?? null,
-                'enrollment_date' => $validatedData['enrollment_date'] ?? null,
-                'graduation_date' => $validatedData['graduation_date'] ?? null,
-                'current_year' => $validatedData['current_year'] ?? null
+                'start_date' => $validatedData['start_date'] ?? null
             ]);
 
-            if (!empty($studentData)) {
-                $userData->student()->update($studentData);
+            if (!empty($staffData)) {
+                $userData->staff()->update($staffData);
             }
 
             return response()->success(
@@ -52,7 +49,7 @@ class UpdateStudentAccountController extends Controller
             );
 
         } catch (\Throwable $th) {
-            Log::info('update student api', [
+            Log::info('update staff api', [
                 'message' => $th->getMessage()
             ]);
             return response()->error('An error occurred while updating the account.', 500);

@@ -17,8 +17,8 @@ class UpdatePasswordController extends Controller
             DB::beginTransaction();
 
             // First check if OTP exists and is confirmed
-            // Check if OTP is confirmed
             $otpStatus = UserOtp::where('email', $UpdatePasswordRequest->email)
+                ->where('otp', $UpdatePasswordRequest->otp)
                 ->where('confirmed', true)
                 ->first();
 
@@ -27,7 +27,7 @@ class UpdatePasswordController extends Controller
                     'data' => [
                         'status' => false
                     ],
-                    'message' => 'Please confirm your OTP first'
+                    'message' => 'Invalid OTP or OTP not confirmed'
                 ], 403);
             }
             

@@ -19,6 +19,7 @@ class UpdatePasswordRequest extends FormRequest
             'email' => 'required|email|exists:users,email',
             'password' => 'required|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|confirmed',
             'password_confirmation' => 'required|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|required_with:password',
+            'otp' => 'required|numeric'
         ];
     }
 }

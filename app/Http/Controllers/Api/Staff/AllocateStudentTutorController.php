@@ -15,6 +15,11 @@ class AllocateStudentTutorController extends Controller
     {
         $validatedData = $allocateStudentTutorRequest->validated();
         try {
+            //tutor_id >>> tutoring_sessions >>> rows count == 10 >>> 10 students
+            $count = TutoringSession::where('tutor_id', $validatedData['tutor_id'])->count();
+            if($count == 10) {
+                return response()->error('tutor has already 10 students');
+            }
             DB::beginTransaction();
             // Prepare array of records for bulk upsert
             $records = [];

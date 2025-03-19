@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
 
     Route::post('add-note', CreateNoteController::class);
     Route::get('notes', GetNoteController::class);
+
+    Route::post('add-post', CreateNoteController::class);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

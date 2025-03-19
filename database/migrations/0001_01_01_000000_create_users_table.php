@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('role_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('passport')->default("not yet");
+            $table->string('passport')->nullable();
             $table->foreignId('image_id')->nullable();
             $table->string('status')->default('activated');
             $table->string('profile_picture')->nullable();

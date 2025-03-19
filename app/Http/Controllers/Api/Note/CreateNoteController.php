@@ -16,7 +16,6 @@ class CreateNoteController extends Controller
         try {
             $validatedData = $storeNoteRequest->validated();
             $validatedData['url_link'] = [];
-            
             if ($storeNoteRequest->hasFile('attachments')) {
                 $createdNote = auth('sanctum')->user()->notes()->create($validatedData);
 

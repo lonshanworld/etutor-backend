@@ -89,4 +89,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Note::class);
     }
+
+    public function tutoringSessions() : HasMany
+    {
+        return $this->hasMany(TutoringSession::class, 'tutor_id', 'id');
+    }
 }

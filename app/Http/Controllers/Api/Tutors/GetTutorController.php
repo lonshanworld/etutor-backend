@@ -11,10 +11,15 @@ class GetTutorController extends Controller
 {
     public function __invoke(Request $request)
     {
+        // tutor_id
+        // student_id
+        // user has many tutoring sessions through student table
         try {
             $tutors = User::whereHas('role', function ($query) {
                 $query->where('name', 'tutor');
             })
+            ->with('tutoringSessions')
+            //Tutoring sessions >>> rows count for each tutor_id
             ->when($request->name, function($query) use($request) {
                 $query->where('first_name', 'like', '%'.$request->name.'%')
                     ->orWhere('middle_name', 'like', '%'.$request->name.'%')

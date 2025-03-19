@@ -11,11 +11,10 @@ class GetNoteController extends Controller
     public function __invoke(Request $request)
     {
         try {
-            
             return NoteResource::collection(auth('sanctum')->user()->notes->load('files'));
         } catch (\Throwable $th) {
             throw $th;
-            return response()->error();
+            return response()->error("Filed to get notes");
         }
     }
 }

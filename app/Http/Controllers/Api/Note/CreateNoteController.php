@@ -12,12 +12,11 @@ class CreateNoteController extends Controller
 {
     public function __invoke(StoreNoteRequest $storeNoteRequest)
     {
-
         DB::beginTransaction();
         try {
-
             $validatedData = $storeNoteRequest->validated();
             $validatedData['url_link'] = [];
+            
             if ($storeNoteRequest->hasFile('attachments')) {
                 $createdNote = auth('sanctum')->user()->notes()->create($validatedData);
 

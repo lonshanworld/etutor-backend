@@ -4,7 +4,7 @@ namespace App\Http\Requests\Staff;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AllocateStudentTutorRequest extends FormRequest
+class UnassignStudentTutorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,6 @@ class AllocateStudentTutorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tutor_id' => [
-                'required',
-                'exists:tutors,id'
-            ],
             'student_id' => ['required', 'array'],
             'student_id.*' => [
                 'exists:students,id'

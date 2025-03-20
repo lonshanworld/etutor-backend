@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
 {
@@ -21,4 +24,8 @@ class Student extends Model
         'graduation_date',
         'current_year'
     ];
+    public function StudnetTutoringSessions(): HasOne
+    {
+        return $this->hasOne(TutoringSession::class, 'student_id', 'id');
+    }
 }

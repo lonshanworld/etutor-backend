@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetNoteController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
+use App\Http\Controllers\GetTutoringSessionController;
 use App\Http\Resources\Api\Users\UserProfileResource;
 use App\Mail\User\WelcomeUser;
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('majors', GetMajorController::class);
     Route::get('roles', GetRoleController::class);
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
+    Route::get('tutoring_sessions', GetTutoringSessionController::class);
 });
 
 

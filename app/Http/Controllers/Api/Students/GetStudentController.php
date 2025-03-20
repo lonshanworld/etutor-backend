@@ -15,13 +15,12 @@ class GetStudentController extends Controller
         try {
             $students = User::whereHas('role', function ($query) {
                 $query->where('name', 'student');
-            })
-            ->with('studentTutoringSession')
-            ->when($request->name, function ($query) use ($request) {
-                $query->where('first_name', 'like', '%' . $request->name . '%')
-                    ->orWhere('middle_name', 'like', '%' . $request->name . '%')
-                    ->orWhere('last_name', 'like', '%' . $request->name . '%');
-            })
+            })->with('tutoringSessions')
+                ->when($request->name, function ($query) use ($request) {
+                    $query->where('first_name', 'like', '%' . $request->name . '%')
+                        ->orWhere('middle_name', 'like', '%' . $request->name . '%')
+                        ->orWhere('last_name', 'like', '%' . $request->name . '%');
+                })
                 ->paginate(config('app.paginate.count'));
             return StudentResource::collection($students);
         } catch (\Throwable $th) {

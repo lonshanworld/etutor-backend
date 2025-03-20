@@ -89,17 +89,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Note::class);
     }
-
-    // For tutors - get all their students through tutoring sessions
-    public function tutoringSessions() : HasMany
-    {
-        return $this->hasMany(TutoringSession::class, 'tutor_id', 'id');
-    }
-    
-    // For students - get their assigned tutor through tutoring session
-    public function studentTutoringSession() : HasOne
-    {
-        return $this->hasOne(TutoringSession::class, 'student_id', 'id');
-    }
-    
 }

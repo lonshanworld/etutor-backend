@@ -40,10 +40,11 @@ class TutorResource extends JsonResource
                 'qualifications' => $this->tutor->qualifications ?? null,
                 'experience' => $this->tutor->experience ?? null,
             ],
-
-            //tutoring sessions
-            'tutoring_sessions' => TutoringSessionResource::collection($this->tutoringSessions),
-            'student_counts' => $this->tutoringSessions->count(),
+            // Include tutoring sessions and count the rows
+            'tutoring_sessions' => $this->tutor->tutoringSessions ? 
+                TutoringSessionResource::collection($this->tutor->tutoringSessions) : [],
+            'student_count' => $this->tutor->tutoringSessions ? 
+                $this->tutor->tutoringSessions->count() : 0,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

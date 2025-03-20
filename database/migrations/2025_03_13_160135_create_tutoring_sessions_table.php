@@ -13,10 +13,8 @@ return new class extends Migration
             $table->foreignId('tutor_id');
             $table->foreignId('student_id');
             $table->foreignId('assigned_by');
-            $table->foreignId('deleted_by')->nullable();
             $table->unique(['tutor_id', 'student_id'], 'session_unique');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -10,12 +10,11 @@ return new class extends Migration
     {
         Schema::create('tutoring_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id');
             $table->foreignId('tutor_id');
             $table->foreignId('student_id');
             $table->foreignId('assigned_by');
             $table->foreignId('deleted_by')->nullable();
-            $table->unique(['subject_id', 'tutor_id', 'student_id'], 'session_unique');
+            $table->unique(['tutor_id', 'student_id'], 'session_unique');
             $table->timestamps();
             $table->softDeletes();
         });

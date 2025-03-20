@@ -10,7 +10,6 @@ class TutoringSession extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'subject_id',
         'tutor_id',
         'student_id',
         'assigned_by',

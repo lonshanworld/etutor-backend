@@ -5,6 +5,8 @@ namespace App\Http\Resources\Api\Students;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Api\Roles\RoleResource;
+use App\Http\Resources\Api\TutoringSessions\TutoringSessionResource;
+use App\Models\Student;
 
 class StudentResource extends JsonResource
 {
@@ -42,6 +44,8 @@ class StudentResource extends JsonResource
                 'graduation_date' => $this->student->graduation_date ?? null,
                 'current_year' => $this->student->current_year ?? null,
             ],
+            'tutoring_session' => new TutoringSessionResource($this->studentTutoringSession),
+            'tutoring_status' => $this->studentTutoringSession ? 'Assigned' : 'Unassigned',
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

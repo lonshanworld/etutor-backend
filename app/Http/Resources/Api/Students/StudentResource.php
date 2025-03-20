@@ -44,8 +44,11 @@ class StudentResource extends JsonResource
                 'graduation_date' => $this->student->graduation_date ?? null,
                 'current_year' => $this->student->current_year ?? null,
             ],
-            'tutoring_session' => new TutoringSessionResource($this->studentTutoringSession),
-            'tutoring_status' => $this->studentTutoringSession ? 'Assigned' : 'Unassigned',
+            // Include tutoring sessions and count the rows
+            'tutoring_sessions' => $this->student->studentTutoringSessions ? 
+                TutoringSessionResource::collection($this->student->studentTutoringSessions) : [],
+            'tutoring_session_status' => $this->student->studentTutoringSessions && 
+                $this->student->studentTutoringSessions->count() > 0 ? 'Assigned' : 'Unassigned',
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

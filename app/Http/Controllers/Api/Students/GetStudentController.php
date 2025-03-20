@@ -15,7 +15,8 @@ class GetStudentController extends Controller
         try {
             $students = User::whereHas('role', function ($query) {
                 $query->where('name', 'student');
-            })->with('tutoringSessions')
+            })
+                ->with(['student', 'role', 'student.studentTutoringSessions'])
                 ->when($request->name, function ($query) use ($request) {
                     $query->where('first_name', 'like', '%' . $request->name . '%')
                         ->orWhere('middle_name', 'like', '%' . $request->name . '%')

@@ -17,9 +17,8 @@ class GetTutorController extends Controller
         try {
             $tutors = User::whereHas('role', function ($query) {
                 $query->where('name', 'tutor');
-            })
-            ->with('tutoringSessions')
-            //Tutoring sessions >>> rows count for each tutor_id
+            })       
+            ->with(['tutor', 'role', 'tutor.tutoringSessions'])
             ->when($request->name, function($query) use($request) {
                 $query->where('first_name', 'like', '%'.$request->name.'%')
                     ->orWhere('middle_name', 'like', '%'.$request->name.'%')

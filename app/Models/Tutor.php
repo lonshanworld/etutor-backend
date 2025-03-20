@@ -22,6 +22,6 @@ class Tutor extends Model
 
     public function tutoringSessions(): HasMany
     {
-        return $this->hasMany(TutoringSession::class, 'tutor_id', 'id');
+        return $this->hasMany(TutoringSession::class, 'tutor_id');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Staff\AllocateStudentTutorRequest;
+use App\Models\Student;
 use App\Models\TutoringSession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,20 +17,39 @@ class AllocateStudentTutorController extends Controller
     {
         $validatedData = $allocateStudentTutorRequest->validated();
         try {
-            // Check tutor's student count
-            $tutorStudentCount = TutoringSession::where('tutor_id', $validatedData['tutor_id'])->count();
-            if ($tutorStudentCount + count($validatedData['student_id']) > 10) {
-                return response()->error('Cannot allocate more than 10 students to a tutor');
+            //Check if student is already allocated
+            $studentIds = $validatedData['student_id'];
+            $tutorId = $validatedData['tutor_id'];
+            
+            // Check if tutor already has maximum students
+            $tutorStudentCount = TutoringSession::where('tutor_id', $tutorId)
+                ->distinct('student_id')
+                ->count('student_id');
+            $remainingSlots = 10 - $tutorStudentCount;
+            if ($tutorStudentCount + count($studentIds) > 10) {
+                $studentText = $remainingSlots === 1 ? "student" : "students";
+                return response()->error(
+                    "Tutor already has {$tutorStudentCount} students. Can only allocate {$remainingSlots} more {$studentText}."
+                );
             }
 
-            // Check if any of the students are already assigned
-            foreach ($validatedData['student_id'] as $student) {
-                $existingSession = TutoringSession::where('student_id', $student)->exists();
-                if ($existingSession) {
-                    $studentName = User::find($student)->first_name . ' ' . User::find($student)->last_name;
-                    return response()->error($studentName . ' is already assigned to a tutor');
-                }
+            // Check if student is already allocated
+            $existingSession = TutoringSession::whereIn('student_id', $studentIds)
+                ->where(function ($query) use ($tutorId) {
+                    $query->where('tutor_id', $tutorId)
+                        ->orWhere('tutor_id', '!=', $tutorId);
+                })
+                ->first();
+            if ($existingSession) {
+                $student = Student::find($existingSession->student_id);
+                $user = User::find($student->user_id);
+                
+                $message = "{$user->first_name} {$user->last_name} is already allocated to " . 
+                        ($existingSession->tutor_id == $tutorId ? "this tutor" : "another tutor");
+
+                return response()->error($message);
             }
+
             DB::beginTransaction();
             // Prepare array of records for bulk upsert
             $records = [];
@@ -49,7 +69,7 @@ class AllocateStudentTutorController extends Controller
             DB::commit();
             return response()->success(
                 [],
-                'allocated successfully',
+                'Allocated successfully.',
                 200
             );
         } catch (\Throwable $th) {

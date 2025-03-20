@@ -66,12 +66,10 @@ class User extends Authenticatable
             'status' => AccountStatus::class
         ];
     }
-
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
-
     public function student() : HasOne
     {
         return $this->hasOne(Student::class);
@@ -84,7 +82,6 @@ class User extends Authenticatable
     {
         return $this->hasOne(AuthorizedStaff::class);
     }
-
     public function notes() : HasMany
     {
         return $this->hasMany(Note::class);

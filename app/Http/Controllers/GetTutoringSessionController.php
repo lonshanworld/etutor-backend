@@ -11,11 +11,13 @@ class GetTutoringSessionController extends Controller
     public function __invoke()
     {
         try {
-            return TutoringSessionResource::collection(
-                TutoringSession::orderBy('tutor_id', 'asc')->get()
-            );
+            $sessions = TutoringSession::with(['tutor', 'student', 'assignedBy'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return TutoringSessionResource::collection($sessions);
         } catch (\Throwable $th) {
-            Log::error('get tutoring_sessions api', [
+            Log::error('get tutoring sessions', [
                 'message' => $th->getMessage()
             ]);
             return response()->error();

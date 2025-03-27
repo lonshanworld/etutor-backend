@@ -13,7 +13,7 @@ class DeactivateStudentAccountController extends Controller
     {
         try {
             User::where('id', $deactivateUserAccountRequest->user_id)->first()->update([
-                'status' => 'deactivated'
+                'status' => 'deactivate'
             ]);
 
             return response()->json([

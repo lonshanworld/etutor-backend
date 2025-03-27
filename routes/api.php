@@ -9,12 +9,14 @@ use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
 use App\Http\Controllers\Api\Role\GetRoleController;
+use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
 use App\Http\Controllers\Api\Staff\CreateAutheroisedStaffAccountController;
 use App\Http\Controllers\Api\Staff\CreateStudentAccountController;
 use App\Http\Controllers\Api\Staff\CreateTutorAccountController;
 use App\Http\Controllers\Api\Staff\DeactivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\GetStaffController;
+use App\Http\Controllers\Api\Staff\ToggleStudentAccountController;
 use App\Http\Controllers\Api\Staff\UnassignStudentTutorController;
 use App\Http\Controllers\Api\Staff\UpdateStaffAccountController;
 use App\Http\Controllers\Api\Staff\UpdateStudentAccountController;
@@ -26,6 +28,7 @@ use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetNoteController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
 use App\Http\Controllers\GetTutoringSessionController;
+use App\Http\Requests\Staff\ToggleUserAccountStatusRequest;
 use App\Http\Resources\Api\Users\UserProfileResource;
 use App\Mail\User\WelcomeUser;
 use Illuminate\Http\Request;
@@ -78,12 +81,15 @@ Route::middleware('auth:sanctum')->prefix('students')->group(function () {
     Route::post('account/create', CreateStudentAccountController::class);
     Route::post('{id}/account/update', UpdateStudentAccountController::class);
     Route::post('account/deactivate', DeactivateStudentAccountController::class);
+    Route::post('account/activate', ActivateStudentAccountController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     Route::post('account/create', CreateTutorAccountController::class);
     Route::post('{id}/account/update', UpdateTutorAccountController::class);
     // Route::post('account/deactivate', DeactivateTutorAccountController::class);
+    Route::post('toggle/account/status', ToggleUserAccountStatusRequest::class);
+    
 });
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
@@ -92,6 +98,7 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
     Route::post('unassign-student-tutor', UnassignStudentTutorController::class);
     Route::post('{id}/account/update', UpdateStaffAccountController::class);
     //Route::post('account/deactivate', DeactivateStaffAccountController::class);
+    Route::post('toggle/account/status', ToggleUserAccountStatusRequest::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('upload/attachments')->group(function () {

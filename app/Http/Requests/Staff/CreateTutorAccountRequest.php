@@ -33,9 +33,10 @@ class CreateTutorAccountRequest extends FormRequest
             'gender' => 'required|string',
             'address' =>'required|string',
             'phone_number' =>'required|string|max:20',
+            'passport' =>'required|string|max:255',
             'password' => 'required|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|confirmed',
             'password_confirmation' => 'required|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|required_with:password',
-            'subject_id' => 'required|integer',
+            'subject_id' => 'required|exists:subjects,id',
             'qualifications' => 'required|string',
             'experience' => 'required|integer'
         ];

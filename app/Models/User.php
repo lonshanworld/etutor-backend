@@ -36,6 +36,7 @@ class User extends Authenticatable
         'gender',
         'address',
         'phone_number',
+        'passport',
         'role_id',
         'passport',
         'status',

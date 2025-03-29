@@ -38,6 +38,7 @@ class UpdateStudentAccountRequest extends FormRequest
             'gender' => 'nullable|string',
             'address' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:20',
+            'passport' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|confirmed',
             'password_confirmation' => 'nullable|string|min:8|max:20|regex:/[A-Z]/|regex:/[a-z]/|regex:/[0-9]/|regex:/[@$!%*?&]/|required_with:password',
             'profile_picture' => 'nullable|image',

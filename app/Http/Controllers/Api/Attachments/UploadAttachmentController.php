@@ -11,11 +11,18 @@ class UploadAttachmentController extends Controller
 {
     public function __invoke(StoreAttachmentRequest $storeAttachmentRequest)
     {
-        $paths = [];
-        foreach ($storeAttachmentRequest->validated('attachments') as $attachment) {
-            $path = $attachment->store('etuto/attchments', 's3');
-            array_push($paths, Storage::disk('s3')->url($path));
+        try {
+            $paths = [];
+            foreach ($storeAttachmentRequest->validated('attachments') as $attachment) {
+                $path = $attachment->store('etuto/attchments', 's3');
+                array_push($paths, Storage::disk('s3')->url($path));
+            }
+            return response()->json([
+                'data' => $paths
+            ], 200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->error();
         }
-        return $paths;
     }
 }

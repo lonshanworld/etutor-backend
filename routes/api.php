@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Attachments\UploadAttachmentController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\Logoutcontroller;
 use App\Http\Controllers\Api\Auth\Password\UpdatePasswordController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
+use App\Http\Controllers\Api\Posts\CreatePostController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
@@ -87,8 +89,7 @@ Route::middleware('auth:sanctum')->prefix('students')->group(function () {
 Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     Route::post('account/create', CreateTutorAccountController::class);
     Route::post('{id}/account/update', UpdateTutorAccountController::class);
-    // Route::post('account/deactivate', DeactivateTutorAccountController::class);
-    Route::post('toggle/account/status', ToggleUserAccountStatusRequest::class);
+    Route::post('toggle/account/status', ToggleStudentAccountController::class);
     
 });
 
@@ -97,25 +98,11 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
     Route::post('allocate-student-tutor', AllocateStudentTutorController::class);
     Route::post('unassign-student-tutor', UnassignStudentTutorController::class);
     Route::post('{id}/account/update', UpdateStaffAccountController::class);
-    //Route::post('account/deactivate', DeactivateStaffAccountController::class);
-    Route::post('toggle/account/status', ToggleUserAccountStatusRequest::class);
+    Route::post('toggle/account/status', ToggleStudentAccountController::class);
 });
 
-Route::middleware('auth:sanctum')->prefix('upload/attachments')->group(function () {
-    Route::post('/', function (Request $request) {
-        dd(
-            $request->file('images'),
-            $request->file('documents'),
-            $request->file('videos')
-        );
-        // attachments[] file will come with this key save all the file to the aws light sail
+Route::post('upload-attachment', UploadAttachmentController::class);
 
-
-    });
+Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
+    Route::post('store', CreatePostController::class);
 });
-
-
-
-// $path = $file->store('etuto/profile', 's3');
-// $validatedData['profile_picture'] = Storage::disk('s3')->url($path);
-// 

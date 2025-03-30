@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Note;
+namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreNoteRequest extends FormRequest
+class CreatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class StoreNoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'nullable|string',
-            'attachments' => 'nullable|array',
+            'title' => 'required|string',
+            'text' => 'required|string'
         ];
     }
 }

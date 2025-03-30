@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Note;
+namespace App\Http\Requests\Attachment;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
-class StoreNoteRequest extends FormRequest
+class StoreAttachmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +23,8 @@ class StoreNoteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content' => 'nullable|string',
             'attachments' => 'nullable|array',
+            'attachments.*' => 'file|max:2048'
         ];
     }
 }

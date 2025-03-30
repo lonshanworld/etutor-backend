@@ -6,27 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Note\StoreNoteRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class CreateNoteController extends Controller
 {
     public function __invoke(StoreNoteRequest $storeNoteRequest)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $storeNoteRequest->validated();
             $validatedData['url_link'] = [];
-            if ($storeNoteRequest->hasFile('attachments')) {
+            if ($storeNoteRequest->has('attachments')) {
                 $createdNote = auth('sanctum')->user()->notes()->create($validatedData);
-
                 foreach ($storeNoteRequest->validated('attachments') as $attachment) {
-                    $path = $attachment->store('etuto/users/' . auth('sanctum')->user()->id . '/notes/attchments', 's3');
                     $createdNote->files()->create([
-                        'url_link' => Storage::disk('s3')->url($path)
+                        'url_link' => $attachment
                     ]);
                 }
             }
-
             DB::commit();
             return response()->success();
         } catch (\Throwable $th) {

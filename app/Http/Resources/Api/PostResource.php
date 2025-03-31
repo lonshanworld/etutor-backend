@@ -19,7 +19,10 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'text' => $this->text,
-            'files' => FileResource::collection($this->files)
+            'files' => FileResource::collection($this->files),
+            'likes' => $this->likes,
+            'comments' => $this->comments,
+            'created_at' => $this->created_at
         ];
     }
 }

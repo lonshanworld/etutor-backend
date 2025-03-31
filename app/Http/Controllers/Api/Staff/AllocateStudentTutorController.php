@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AllocateStudentTutorController extends Controller
 {
@@ -66,7 +67,14 @@ class AllocateStudentTutorController extends Controller
                 ['tutor_id', 'student_id'], // Unique keys
                 ['assigned_by', 'updated_at'] // Columns to update if record exists
             );
+
+            // 1 send to student
+            // 2 send to tutor
+
+            // Mail::to($student->email)->send(new AllocateSuccessEmail($message));
+            // Mail::to($tutor->email)->send(new AllocateSuccessEmail($message));
             DB::commit();
+            
             return response()->success(
                 [],
                 'Allocated successfully.',

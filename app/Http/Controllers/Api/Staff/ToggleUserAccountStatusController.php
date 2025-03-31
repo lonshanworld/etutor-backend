@@ -7,7 +7,7 @@ use App\Http\Requests\Staff\ToggleUserAccountStatusRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class ToggleStudentAccountController extends Controller
+class ToggleUserAccountStatusController extends Controller
 {
     public function __invoke(ToggleUserAccountStatusRequest $toggleUserAccountStatusRequest)
     {

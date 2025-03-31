@@ -17,7 +17,10 @@ class GetTutorController extends Controller
         try {
             $tutors = User::whereHas('role', function ($query) {
                 $query->where('name', 'tutor');
-            })       
+            })
+            ->when($request->email, function($query) use($request) {
+                $query->where('email', $request->email);
+            })  
             ->with(['tutor', 'role', 'tutor.tutoringSessions'])
             ->when($request->name, function($query) use($request) {
                 $query->where('first_name', 'like', '%'.$request->name.'%')

@@ -3,20 +3,19 @@
 namespace App\Http\Controllers\Api\Staff;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Staff\ToggleUserAccountStatusRequest;
+use App\Http\Requests\Staff\ActivateStudentAccountRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class ToggleStudentAccountController extends Controller
+class ActivateStudentAccountController extends Controller
 {
-    public function __invoke(ToggleUserAccountStatusRequest $toggleUserAccountStatusRequest)
+    public function __invoke(ActivateStudentAccountRequest $activateStudentAccountRequest)
     {
         try {
-            $user = User::findOrFail($toggleUserAccountStatusRequest->user_id);
-            
-            $newStatus = $user->status === 'activate' ? 'deactivate' : 'activate';
-            $user->update(['status' => $newStatus]);
-            
+            User::where('id', $activateStudentAccountRequest->user_id)->first()->update([
+                'status' => 'activate'
+            ]);
+
             return response()->json([
                 'status' => true,
                 'message' => 'success'

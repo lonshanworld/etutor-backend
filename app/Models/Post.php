@@ -20,4 +20,9 @@ class Post extends Model
     {
         return $this->hasMany(File::class);
     }
+
+    public function likes() : HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
 }

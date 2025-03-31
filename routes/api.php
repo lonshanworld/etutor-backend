@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
 use App\Http\Controllers\Api\Posts\CreatePostController;
+use App\Http\Controllers\Api\Posts\Likes\ToggleLikeToPostController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
@@ -108,6 +109,7 @@ Route::post('upload-attachment', UploadAttachmentController::class);
 
 Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
     Route::post('create', CreatePostController::class);
+    Route::post('give-like', ToggleLikeToPostController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('meetings')->group(function () { 

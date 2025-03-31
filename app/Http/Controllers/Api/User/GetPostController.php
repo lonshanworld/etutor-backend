@@ -26,7 +26,7 @@ class GetPostController extends Controller
             return PostResource::collection(Post::whereIn('user_id', $userIds)
             ->orWhere('user_id', auth('sanctum')->user()->id)
             ->orderBy('created_at', 'desc')
-            ->with(['files'])
+            ->with(['files', 'author', 'likes.user', 'comments.user'])
             ->get());
         } catch (\Throwable $th) {
             Log::error('get post api', [

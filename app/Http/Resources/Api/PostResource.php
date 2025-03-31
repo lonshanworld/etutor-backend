@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Api\Users;
+namespace App\Http\Resources\Api;
 
 use App\Http\Resources\Api\Files\FileResource;
 use Illuminate\Http\Request;

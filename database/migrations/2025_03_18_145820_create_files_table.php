@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id')->nullable();
+            $table->foreignId('blog_id')->nullable();
             $table->foreignId('note_id')->nullable();
             $table->foreignId('message_id')->nullable();
             $table->string('url_link');

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Resources\Api;
+namespace App\Http\Resources\Api\Blogs;
 
 use App\Http\Resources\Api\Author\AuthorResource;
 use App\Http\Resources\Api\Files\FileResource;
-use App\Http\Resources\Api\Posts\CommentResource;
-use App\Http\Resources\Api\Posts\LikeResource;
+use App\Http\Resources\Api\Blogs\CommentResource;
+use App\Http\Resources\Api\Blogs\LikeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostResource extends JsonResource
+class BlogResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

@@ -11,7 +11,7 @@ class MeetingSeeder extends Seeder
     {
         $meetings = [
             [
-                'user_id' => 3,
+                'creator_id' => 3,
                 'meeting_subject' => 'Database Management Systems',
                 'meeting_type' => 'In-Person',
                 'meeting_date' => '2025-03-15',
@@ -21,7 +21,7 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => null
             ],
             [
-                'user_id' => 3,
+                'creator_id' => 3,
                 'meeting_subject' => 'Data Structures and Algorithms',
                 'meeting_type' => 'virtual',
                 'meeting_date' => '2025-03-16',
@@ -31,7 +31,7 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => 'https://zoom.us/j/123456789'
             ],
             [
-                'user_id' => 4,
+                'creator_id' => 4,
                 'meeting_subject' => 'Operating Systems',
                 'meeting_type' => 'In-Person',
                 'meeting_date' => '2025-03-17',
@@ -41,7 +41,7 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => null
             ],
             [
-                'user_id' => 4,
+                'creator_id' => 4,
                 'meeting_subject' => 'Computer Networks',
                 'meeting_type' => 'virtual',
                 'meeting_date' => '2025-03-18',
@@ -51,7 +51,7 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => 'https://meet.google.com/abc-defg-hij'
             ],
             [
-                'user_id' => 5,
+                'creator_id' => 5,
                 'meeting_subject' => 'Artificial Intelligence',
                 'meeting_type' => 'virtual',
                 'meeting_date' => '2025-03-19',
@@ -61,7 +61,7 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => 'https://teams.microsoft.com/l/meetup-join/1234567890'
             ],
             [
-                'user_id' => 5,
+                'creator_id' => 5,
                 'meeting_subject' => 'Machine Learning',
                 'meeting_type' => 'In-Person',
                 'meeting_date' => '2025-03-20',

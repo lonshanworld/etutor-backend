@@ -9,12 +9,12 @@ class Like extends Model
 {
     protected $fillable = [
         'user_id',
-        'post_id'
+        'blog_id'
     ];
 
-    public function post() : BelongsTo
+    public function blog() : BelongsTo
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Blog::class);
     }
 
     public function user() : BelongsTo

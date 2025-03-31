@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
+use App\Http\Controllers\Api\Posts\Comments\CommentToPostController;
 use App\Http\Controllers\Api\Posts\CreatePostController;
 use App\Http\Controllers\Api\Posts\Likes\ToggleLikeToPostController;
 use App\Http\Controllers\Api\Role\GetRoleController;
@@ -110,6 +111,7 @@ Route::post('upload-attachment', UploadAttachmentController::class);
 Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
     Route::post('create', CreatePostController::class);
     Route::post('give-like', ToggleLikeToPostController::class);
+    Route::post('give-comment', CommentToPostController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('meetings')->group(function () { 

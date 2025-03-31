@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
+use App\Http\Controllers\Api\Meeting\CreateMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
 use App\Http\Controllers\Api\Posts\CreatePostController;
 use App\Http\Controllers\Api\Role\GetRoleController;
@@ -106,3 +107,5 @@ Route::post('upload-attachment', UploadAttachmentController::class);
 Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
     Route::post('store', CreatePostController::class);
 });
+
+Route::post('meetings/create', CreateMeetingController::class);

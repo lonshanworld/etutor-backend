@@ -27,7 +27,11 @@ class DatabaseSeeder extends Seeder
             MajorSubjectSeeder::class,
             AuthorisedStaffSeeder::class,
             PersonalTutorSeeder::class,
-            StudentSeeder::class
+            StudentSeeder::class,
+            NoteSeeder::class,
+            TutoringSessionSeeder::class,
+            MeetingSeeder::class,
+            ParticipantSeeder::class,
         ]);
     }
 }

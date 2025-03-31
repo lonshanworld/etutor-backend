@@ -30,9 +30,11 @@ use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Subjects\GetSubjectController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
+use App\Http\Controllers\Api\User\GetMeetingController;
 use App\Http\Controllers\Api\User\GetNoteController;
 use App\Http\Controllers\Api\User\GetPostController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
+use App\Http\Controllers\GetMeetingPastController;
 use App\Http\Controllers\GetStudentTutorController;
 use App\Http\Controllers\GetTutoringSessionController;
 use App\Http\Requests\Staff\ToggleUserAccountStatusRequest;
@@ -78,6 +80,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('roles', GetRoleController::class);
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
     Route::get('tutoring_sessions', GetTutoringSessionController::class);
+    Route::get('meetings', GetMeetingController::class);
+    Route::get('meetingspast', GetMeetingPastController::class);
 });
 
 

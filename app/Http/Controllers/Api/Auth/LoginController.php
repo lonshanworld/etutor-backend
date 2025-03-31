@@ -22,6 +22,16 @@ class LoginController extends Controller
                 return response()->error('The password you entered was incorrect!.', 401);
             }
 
+            // Get last login activity
+            $lastLogin = ActivityLog::where('user_id', $user->id)
+                ->where('action', 'Login Action')
+                ->latest()
+                ->first();
+
+            $message = $lastLogin 
+                ? "Welcome back! Last login was on " . $lastLogin->created_at->setTimezone('Asia/Yangon')->format('d-m-Y')
+                : "Welcome to eTuto! First time login.";
+
             ActivityLog::create([
                 'user_id' => $user->id,
                 'action' => 'Login Action',
@@ -30,7 +40,7 @@ class LoginController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'success',
+                'message' => $message,
                 'token' => $user->createToken($loginRequest->device_name ?? 'web_app')->plainTextToken
             ]);
         } catch (\Throwable $th) {

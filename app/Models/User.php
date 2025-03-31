@@ -36,6 +36,7 @@ class User extends Authenticatable
         'gender',
         'address',
         'phone_number',
+        'passport',
         'role_id',
         'passport',
         'status',
@@ -83,6 +84,10 @@ class User extends Authenticatable
         return $this->hasOne(AuthorizedStaff::class);
     }
     public function notes() : HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+    public function posts() : HasMany
     {
         return $this->hasMany(Note::class);
     }

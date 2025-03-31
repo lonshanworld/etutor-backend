@@ -17,7 +17,8 @@ class PostUserResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'name' => $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name
+            'name' => $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name,
+            'profile_picture' => $this->profile_picture
         ];
     }
 }

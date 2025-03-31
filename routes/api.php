@@ -109,7 +109,9 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
 Route::post('upload-attachment', UploadAttachmentController::class);
 
 Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
-    Route::post('store', CreatePostController::class);
+    Route::post('create', CreatePostController::class);
 });
 
-Route::post('meetings/create', CreateMeetingController::class);
+Route::middleware('auth:sanctum')->prefix('meetings')->group(function () { 
+    Route::post('create', CreateMeetingController::class);
+});

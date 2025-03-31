@@ -15,8 +15,8 @@ class CreatePostController extends Controller
             DB::beginTransaction();
             $validatedData = $createPostRequest->validated();
             $validatedData['url_link'] = [];
+            $createdNote = auth('sanctum')->user()->posts()->create($validatedData);
             if ($createPostRequest->has('attachments')) {
-                $createdNote = auth('sanctum')->user()->posts()->create($validatedData);
                 foreach ($createPostRequest->validated('attachments') as $attachment) {
                     $createdNote->files()->create([
                         'url_link' => $attachment

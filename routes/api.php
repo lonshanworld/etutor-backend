@@ -39,13 +39,9 @@ use App\Http\Controllers\Api\User\GetUserProfileController;
 use App\Http\Controllers\GetMeetingPastController;
 use App\Http\Controllers\GetStudentTutorController;
 use App\Http\Controllers\GetTutoringSessionController;
-use App\Http\Requests\Staff\ToggleUserAccountStatusRequest;
 use App\Http\Resources\Api\Users\UserProfileResource;
-use App\Mail\User\WelcomeUser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -67,12 +63,6 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
 
     Route::post('add-note', CreateNoteController::class);
     Route::get('notes', GetNoteController::class);
-
-    Route::post('add-post', CreatePostController::class);
-    Route::get('posts', GetPostController::class);
-    Route::get('files', GetFilesController::class);
-    Route::post('delete-file', DeleteFileController::class);
-
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -86,10 +76,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
     Route::get('tutoring_sessions', GetTutoringSessionController::class);
     Route::get('meetings', GetMeetingController::class);
-    Route::get('meetingspast', GetMeetingPastController::class);
+    Route::get('meetings-past', GetMeetingPastController::class);
 });
-
-
 
 Route::get('check-email', CheckEmailController::class);
 Route::get('confirm-otp', ConfirmOtpController::class);
@@ -120,9 +108,15 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
 Route::post('upload-attachment', UploadAttachmentController::class);
 
 Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
-    Route::post('create', CreatePostController::class);
+
+    Route::post('add-post', CreatePostController::class);
+    Route::get('/', GetPostController::class);
+    Route::get('files', GetFilesController::class);
+    Route::post('delete-file', DeleteFileController::class);
+
     Route::post('give-like', ToggleLikeToPostController::class);
     Route::post('give-comment', CommentToPostController::class);
+
 });
 
 Route::middleware('auth:sanctum')->prefix('meetings')->group(function () { 

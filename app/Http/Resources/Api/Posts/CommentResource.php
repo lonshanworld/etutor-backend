@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api\Files;
+namespace App\Http\Resources\Api\Posts;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FileResource extends JsonResource
+class CommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,12 @@ class FileResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'url_link' => $this->url_link,
-            'created_at' => $this->created_at
+            'content' => $this->content,
+            'created_at' => $this->created_at,
+            'user' => new PostUserResource($this->user),
+            'post_id' => $this->post_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

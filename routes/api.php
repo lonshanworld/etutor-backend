@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Auth\Logoutcontroller;
 use App\Http\Controllers\Api\Auth\Password\UpdatePasswordController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
+use App\Http\Controllers\Api\Files\GetFilesController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
@@ -65,6 +66,8 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
 
     Route::post('add-post', CreatePostController::class);
     Route::get('posts', GetPostController::class);
+    Route::get('files', GetFilesController::class);
+
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

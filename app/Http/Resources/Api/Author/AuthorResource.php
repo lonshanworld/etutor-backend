@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api\Files;
+namespace App\Http\Resources\Api\Author;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FileResource extends JsonResource
+class AuthorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,7 @@ class FileResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'url_link' => $this->url_link,
-            'created_at' => $this->created_at
+            'name' => $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name,
         ];
     }
 }

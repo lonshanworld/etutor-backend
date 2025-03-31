@@ -108,4 +108,6 @@ Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
     Route::post('store', CreatePostController::class);
 });
 
-Route::post('meetings/create', CreateMeetingController::class);
+Route::middleware('auth:sanctum')->prefix('meetings')->group(function () { 
+    Route::post('create', CreateMeetingController::class);
+});

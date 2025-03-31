@@ -37,7 +37,6 @@ class CreateMeetingController extends Controller
                 'request' => $storeMeetingRequest->all()
             ]);
             return response()->error();
-            // throw $th;
         }
     }
 }

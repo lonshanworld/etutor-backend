@@ -10,6 +10,8 @@ return new class extends Migration
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('creator_id')->constrained('users');
+            $table->string('meeting_subject');
             $table->date('meeting_date');
             $table->time('meeting_time');
             $table->string('meeting_type');

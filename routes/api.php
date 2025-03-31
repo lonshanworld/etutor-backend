@@ -85,8 +85,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('roles', GetRoleController::class);
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
     Route::get('tutoring_sessions', GetTutoringSessionController::class);
-    Route::get('meetings', GetMeetingController::class);
-    Route::get('meetingspast', GetMeetingPastController::class);
 });
 
 

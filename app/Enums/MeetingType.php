@@ -5,5 +5,5 @@ namespace App\Enums;
 enum MeetingType : string
 {
     CASE VIRTUAL =  'virtual';
-    CASE INPERSON = 'real';
+    CASE INPERSON = 'In-Person';
 }

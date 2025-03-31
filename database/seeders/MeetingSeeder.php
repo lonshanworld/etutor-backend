@@ -11,7 +11,9 @@ class MeetingSeeder extends Seeder
     {
         $meetings = [
             [
-                'meeting_type' => 'real',
+                'user_id' => 3,
+                'meeting_subject' => 'Database Management Systems',
+                'meeting_type' => 'In-Person',
                 'meeting_date' => '2025-03-15',
                 'meeting_time' => '10:00:00',
                 'location' => 'Conference Room 1, Building A',
@@ -19,6 +21,8 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => null
             ],
             [
+                'user_id' => 3,
+                'meeting_subject' => 'Data Structures and Algorithms',
                 'meeting_type' => 'virtual',
                 'meeting_date' => '2025-03-16',
                 'meeting_time' => '14:00:00',
@@ -27,7 +31,9 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => 'https://zoom.us/j/123456789'
             ],
             [
-                'meeting_type' => 'real',
+                'user_id' => 4,
+                'meeting_subject' => 'Operating Systems',
+                'meeting_type' => 'In-Person',
                 'meeting_date' => '2025-03-17',
                 'meeting_time' => '09:30:00',
                 'location' => 'Room 5, Building B',
@@ -35,6 +41,8 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => null
             ],
             [
+                'user_id' => 4,
+                'meeting_subject' => 'Computer Networks',
                 'meeting_type' => 'virtual',
                 'meeting_date' => '2025-03-18',
                 'meeting_time' => '15:00:00',
@@ -43,6 +51,8 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => 'https://meet.google.com/abc-defg-hij'
             ],
             [
+                'user_id' => 5,
+                'meeting_subject' => 'Artificial Intelligence',
                 'meeting_type' => 'virtual',
                 'meeting_date' => '2025-03-19',
                 'meeting_time' => '11:00:00',
@@ -51,7 +61,9 @@ class MeetingSeeder extends Seeder
                 'meeting_link' => 'https://teams.microsoft.com/l/meetup-join/1234567890'
             ],
             [
-                'meeting_type' => 'real',
+                'user_id' => 5,
+                'meeting_subject' => 'Machine Learning',
+                'meeting_type' => 'In-Person',
                 'meeting_date' => '2025-03-20',
                 'meeting_time' => '13:00:00',
                 'location' => 'Room 3, Building C',

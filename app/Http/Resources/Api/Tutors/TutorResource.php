@@ -27,6 +27,7 @@ class TutorResource extends JsonResource
             'gender' => $this->gender,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
+            'passport' => $this->passport,
             'status' => $this->status,
             'role' => new RoleResource($this->role),
             'image_id' => $this->image_id,

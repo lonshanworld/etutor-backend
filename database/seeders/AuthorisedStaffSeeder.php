@@ -38,19 +38,6 @@ class AuthorisedStaffSeeder extends Seeder
                 'deleted_at' => null,
                 'updated_by' => 1,
                 'updated_at' => now()
-            ],
-            [
-                'user_id' => 3,
-                'emergency_contact_name' => 'Sarah Johnson',
-                'emergency_contact_phone' => '912-515-3316',
-                'start_date' => '2023-02-11',
-                'end_date' => null,
-                'created_by' => 1,
-                'created_at' => now(),
-                'deleted_by' => null,
-                'deleted_at' => null,
-                'updated_by' => 1,
-                'updated_at' => now()
             ]
         ]);
     }

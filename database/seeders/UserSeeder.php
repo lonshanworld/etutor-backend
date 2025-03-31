@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
         // Staff Members
         $this->createUser('John', 'A.', 'Smith', '1980-05-12', 'john.smith@example.com', 'American', 'male', '123 Main St, NY', '123-456-7890', 'P123456789', 1, 'activated');
         $this->createUser('Emma', 'B.', 'Johnson', '1985-08-22', 'emma.johnson@example.com', 'British', 'female', '456 Elm St, London', '987-654-3210', 'GB987654321', 1, 'activated');
-        $this->createUser('Anna', 'C.', 'Yuma', '1979-08-01', 'lonshan.sbs@gmail.com', 'British', 'female', '456 Elm St, London', '912-224-3210', 'GB987324321', 1, 'activated');
         // Tutors
         $this->createUser('David', 'C.', 'Brown', '1978-03-15', 'david.brown@example.com', 'Canadian', 'male', '789 Oak St, Toronto', '555-123-6789', 'CA555123456', 2, 'activated');
         $this->createUser('Sophia', 'D.', 'Miller', '1982-11-10', 'sophia.miller@example.com', 'Australian', 'female', '101 Pine St, Sydney', '444-567-8901', 'AU444567890', 2, 'activated');

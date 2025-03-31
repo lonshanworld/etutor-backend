@@ -87,4 +87,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Note::class);
     }
+    public function posts() : HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
 }

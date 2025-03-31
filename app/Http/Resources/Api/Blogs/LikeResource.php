@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Api\Posts;
+namespace App\Http\Resources\Api\Blogs;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -17,7 +17,7 @@ class LikeResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => new PostUserResource($this->user),
-            'post_id' => $this->post_id,
+            'blog_id' => $this->blog_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

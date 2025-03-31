@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Api\Posts;
+namespace App\Http\Resources\Api\Blogs;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommentResource extends JsonResource
+class PostUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,8 @@ class CommentResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'content' => $this->content,
-            'created_at' => $this->created_at,
-            'user' => new PostUserResource($this->user),
-            'post_id' => $this->post_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'name' => $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name,
+            'profile_picture' => $this->profile_picture
         ];
     }
 }

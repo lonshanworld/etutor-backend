@@ -22,7 +22,7 @@ class DeleteFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|uuid|exists:files,id'
+            'id' => 'required|exists:files,id'
         ];
     }
 }

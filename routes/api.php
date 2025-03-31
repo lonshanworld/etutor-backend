@@ -4,6 +4,10 @@ use App\Http\Controllers\Api\Attachments\UploadAttachmentController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\Logoutcontroller;
 use App\Http\Controllers\Api\Auth\Password\UpdatePasswordController;
+use App\Http\Controllers\Api\Blog\CreateBlogController;
+use App\Http\Controllers\Api\Blog\GetBlogController;
+use App\Http\Controllers\Api\Blog\Likes\ToggleLikeToBlogController;
+use App\Http\Controllers\Api\Blog\Comments\CommentToBlogController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Files\DeleteFileController;
@@ -12,9 +16,6 @@ use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
-use App\Http\Controllers\Api\Posts\Comments\CommentToPostController;
-use App\Http\Controllers\Api\Posts\CreatePostController;
-use App\Http\Controllers\Api\Posts\Likes\ToggleLikeToPostController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
@@ -32,11 +33,8 @@ use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Subjects\GetSubjectController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
-use App\Http\Controllers\Api\User\GetMeetingController;
 use App\Http\Controllers\Api\User\GetNoteController;
-use App\Http\Controllers\Api\User\GetPostController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
-use App\Http\Controllers\GetMeetingPastController;
 use App\Http\Controllers\GetStudentTutorController;
 use App\Http\Controllers\GetTutoringSessionController;
 use App\Http\Resources\Api\Users\UserProfileResource;
@@ -105,15 +103,15 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
 
 Route::post('upload-attachment', UploadAttachmentController::class);
 
-Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
+Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
 
-    Route::post('add-post', CreatePostController::class);
-    Route::get('/', GetPostController::class);
+    Route::post('add', CreateBlogController::class);
+    Route::get('/', GetBlogController::class);
     Route::get('files', GetFilesController::class);
     Route::post('delete-file', DeleteFileController::class);
 
-    Route::post('give-like', ToggleLikeToPostController::class);
-    Route::post('give-comment', CommentToPostController::class);
+    Route::post('give-like', ToggleLikeToBlogController::class);
+    Route::post('give-comment', CommentToBlogController::class);
 
 });
 

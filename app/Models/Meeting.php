@@ -38,4 +38,9 @@ class Meeting extends Model
     {
         return $this->hasMany(Participant::class);
     }
+
+    public function records() : HasMany
+    {
+        return $this->hasMany(Record::class);
+    }
 }

@@ -18,21 +18,28 @@ class GetBlogController extends Controller
             $myTutoringSession = $tutoringSessionRepository->getTutoringSessionByStudentId(auth('sanctum')->user()->id);
             if (!$myTutoringSession) {
                 return response()->json([
-                    'data' => []
+                    'data' => [],
                 ]);
             }
             $userIds = $tutoringSessionRepository->getUserIdsByTutorId($myTutoringSession->tutor_id);
 
-            return BlogResource::collection(Blog::whereIn('user_id', $userIds)
+            $blogs = Blog::whereIn('user_id', $userIds)
                 ->orWhere('user_id', auth('sanctum')->user()->id)
                 ->orderBy('created_at', 'desc')
                 ->with(['files', 'author', 'likes.user', 'comments.user'])
-                ->paginate($request->per_page ?? config('app.paginate.count')));
+                ->cursorPaginate($request->per_page ?? config('app.paginate.count'));
+
+            return BlogResource::collection($blogs);
         } catch (\Throwable $th) {
             Log::error('get blog api', [
                 'data' => $th->getMessage(),
             ]);
-            return response()->error();
+
+            return response()->json([
+                'error' => true,
+                'message' => $th->getMessage(),
+                'trace' => $th->getTraceAsString(),
+            ], 500);
         }
     }
 }

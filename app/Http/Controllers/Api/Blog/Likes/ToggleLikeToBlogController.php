@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Blog\Likes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Like\StoreLikeRequest;
 use Illuminate\Support\Facades\Log;
+use App\Models\Blog;
 
 class ToggleLikeToBlogController extends Controller
 {
@@ -13,7 +14,12 @@ class ToggleLikeToBlogController extends Controller
         try {
             $validated = $storeLikeRequest->validated();
             $user = auth('sanctum')->user();
-            $post = $user->blogs()->where('id', $validated['blog_id'])->first();
+            $post = Blog::find($validated['blog_id']);
+
+            if (!$post) {
+                return response()->error('Blog post not found', 404);
+            }
+
             if ($post->likes()->where('user_id', $user->id)->exists()) {
                 $post->likes()->where('user_id', $user->id)->delete();
                 return response()->success();

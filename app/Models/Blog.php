@@ -18,6 +18,12 @@ class Blog extends Model
         'text'
     ];
 
+    protected $primaryKey = 'id';
+    
+    protected $table = 'blogs';
+
+    public $timestamps = true;
+
     public function author() : BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

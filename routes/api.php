@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\Files\GetFilesController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
+use App\Http\Controllers\Api\Meeting\Records\CreateMeetingRecordController;
+use App\Http\Controllers\Api\Meeting\Records\GetMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\GetMeetingController;
 use App\Http\Controllers\Api\Meeting\GetRecentMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
@@ -92,7 +94,6 @@ Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     Route::post('account/create', CreateTutorAccountController::class);
     Route::post('{id}/account/update', UpdateTutorAccountController::class);
     Route::post('toggle/account/status', ToggleStudentAccountController::class);
-    
 });
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
@@ -106,19 +107,22 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
 Route::post('upload-attachment', UploadAttachmentController::class);
 
 Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
-
     Route::post('add', CreateBlogController::class);
     Route::get('/', GetBlogController::class);
     Route::get('files', GetFilesController::class);
     Route::post('delete-file', DeleteFileController::class);
-
     Route::post('give-like', ToggleLikeToBlogController::class);
     Route::post('give-comment', CommentToBlogController::class);
-
 });
 
-Route::middleware('auth:sanctum')->prefix('meetings')->group(function () { 
+Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
     Route::post('create', CreateMeetingController::class);
     Route::get('/', GetMeetingController::class);
     Route::get('recent', GetRecentMeetingController::class);
+
+    Route::prefix('records')->group(function () {
+        Route::get('/', GetMeetingRecordController::class);
+        Route::post('/', CreateMeetingRecordController::class);
+    });
+    
 });

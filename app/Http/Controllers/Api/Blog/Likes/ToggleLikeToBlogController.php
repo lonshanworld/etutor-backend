@@ -22,12 +22,16 @@ class ToggleLikeToBlogController extends Controller
 
             if ($post->likes()->where('user_id', $user->id)->exists()) {
                 $post->likes()->where('user_id', $user->id)->delete();
-                return response()->success([], 'Blog post unliked successfully');
+                return response()->success([
+                    'liked' => false
+                ], 'Blog post unliked successfully');
             }
             $post->likes()->create([
                 'user_id' => $user->id
             ]);
-            return response()->success([], 'Blog post liked successfully');
+            return response()->success([
+                'liked' => true
+            ], 'Blog post liked successfully');
         } catch (\Throwable $th) {
             Log::info('like post api', [
                 'message' => $th->getMessage()

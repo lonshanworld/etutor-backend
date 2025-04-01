@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
 use App\Http\Controllers\Api\Meeting\Records\CreateMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\Records\GetMeetingRecordController;
+use App\Http\Controllers\Api\Meeting\GetMeetingController;
+use App\Http\Controllers\Api\Meeting\GetRecentMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
@@ -115,9 +117,12 @@ Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
     Route::post('create', CreateMeetingController::class);
-    
+    Route::get('/', GetMeetingController::class);
+    Route::get('recent', GetRecentMeetingController::class);
+
     Route::prefix('records')->group(function () {
         Route::get('/', GetMeetingRecordController::class);
         Route::post('/', CreateMeetingRecordController::class);
     });
+    
 });

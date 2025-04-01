@@ -27,7 +27,7 @@ class GetBlogController extends Controller
                 ->orWhere('user_id', auth('sanctum')->user()->id)
                 ->orderBy('created_at', 'desc')
                 ->with(['files', 'author', 'likes.user', 'comments.user'])
-                ->get());
+                ->paginate($request->per_page ?? config('app.paginate.count')));
         } catch (\Throwable $th) {
             Log::error('get blog api', [
                 'data' => $th->getMessage(),

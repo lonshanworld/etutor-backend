@@ -23,8 +23,31 @@ class StoreAttachmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'attachments' => 'nullable|array',
-            'attachments.*' => 'file|max:2048'
+            'attachments' => [
+                'nullable',
+                'array',
+                function ($attribute, $value, $fail) {
+                    $totalSize = 0;
+                    $files = $this->file('attachments');
+                    
+                    if (!is_array($files)) {
+                        return;
+                    }
+                    
+                    foreach ($files as $file) {
+                        if ($file && $file->isValid()) {
+                            $totalSize += $file->getSize();
+                        }
+                    }
+
+                    $maxSize = 50 * 1024 * 1024;
+                    
+                    if ($totalSize > $maxSize) {
+                        $fail('The total size of all attachments must not exceed 50MB.');
+                    }
+                }
+            ],
+            'attachments.*' => 'file|max:4096'
         ];
     }
 }

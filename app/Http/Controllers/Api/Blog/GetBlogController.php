@@ -15,17 +15,19 @@ class GetBlogController extends Controller
     {
         try {
 
-            $myTutoringSession = $tutoringSessionRepository->getTutoringSessionByStudentId(auth('sanctum')->user()->id);
-            if (!$myTutoringSession) {
-                return response()->json([
-                    'data' => [],
-                ]);
-            }
-            $userIds = $tutoringSessionRepository->getUserIdsByTutorId($myTutoringSession->tutor_id);
-
-            $blogs = Blog::whereIn('user_id', $userIds)
-                ->orderBy('created_at', 'desc')
-                ->with(['files', 'author', 'likes.user', 'comments.user']);
+            // $myTutoringSession = $tutoringSessionRepository->getTutoringSessionByStudentId(auth('sanctum')->user()->id);
+            // if (!$myTutoringSession) {
+            //     return response()->json([
+            //         'data' => [],
+            //     ]);
+            // }
+            // $userIds = $tutoringSessionRepository->getUserIdsByTutorId($myTutoringSession->tutor_id);
+            // whereIn('user_id', $userIds)
+            $blogs = Blog::when($request->id, function ($query) use ($request) {
+                $query->where('id', $request->id);
+            })
+                ->with(['files', 'author', 'likes.user', 'comments.user'])
+                ->orderBy('created_at', 'desc');
 
             $perPage = $request->per_page ?? config('app.paginate.count');
             $paginatedBlogs = $blogs->cursorPaginate($perPage)->withQueryString();

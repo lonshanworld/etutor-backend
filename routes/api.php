@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\Blog\CreateBlogController;
 use App\Http\Controllers\Api\Blog\GetBlogController;
 use App\Http\Controllers\Api\Blog\Likes\ToggleLikeToBlogController;
 use App\Http\Controllers\Api\Blog\Comments\CommentToBlogController;
+use App\Http\Controllers\Api\Blog\GetBlogByIdController;
+use App\Http\Controllers\Api\Blog\LikeCommentController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Files\DeleteFileController;
@@ -107,12 +109,14 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
 Route::post('upload-attachment', UploadAttachmentController::class);
 
 Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
-    Route::post('add', CreateBlogController::class);
     Route::get('/', GetBlogController::class);
     Route::get('files', GetFilesController::class);
+    Route::get('/{id}', GetBlogByIdController::class);
+    Route::post('add', CreateBlogController::class);
     Route::post('delete-file', DeleteFileController::class);
     Route::post('give-like', ToggleLikeToBlogController::class);
     Route::post('give-comment', CommentToBlogController::class);
+    
 });
 
 Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {

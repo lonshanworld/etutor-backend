@@ -24,12 +24,13 @@ class GetBlogController extends Controller
             $userIds = $tutoringSessionRepository->getUserIdsByTutorId($myTutoringSession->tutor_id);
 
             $blogs = Blog::whereIn('user_id', $userIds)
-                ->orWhere('user_id', auth('sanctum')->user()->id)
                 ->orderBy('created_at', 'desc')
-                ->with(['files', 'author', 'likes.user', 'comments.user'])
-                ->cursorPaginate($request->per_page ?? config('app.paginate.count'));
+                ->with(['files', 'author', 'likes.user', 'comments.user']);
 
-            return BlogResource::collection($blogs);
+            $perPage = $request->per_page ?? config('app.paginate.count');
+            // $paginatedBlogs = $blogs->cursorPaginate($perPage, ['*'], 'cursor', $request->cursor)->withQueryString();
+            $paginatedBlogs = $blogs->cursorPaginate($perPage)->withQueryString();
+            return BlogResource::collection($paginatedBlogs);
         } catch (\Throwable $th) {
             Log::error('get blog api', [
                 'data' => $th->getMessage(),

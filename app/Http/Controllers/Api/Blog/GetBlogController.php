@@ -28,7 +28,6 @@ class GetBlogController extends Controller
                 ->with(['files', 'author', 'likes.user', 'comments.user']);
 
             $perPage = $request->per_page ?? config('app.paginate.count');
-            // $paginatedBlogs = $blogs->cursorPaginate($perPage, ['*'], 'cursor', $request->cursor)->withQueryString();
             $paginatedBlogs = $blogs->cursorPaginate($perPage)->withQueryString();
             return BlogResource::collection($paginatedBlogs);
         } catch (\Throwable $th) {

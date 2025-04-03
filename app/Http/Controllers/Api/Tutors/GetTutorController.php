@@ -27,6 +27,11 @@ class GetTutorController extends Controller
                     ->orWhere('middle_name', 'like', '%'.$request->name.'%')
                     ->orWhere('last_name', 'like', '%'.$request->name.'%');
             })
+            ->with([
+                'tutor.tutoringSessions.tutor.user',
+                'tutor.tutoringSessions.student.user',
+                'tutor.tutoringSessions.student.major'
+            ])
             ->paginate(config('app.paginate.count'));
 
             return TutorResource::collection($tutors);

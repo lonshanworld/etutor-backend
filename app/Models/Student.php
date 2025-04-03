@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Major;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Student extends Model
 {
@@ -26,5 +28,12 @@ class Student extends Model
     public function studentTutoringSessions(): HasMany
     {
         return $this->hasMany(TutoringSession::class, 'student_id');
+    }
+    public function major(){
+        return $this->belongsTo(Major::class);
+    }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

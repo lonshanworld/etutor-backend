@@ -47,7 +47,25 @@ class StudentResource extends JsonResource
             ],
             // Include tutoring sessions and count the rows
             'tutoring_sessions' => $this->student->studentTutoringSessions ? 
-                TutoringSessionResource::collection($this->student->studentTutoringSessions) : [],
+                $this->student->studentTutoringSessions->map(function($session) {
+                    return [
+                        'id' => $session->id,
+                        'tutor' => [
+                            'id' => $session->tutor->user->id,
+                            'name' => $session->tutor->user->first_name . ' ' . $session->tutor->user->last_name,
+                            'email' => $session->tutor->user->email,
+                        ],
+                        'student' => [
+                            'id' => $session->student->user->id,
+                            'name' => $session->student->user->first_name . ' ' . $session->student->user->last_name,
+                            'email' => $session->student->user->email,
+                            'major' => [
+                                'id' => $session->student->major_id,
+                                'name' => $session->student->major->name ?? null
+                            ]
+                        ]
+                    ];
+                }) : [],
             'tutoring_session_status' => $this->student->studentTutoringSessions && 
                 $this->student->studentTutoringSessions->count() > 0 ? 'Assigned' : 'Unassigned',
             'created_at' => $this->created_at,

@@ -19,7 +19,13 @@ class GetStudentController extends Controller
                 ->when($request->email, function ($query) use ($request) {
                     $query->where('email', $request->email);
                 })
-                ->with(['student', 'role', 'student.studentTutoringSessions'])
+                ->with([
+                    'student.major',
+                    'role',
+                    'student.studentTutoringSessions.tutor.user',
+                    'student.studentTutoringSessions.student.user',
+                    'student.studentTutoringSessions.student.major'
+                ])
                 ->when($request->name, function ($query) use ($request) {
                     $query->where('first_name', 'like', '%' . $request->name . '%')
                         ->orWhere('middle_name', 'like', '%' . $request->name . '%')

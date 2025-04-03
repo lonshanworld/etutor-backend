@@ -15,16 +15,16 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Staff Members
-        $this->createUser('John', 'A.', 'Smith', '1980-05-12', 'john.smith@example.com', 'American', 'male', '123 Main St, NY', '123-456-7890', 'P123456789', 1, 'activated');
+        $this->createUser('John', 'A.', 'Smith', '1980-05-12', 'sjame3303@gmail.com', 'American', 'male', '123 Main St, NY', '123-456-7890', 'P123456789', 1, 'activated');
         $this->createUser('Emma', 'B.', 'Johnson', '1985-08-22', 'emma.johnson@example.com', 'British', 'female', '456 Elm St, London', '987-654-3210', 'GB987654321', 1, 'activated');
         // Tutors
-        $this->createUser('David', 'C.', 'Brown', '1978-03-15', 'david.brown@example.com', 'Canadian', 'male', '789 Oak St, Toronto', '555-123-6789', 'CA555123456', 2, 'activated');
+        $this->createUser('David', 'C.', 'Brown', '1978-03-15', 'db5769608@gmail.com', 'Canadian', 'male', '789 Oak St, Toronto', '555-123-6789', 'CA555123456', 2, 'activated');
         $this->createUser('Sophia', 'D.', 'Miller', '1982-11-10', 'sophia.miller@example.com', 'Australian', 'female', '101 Pine St, Sydney', '444-567-8901', 'AU444567890', 2, 'activated');
         $this->createUser('James', 'E.', 'Wilson', '1990-07-05', 'james.wilson@example.com', 'American', 'male', '202 Cedar St, LA', '222-999-8888', 'P222999888', 2, 'activated');
         $this->createUser('Isabella', 'F.', 'Moore', '1983-12-20', 'isabella.moore@example.com', 'Canadian', 'female', '303 Birch St, Vancouver', '777-888-9999', 'CA777888999', 2, 'activated');
 
         // Students (showing first few, apply similar pattern to others)
-        $this->createUser('Liam', null, 'Anderson', '2002-01-15', 'liam.anderson@example.com', 'American', 'male', '456 Maple St, NY', '333-222-1111', 'P333222111', 3, 'activated');
+        $this->createUser('Evelyn', null, 'Sik', '2002-01-15', 'evelynsik4@gmail.com', 'American', 'male', '456 Maple St, NY', '333-222-1111', 'P333222111', 3, 'activated');
         $this->createUser('Olivia', null, 'Thomas', '2001-05-30', 'olivia.thomas@example.com', 'British', 'female', '789 Willow St, London', '555-666-7777', 'GB555666777', 3, 'activated');
         // Students
         $this->createUser('Noah', null, 'Martinez', '2003-09-25', 'noah.martinez@example.com', 'Mexican', 'male', '123 Elm St, Mexico City', '111-333-5555', 'MX111333555', 3, 'activated');

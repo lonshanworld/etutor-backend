@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class File extends Model
 {
     protected $fillable = [
+        'file_name',
         'blog_id',
         'message_id',
         'note_id',

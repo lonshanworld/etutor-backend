@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Blog\CreateBlogRequest;
+use App\Http\Resources\Api\Blogs\BlogResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -19,12 +20,16 @@ class CreateBlogController extends Controller
             if ($createBlogRequest->has('attachments')) {
                 foreach ($createBlogRequest->validated('attachments') as $attachment) {
                     $createBlog->files()->create([
-                        'url_link' => $attachment
+                        'file_name' => $attachment['name'],
+                        'url_link' => $attachment['path']
                     ]);
                 }
             }
             DB::commit();
-            return response()->success();
+            $refreshBlog = $createBlog->refresh();
+            return response()->success([
+                'blog' => new BlogResource($refreshBlog->load('files', 'likes', 'comments', 'author'))
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::info('create blog api', [

@@ -15,11 +15,10 @@ class NoteResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'files' => FileResource::collection($this->files)
+            'files' => FileResource::collection($this->whenLoaded('files'))
         ];
     }
 }

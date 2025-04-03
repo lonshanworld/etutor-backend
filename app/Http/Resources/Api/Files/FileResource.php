@@ -20,7 +20,7 @@ class FileResource extends JsonResource
             'file_name' => $this->file_name,
             'url_link' => $this->url_link,
             'created_at' => $this->created_at,
-            'user' => new PostUserResource($this->blog->author)
+            'user' => new PostUserResource($this->whenLoaded('blog.user'))
         ];
     }
 }

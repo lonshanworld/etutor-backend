@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Blog\CreateBlogController;
 use App\Http\Controllers\Api\Blog\GetBlogController;
 use App\Http\Controllers\Api\Blog\Likes\ToggleLikeToBlogController;
 use App\Http\Controllers\Api\Blog\Comments\CommentToBlogController;
+use App\Http\Controllers\Api\Blog\DeleteBlogController;
 use App\Http\Controllers\Api\Blog\GetBlogByIdController;
 use App\Http\Controllers\Api\Blog\LikeCommentController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
@@ -116,6 +117,7 @@ Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
     Route::post('delete-file', DeleteFileController::class);
     Route::post('give-like', ToggleLikeToBlogController::class);
     Route::post('give-comment', CommentToBlogController::class);
+    Route::post('/{blog}/delete', DeleteBlogController::class);
     
 });
 

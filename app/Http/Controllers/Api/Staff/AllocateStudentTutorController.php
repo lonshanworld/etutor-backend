@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Staff\AllocateStudentTutorRequest;
+use App\Mail\Allocation\AllocateSuccessMail;
 use App\Models\Student;
 use App\Models\TutoringSession;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -61,18 +61,28 @@ class AllocateStudentTutorController extends Controller
                     'assigned_by' => $allocateStudentTutorRequest->user()->id
                 ];
             }
-            // Perform bulk upsert - unique bytutor_id, student_id
+            // Perform bulk upsert
             TutoringSession::upsert(
                 $records, 
-                ['tutor_id', 'student_id'], // Unique keys
-                ['assigned_by', 'updated_at'] // Columns to update if record exists
+                ['tutor_id', 'student_id'],
+                ['assigned_by', 'updated_at']
             );
 
-            // 1 send to student
-            // 2 send to tutor
+            // Get tutor and student details for emails
+            $tutor = User::whereHas('tutor', function($query) use ($validatedData) {
+                $query->where('id', $validatedData['tutor_id']);
+            })->first();
 
-            // Mail::to($student->email)->send(new AllocateSuccessEmail($message));
-            // Mail::to($tutor->email)->send(new AllocateSuccessEmail($message));
+            $students = User::whereHas('student', function($query) use ($studentIds) {
+                $query->whereIn('id', $studentIds);
+            })->get();
+
+            // Send emails to all students and tutor
+            foreach ($students as $student) {
+                Mail::to($student->email)->send(new AllocateSuccessMail($student, $tutor));
+            }
+            Mail::to($tutor->email)->send(new AllocateSuccessMail($students, $tutor));
+
             DB::commit();
             
             return response()->success(

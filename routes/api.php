@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Files\DeleteFileController;
 use App\Http\Controllers\Api\Files\GetFilesController;
+use App\Http\Controllers\Api\Files\DownloadFileController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Api\Meeting\Records\GetMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\GetMeetingController;
 use App\Http\Controllers\Api\Meeting\GetRecentMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
+use App\Http\Controllers\Api\Notification\NotificationController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
@@ -109,6 +111,8 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
 
 Route::post('upload-attachment', UploadAttachmentController::class);
 
+Route::middleware('auth:sanctum')->get('/files/{id}/download', DownloadFileController::class);
+
 Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
     Route::get('/', GetBlogController::class);
     Route::get('files', GetFilesController::class);
@@ -131,4 +135,10 @@ Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
         Route::post('/', CreateMeetingRecordController::class);
     });
     
+});
+
+// Notification routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'getAllNotifications']);
+    Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead']);
 });

@@ -18,7 +18,7 @@ class AllocateSuccessMail extends Mailable
 
     public function __construct($student, $tutor)
     {
-        $this->student = $student;
+        $this->student = $student instanceof \Illuminate\Support\Collection ? null : $student;
         $this->tutor = $tutor;
         $this->students = $student instanceof \Illuminate\Support\Collection ? $student : null;
     }

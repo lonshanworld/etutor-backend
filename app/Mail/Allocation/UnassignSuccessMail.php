@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AllocateSuccessMail extends Mailable
+class UnassignSuccessMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,14 +26,14 @@ class AllocateSuccessMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->students ? 'New Students Allocated' : 'Tutor Allocation Notification',
+            subject: $this->students ? 'Students Unassigned Notification' : 'Tutor Unassignment Notification',
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            view: $this->students ? 'emails.allocation-success-tutor' : 'emails.allocation-success-student',
+            view: $this->students ? 'emails.unassign-success-tutor' : 'emails.unassign-success-student',
         );
     }
 }

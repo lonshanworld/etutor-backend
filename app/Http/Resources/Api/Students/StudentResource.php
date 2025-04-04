@@ -32,10 +32,8 @@ class StudentResource extends JsonResource
             'status' => $this->status,
             'role' => new RoleResource($this->role),
             'image_id' => $this->image_id,
-            'email_verified_at' => $this->email_verified_at, 
+            'email_verified_at' => $this->email_verified_at,
             'profile_picture' => $this->profile_picture,
-
-            // Include student-specific data
             'student' => [
                 'id' => $this->student->id ?? null,
                 'major_id' => $this->student->major_id ?? null,
@@ -45,29 +43,14 @@ class StudentResource extends JsonResource
                 'graduation_date' => $this->student->graduation_date ?? null,
                 'current_year' => $this->student->current_year ?? null,
             ],
-            // Include tutoring sessions and count the rows
-            'tutoring_sessions' => $this->student->studentTutoringSessions ? 
-                $this->student->studentTutoringSessions->map(function($session) {
-                    return [
-                        'id' => $session->id,
-                        'tutor' => [
-                            'id' => $session->tutor->user->id,
-                            'name' => $session->tutor->user->first_name . ' ' . $session->tutor->user->last_name,
-                            'email' => $session->tutor->user->email,
-                        ],
-                        'student' => [
-                            'id' => $session->student->user->id,
-                            'name' => $session->student->user->first_name . ' ' . $session->student->user->last_name,
-                            'email' => $session->student->user->email,
-                            'major' => [
-                                'id' => $session->student->major_id,
-                                'name' => $session->student->major->name ?? null
-                            ]
-                        ]
-                    ];
-                }) : [],
-            'tutoring_session_status' => $this->student->studentTutoringSessions && 
-                $this->student->studentTutoringSessions->count() > 0 ? 'Assigned' : 'Unassigned',
+            'tutoring_sessions' => $this->whenLoaded('student', function () {
+                return $this->student && $this->student->studentTutoringSessions
+                    ? TutoringSessionResource::collection($this->student->studentTutoringSessions)
+                    : [];
+            }, []),
+            'tutoring_session_status' => $this->student ? 
+                ($this->student->studentTutoringSessions && $this->student->studentTutoringSessions->count() > 0 ? 'Assigned' : 'Unassigned')
+                : 'Unassigned',
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -14,8 +14,6 @@
         @foreach($students as $student)
             <p>Name: {{ $student->first_name . ' ' . $student->last_name }} &nbsp;({{ $student->email }})</p>
         @endforeach
-    </div>
-    
     <p>Please check your tutoring sessions.</p>
     
     <p>Best regards,<br>ETuto Team</p>

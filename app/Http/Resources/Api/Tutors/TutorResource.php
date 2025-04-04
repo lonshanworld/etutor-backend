@@ -41,29 +41,14 @@ class TutorResource extends JsonResource
                 'qualifications' => $this->tutor->qualifications ?? null,
                 'experience' => $this->tutor->experience ?? null,
             ],
-            // Include tutoring sessions and count the rows
-            'tutoring_sessions' => $this->tutor->tutoringSessions ? 
-                $this->tutor->tutoringSessions->map(function($session) {
-                    return [
-                        'id' => $session->id,
-                        'tutor' => [
-                            'id' => $session->tutor->user->id,
-                            'name' => $session->tutor->user->first_name . ' ' . $session->tutor->user->last_name,
-                            'email' => $session->tutor->user->email,
-                        ],
-                        'student' => [
-                            'id' => $session->student->user->id,
-                            'name' => $session->student->user->first_name . ' ' . $session->student->user->last_name,
-                            'email' => $session->student->user->email,
-                            'major' => [
-                                'id' => $session->student->major_id,
-                                'name' => $session->student->major->name ?? null
-                            ]
-                        ]
-                    ];
-                }) : [],
-            'student_count' => $this->tutor->tutoringSessions ? 
-                $this->tutor->tutoringSessions->count() : 0,
+            'tutoring_sessions' => $this->whenLoaded('tutor', function () {
+                return $this->tutor && $this->tutor->tutoringSessions
+                    ? TutoringSessionResource::collection($this->tutor->tutoringSessions)
+                    : [];
+            }, []),
+            'student_count' => $this->whenLoaded('tutor', function () {
+                return $this->tutor ? $this->tutor->tutoringSessions->count() : 0;
+            }, 0),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

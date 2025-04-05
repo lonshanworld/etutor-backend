@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Allocation\UnassignSuccessMail;
+use App\Notifications\User\UnsignStudentTutorNotification;
+use Illuminate\Notifications\Notification;
 
 class UnassignStudentTutorController extends Controller
 {
@@ -35,6 +37,7 @@ class UnassignStudentTutorController extends Controller
 
                 // Send emails to each student
                 foreach ($students as $student) {
+                    $student->notify(new UnsignStudentTutorNotification($tutor));
                     Mail::to($student->email)->send(new UnassignSuccessMail($student, $tutor));
                 }
             }

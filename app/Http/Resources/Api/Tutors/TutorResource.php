@@ -43,8 +43,26 @@ class TutorResource extends JsonResource
             ],
             'tutoring_sessions' => $this->whenLoaded('tutor', function () {
                 return $this->tutor && $this->tutor->tutoringSessions
-                    ? TutoringSessionResource::collection($this->tutor->tutoringSessions)
-                    : [];
+                    ? $this->tutor->tutoringSessions->map(function($session) {
+                        return [
+                            'id' => $session->id,
+                            'tutor' => [
+                                'id' => $session->tutor->id,
+                                'name' => $session->tutor->user->first_name . ' ' . $session->tutor->user->last_name,
+                                'email' => $session->tutor->user->email,
+                            ],
+                            'student' => [
+                                'id' => $session->student->id,
+                                'name' => $session->student->user->first_name . ' ' . $session->student->user->last_name,
+                                'email' => $session->student->user->email,
+                                'major' => [
+                                    'id' => $session->student->major_id,
+                                    'name' => $session->student->major->name ?? null
+                                ]
+                            ]
+                        ];
+                    })
+                    : null;
             }, []),
             'student_count' => $this->whenLoaded('tutor', function () {
                 return $this->tutor ? $this->tutor->tutoringSessions->count() : 0;

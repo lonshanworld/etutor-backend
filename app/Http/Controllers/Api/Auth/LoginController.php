@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\ActivityLog;
 use App\Models\User;
+use App\Notifications\User\LoginNotification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -40,6 +41,8 @@ class LoginController extends Controller
                     'session_login' => Carbon::now()
                 ]);
             }
+
+            $user->notify(new LoginNotification($message));
 
 
             return response()->json([

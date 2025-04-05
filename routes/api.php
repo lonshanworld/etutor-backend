@@ -59,7 +59,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('auth')->name('api.auth.')->group(function () {
+Route::prefix('auth:sanctum')->prefix('auth')->group(function () {
     Route::post('login', LoginController::class)->middleware('guest');
     Route::post('logout', Logoutcontroller::class)->middleware(['auth:sanctum']);
 });
@@ -138,8 +138,7 @@ Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
     Route::prefix('records')->group(function () {
         Route::get('/', GetMeetingRecordController::class);
         Route::post('/', CreateMeetingRecordController::class);
-    });
-    
+    }); 
 });
 
 // Notification routes
@@ -147,7 +146,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'getAllNotifications']);
     Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead']);
 });
-
 
 Route::middleware('auth:sanctum')->prefix('reports')->group(function () {
     Route::get('view-pages', GetViewPageController::class);

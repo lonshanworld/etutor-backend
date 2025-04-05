@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             MeetingSeeder::class,
             ParticipantSeeder::class,
             WebBrowserSeeder::class,
-            WebPageSeeder::class,
+            PageSeeder::class,
             BrowserLogSeeder::class,
             ActivityLogSeeder::class,
         ]);

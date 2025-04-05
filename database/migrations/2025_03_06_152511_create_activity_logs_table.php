@@ -11,13 +11,10 @@ return new class extends Migration
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('action');
-            $table->foreignId('entity_id')->nullable();
-            $table->foreignId('web_page_id')->nullable();
-            $table->foreignId('web_browser_id')->nullable();
-            $table->integer('visit_count')->nullable();
+            $table->integer('visit_count')->default(1);
             $table->ipAddress('ip_address');
-            $table->string('user_agents');
+            $table->dateTime('session_login')->nullable();
+            $table->dateTime('session_logout')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

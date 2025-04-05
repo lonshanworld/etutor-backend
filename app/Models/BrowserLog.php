@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class BrowserLog extends Model
 {
     protected $fillable = [
-        'url'
+        'log_id',
+        'browser_id'
     ];
 }

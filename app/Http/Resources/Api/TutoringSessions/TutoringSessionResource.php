@@ -16,22 +16,8 @@ class TutoringSessionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'tutor' => [
-                'id' => $this->tutor->user->id,
-                'name' => $this->tutor->user->first_name . ' ' . $this->tutor->user->last_name,
-                'email' => $this->tutor->user->email,
-            ],
-            'student' => [
-                'id' => $this->student->user->id,
-                'name' => $this->student->user->first_name . ' ' . $this->student->user->last_name,
-                'email' => $this->student->user->email,
-                'major' => [
-                    'id' => $this->student->major_id,
-                    'name' => $this->student->major->name ?? null
-                ]
-            ],
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'tutor' => $this->tutor->id,
+            'student' => $this->student->id,
         ];
     }
 }

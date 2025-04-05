@@ -10,9 +10,9 @@ class TutoringSessionSeeder extends Seeder
     public function run(): void
     {
         $sessions = [
-            ['tutor_id' => 1, 'student_id' => 1, 'assigned_by' => 1],
-            ['tutor_id' => 1, 'student_id' => 2, 'assigned_by' => 1],
-            ['tutor_id' => 1, 'student_id' => 3, 'assigned_by' => 1],
+            // ['tutor_id' => 1, 'student_id' => 1, 'assigned_by' => 1],
+            // ['tutor_id' => 1, 'student_id' => 2, 'assigned_by' => 1],
+            // ['tutor_id' => 1, 'student_id' => 3, 'assigned_by' => 1],
             ['tutor_id' => 1, 'student_id' => 4, 'assigned_by' => 1],
             ['tutor_id' => 1, 'student_id' => 5, 'assigned_by' => 1],
             ['tutor_id' => 1, 'student_id' => 6, 'assigned_by' => 1],

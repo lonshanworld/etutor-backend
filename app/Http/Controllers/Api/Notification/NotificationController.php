@@ -25,7 +25,7 @@ class NotificationController extends Controller
         $perPage = $request->input('per_page', 10);
         $page = $request->input('page', 1);
         
-        $notifications = $user->notifications()->paginate($perPage);
+        $notifications = $user->notifications()->orderBy('created_at', 'desc')->paginate($perPage);
         
         return response()->json([
             'data' => $notifications->items(),
@@ -54,8 +54,8 @@ class NotificationController extends Controller
             return response()->json(['message' => 'Unauthenticated'], 401);
         }
         
-        if ($request->has('notification_id')) {
-            $notification = $user->notifications()->find($request->notification_id);
+        if ($request->has('id')) {
+            $notification = $user->notifications()->find($request->id);
             if ($notification) {
                 $notification->markAsRead();
             }

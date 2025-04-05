@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\Meeting\GetRecentMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
 use App\Http\Controllers\Api\Notification\NotificationController;
 use App\Http\Controllers\Api\Reports\GetActiveUserController;
+use App\Http\Controllers\Api\Reports\GetBrowserUsageController;
 use App\Http\Controllers\Api\Reports\GetViewPageController;
 use App\Http\Controllers\Api\Reports\ViewPageController;
 use App\Http\Controllers\Api\Role\GetRoleController;
@@ -151,4 +152,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->prefix('reports')->group(function () {
     Route::get('view-pages', GetViewPageController::class);
     Route::get('active-users', GetActiveUserController::class);
+    Route::get('browser-usage', GetBrowserUsageController::class);
 });

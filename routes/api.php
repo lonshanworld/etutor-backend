@@ -40,6 +40,7 @@ use App\Http\Controllers\Api\Staff\UpdateStudentAccountController;
 use App\Http\Controllers\Api\Staff\UpdateTutorAccountController;
 use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Subjects\GetSubjectController;
+use App\Http\Controllers\Api\TutoringSessions\GetStudentsByTutorController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetNoteController;
@@ -82,6 +83,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('roles', GetRoleController::class);
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
     Route::get('tutoring_sessions', GetTutoringSessionController::class);
+    Route::get('tutors/{id}/students', GetStudentsByTutorController::class);
 });
 
 Route::get('check-email', CheckEmailController::class);
@@ -122,7 +124,6 @@ Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
     Route::post('give-like', ToggleLikeToBlogController::class);
     Route::post('give-comment', CommentToBlogController::class);
     Route::post('/{blog}/delete', DeleteBlogController::class);
-    
 });
 
 Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {

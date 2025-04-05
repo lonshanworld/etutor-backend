@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             BrowserLogSeeder::class,
             ActivityLogSeeder::class,
+            NotificationSeeder::class,
         ]);
     }
 }

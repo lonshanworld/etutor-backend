@@ -15,7 +15,6 @@ class ActivityLogResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
         return [
             'id' => $this->id,
             'visit_count' => $this->visit_count,
@@ -24,7 +23,6 @@ class ActivityLogResource extends JsonResource
             'session_logout' => $this->session_logout,
             'created_at' => $this->created_at,
             'user' =>  new UserProfileResource($this->user)
-
         ];
     }
 }

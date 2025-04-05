@@ -21,8 +21,16 @@ class UnassignStudentTutorController extends Controller
 
             // Get tutoring sessions before deletion to access relationships
             $sessions = TutoringSession::whereIn('student_id', $unassignStudentTutorRequest->student_id)
-                ->with(['student.user', 'tutor.user'])
+                ->with([
+                    'student.user',
+                    'student.major',
+                    'tutor.user'
+                ])
                 ->get();
+
+            if ($sessions->isEmpty()) {
+                return response()->error('No tutoring sessions found for the selected students.');
+            }
 
             // Group students by tutor for tutor notifications
             $tutorStudents = $sessions->groupBy('tutor_id');

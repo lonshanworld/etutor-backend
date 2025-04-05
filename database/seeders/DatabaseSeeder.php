@@ -32,6 +32,10 @@ class DatabaseSeeder extends Seeder
             TutoringSessionSeeder::class,
             MeetingSeeder::class,
             ParticipantSeeder::class,
+            WebBrowserSeeder::class,
+            WebPageSeeder::class,
+            BrowserLogSeeder::class,
+            ActivityLogSeeder::class,
         ]);
     }
 }

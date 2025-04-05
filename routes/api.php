@@ -25,6 +25,10 @@ use App\Http\Controllers\Api\Meeting\GetMeetingController;
 use App\Http\Controllers\Api\Meeting\GetRecentMeetingController;
 use App\Http\Controllers\Api\Note\CreateNoteController;
 use App\Http\Controllers\Api\Notification\NotificationController;
+use App\Http\Controllers\Api\Reports\GetActiveUserController;
+use App\Http\Controllers\Api\Reports\GetBrowserUsageController;
+use App\Http\Controllers\Api\Reports\GetViewPageController;
+use App\Http\Controllers\Api\Reports\ViewPageController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
@@ -142,4 +146,11 @@ Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'getAllNotifications']);
     Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead']);
+});
+
+
+Route::middleware('auth:sanctum')->prefix('reports')->group(function () {
+    Route::get('view-pages', GetViewPageController::class);
+    Route::get('active-users', GetActiveUserController::class);
+    Route::get('browser-usage', GetBrowserUsageController::class);
 });

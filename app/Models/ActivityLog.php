@@ -3,17 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ActivityLog extends Model
 {
     protected $fillable = [
         'user_id',
-        'action',
-        'entity_id',
-        'web_page_id',
-        'web_browser_id',
         'visit_count',
         'ip_address',
-        'user_agents'
+        'session_login',
+        'session_logout'
     ];
+
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

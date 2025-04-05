@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\ActivityLog;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -15,29 +16,31 @@ class LoginController extends Controller
     {
         try {
             $user = User::where('email', $loginRequest->email)->first();
-            if(! $user) {
+            if (! $user) {
                 return response()->error('The email address you entered was not found. Please check and try again!', 422);
             }
             if (!Hash::check($loginRequest->password, $user->password)) {
                 return response()->error('The password you entered was incorrect!.', 401);
             }
 
-            // Get last login activity
-            $lastLogin = ActivityLog::where('user_id', $user->id)
-                ->where('action', 'Login Action')
-                ->latest()
-                ->first();
+            $lastLogin = ActivityLog::where('user_id', $user->id)->first();
 
-            $message = $lastLogin 
-                ? "Welcome back! Last login was on " . $lastLogin->created_at->setTimezone('Asia/Yangon')->format('d-m-Y')
+            $message = $lastLogin
+                ? "Welcome back! Last login was on " . Carbon::parse($lastLogin->session_login)->setTimezone('Asia/Yangon')->format('Y-m-d')
                 : "Welcome to eTuto! First time login.";
 
-            ActivityLog::create([
-                'user_id' => $user->id,
-                'action' => 'Login Action',
-                'ip_address' => $loginRequest->ip(),
-                'user_agents' => $loginRequest->userAgent(),
-            ]);
+            if (! $lastLogin) {
+                ActivityLog::create([
+                    'user_id' => $user->id,
+                    'ip_address' => $loginRequest->ip(),
+                    'session_login' => Carbon::now()
+                ]);
+            } else {
+                $lastLogin->update([
+                    'session_login' => Carbon::now()
+                ]);
+            }
+
 
             return response()->json([
                 'message' => $message,

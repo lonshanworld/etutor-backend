@@ -109,6 +109,8 @@ Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     Route::post('account/create', CreateTutorAccountController::class);
     Route::post('{id}/account/update', UpdateTutorAccountController::class);
     Route::post('toggle/account/status', ToggleStudentAccountController::class);
+    Route::post('account/deactivate', DeactivateStudentAccountController::class);
+    Route::post('account/activate', ActivateStudentAccountController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
@@ -117,6 +119,8 @@ Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
     Route::post('unassign-student-tutor', UnassignStudentTutorController::class);
     Route::post('{id}/account/update', UpdateStaffAccountController::class);
     Route::post('toggle/account/status', ToggleStudentAccountController::class);
+    Route::post('account/deactivate', DeactivateStudentAccountController::class);
+    Route::post('account/activate', ActivateStudentAccountController::class);
 });
 
 Route::post('upload-attachment', UploadAttachmentController::class);

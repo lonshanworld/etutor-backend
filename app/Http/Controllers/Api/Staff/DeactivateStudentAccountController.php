@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Staff;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Staff\DeactivateUserAccountRequest;
 use App\Models\User;
+use App\Enums\AccountStatus;
 use Illuminate\Http\Request;
 
 class DeactivateStudentAccountController extends Controller
@@ -12,13 +13,12 @@ class DeactivateStudentAccountController extends Controller
     public function __invoke(DeactivateUserAccountRequest $deactivateUserAccountRequest)
     {
         try {
-            User::where('id', $deactivateUserAccountRequest->user_id)->first()->update([
-                'status' => 'deactivate'
-            ]);
+            $user = User::findOrFail($deactivateUserAccountRequest->user_id);
+            $user->update(['status' => AccountStatus::DEACTIVATED->value]);
 
             return response()->json([
                 'status' => true,
-                'message' => 'success'
+                'message' => 'Account deactiavated successfully'
             ]);
         } catch (\Throwable $th) {
             return response()->json([

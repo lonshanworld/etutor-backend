@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Meeting;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
+use App\Models\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -16,15 +17,15 @@ class GetMeetingController extends Controller
             $currentDate = now()->format('Y-m-d');
             $currentTime = now()->format('H:i:s');
 
-            $meetings = Meeting::whereHas('participants', function($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->where('meeting_date', $currentDate)
-                ->where('meeting_time', '<=', $currentTime)
-                ->where(function($query) use ($currentTime) {
-                    // Assuming meetings last for 1 hour
-                    $query->whereTime('meeting_time', '>=', now()->subHour()->format('H:i:s'));
-                })
+            // Add debug logging for current user
+            Log::info('Current user details', [
+                'user_id' => $user->id,
+                'current_date' => $currentDate,
+                'current_time' => $currentTime
+            ]);
+
+            // Build the base query
+            $query = Meeting::where('meeting_date', '>=', $currentDate)
                 ->with([
                     'creator:id,first_name,last_name,email,profile_picture',
                     'participants.user:id,first_name,last_name,email'
@@ -39,10 +40,41 @@ class GetMeetingController extends Controller
                     'location',
                     'platform',
                     'meeting_link'
-                ])
-                ->orderBy('meeting_date', 'desc')
-                ->orderBy('meeting_time', 'desc')
-                ->get();
+                ]);
+
+            // Filter based on user role
+            if ($user->role_id === 2) { // Tutor
+                $query->where('creator_id', $user->id);
+            } else { // Student
+                $query->whereHas('participants', function($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
+            }
+
+            $query->orderBy('meeting_date', 'asc')
+                  ->orderBy('meeting_time', 'asc');
+                
+            // Add debug logging for participants check
+            Log::info('Checking participants table', [
+                'participant_count' => Participant::where('user_id', $user->id)->count(),
+                'user_id' => $user->id
+            ]);
+
+            // Add debug logging for the query
+            Log::info('Meeting query SQL', [
+                'sql' => $query->toSql(),
+                'bindings' => $query->getBindings()
+            ]);
+
+            $meetings = $query->get();
+
+            // Add debug logging
+            Log::info('Meetings query parameters', [
+                'date' => $currentDate,
+                'time' => $currentTime,
+                'user_id' => $user->id,
+                'count' => $meetings->count()
+            ]);
 
             return response()->json([
                 'meetings' => $meetings->map(function($meeting) use ($user) {

@@ -16,16 +16,25 @@ class GetRecentMeetingController extends Controller
             $currentDate = now()->format('Y-m-d');
             $currentTime = now()->format('H:i:s');
 
-            $meetings = Meeting::whereHas('participants', function($query) use ($user) {
-                    $query->where('user_id', $user->id);
-                })
-                ->where(function($query) use ($currentDate, $currentTime) {
-                    $query->where('meeting_date', '<', $currentDate)
-                        ->orWhere(function($q) use ($currentDate, $currentTime) {
-                            $q->where('meeting_date', $currentDate)
-                                ->where('meeting_time', '<', now()->subHour()->format('H:i:s'));
-                        });
-                })
+            // Build the base query
+            $query = Meeting::where(function($query) use ($currentDate, $currentTime) {
+                $query->where('meeting_date', '<', $currentDate)
+                    ->orWhere(function($query) use ($currentDate, $currentTime) {
+                        $query->where('meeting_date', '=', $currentDate)
+                              ->where('meeting_time', '<', $currentTime);
+                    });
+            });
+
+            // Filter based on user role
+            if ($user->role_id === 2) { // Tutor
+                $query->where('creator_id', $user->id);
+            } else { // Student
+                $query->whereHas('participants', function($q) use ($user) {
+                    $q->where('user_id', $user->id);
+                });
+            }
+
+            $meetings = $query
                 ->with([
                     'creator:id,first_name,last_name,email,profile_picture',
                     'participants.user:id,first_name,last_name,email'

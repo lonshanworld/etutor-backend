@@ -27,7 +27,7 @@ class LoginController extends Controller
             $lastLogin = ActivityLog::where('user_id', $user->id)->first();
 
             $message = $lastLogin
-                ? "Welcome back! Last login was on " . Carbon::parse($lastLogin->session_login)->setTimezone('Asia/Yangon')->format('Y-m-d')
+                ? "Welcome back! Last login was on " . Carbon::parse($lastLogin->session_login)->setTimezone('Asia/Yangon')->format('d-m-Y')
                 : "Welcome to eTuto! First time login.";
 
             if (! $lastLogin) {

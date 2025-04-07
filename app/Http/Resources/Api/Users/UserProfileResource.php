@@ -29,8 +29,8 @@ class UserProfileResource extends JsonResource
         ];
 
         switch($this->role->name) {
-            case 'admin':
-                $data['admin'] = [
+            case 'staff':
+                $data['staff'] = [
                     'start_date' => $this->staff->start_date ?? null,
                     'end_date' => $this->staff->end_date ?? null,
                     'emergency_contact_name' => $this->staff->emergency_contact_name ?? null,

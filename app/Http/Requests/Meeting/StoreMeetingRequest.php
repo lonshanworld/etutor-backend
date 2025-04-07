@@ -11,7 +11,7 @@ class StoreMeetingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth('sanctum')->user()->role_id === 2; // Only allow tutor
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreMeetingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'creator_id' =>'required|integer|exists:users,id',
+            'creator_id' =>'prohibited', 
             'meeting_subject' =>'required|string|max:255',
             'meeting_date' => 'required|date',
             'meeting_time' => 'required|date_format:H:i',

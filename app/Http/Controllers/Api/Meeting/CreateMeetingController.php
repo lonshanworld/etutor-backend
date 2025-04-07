@@ -15,6 +15,9 @@ class CreateMeetingController extends Controller
         try {
             DB::beginTransaction();
             $validated = $storeMeetingRequest->validated();
+
+            // auto add creator_id to the meeting
+            $validated['creator_id'] = auth('sanctum')->user()->id;
             $meeting = Meeting::create($validated);
             
             $meeting->participants()->createMany(

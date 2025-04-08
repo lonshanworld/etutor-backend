@@ -27,9 +27,9 @@ class StoreMeetingRequest extends FormRequest
             'meeting_date' => 'required|date',
             'meeting_time' => 'required|date_format:H:i',
             'meeting_type' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'platform' => 'required|string|max:255',
-            'meeting_link' => 'required|string',
+            'location' => 'nullable|string|max:255',
+            'platform' => 'nullable|string|max:255',
+            'meeting_link' => 'nullable|string',
             'users' => 'required|array|min:1',
             'users.*' => 'required|integer|exists:users,id'
         ];

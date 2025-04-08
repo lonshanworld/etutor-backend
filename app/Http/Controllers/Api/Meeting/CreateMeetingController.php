@@ -18,7 +18,16 @@ class CreateMeetingController extends Controller
 
             // auto add creator_id to the meeting
             $validated['creator_id'] = auth('sanctum')->user()->id;
-            $meeting = Meeting::create($validated);
+            $meeting = Meeting::create([
+                'creator_id' => $validated['creator_id'],
+                'meeting_subject' => $validated['meeting_subject'],
+                'meeting_date' => $validated['meeting_date'],
+                'meeting_time' => $validated['meeting_time'],
+                'meeting_type' => $validated['meeting_type'],
+                'location' => $validated['location'],
+                'platform' => $validated['platform'],
+                'meeting_link' => $validated['meeting_link']
+            ]);
             
             $meeting->participants()->createMany(
                 array_map(
@@ -27,11 +36,41 @@ class CreateMeetingController extends Controller
                 )
             );
 
+            // Load relationships for response
+            $meeting->load([
+                'creator:id,first_name,last_name,email,profile_picture',
+                'participants.user:id,first_name,last_name,email'
+            ]);
+
             DB::commit();
 
             return response()->json([
-                'message' => 'Meeting created successfully',
-                'meeting' => $meeting
+                'meetings' => [
+                    [
+                        'id' => $meeting->id,
+                        'creator_id' => $meeting->creator_id,
+                        'subject' => $meeting->meeting_subject,
+                        'date' => $meeting->meeting_date,
+                        'time' => $meeting->meeting_time,
+                        'type' => $meeting->meeting_type,
+                        'location' => $meeting->location,
+                        'platform' => $meeting->platform,
+                        'link' => $meeting->meeting_link,
+                        'creator' => [
+                            'id' => $meeting->creator->id,
+                            'name' => $meeting->creator->first_name . ' ' . $meeting->creator->last_name,
+                            'email' => $meeting->creator->email,
+                            'profile_picture' => $meeting->creator->profile_picture
+                        ],
+                        'participants' => $meeting->participants->map(function($participant) {
+                            return [
+                                'id' => $participant->user->id,
+                                'name' => $participant->user->first_name . ' ' . $participant->user->last_name,
+                                'email' => $participant->user->email
+                            ];
+                        })
+                    ]
+                ]
             ], 201);
         } catch (\Throwable $th) {
             DB::rollBack();

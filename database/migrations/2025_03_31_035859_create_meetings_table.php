@@ -15,7 +15,7 @@ return new class extends Migration
             $table->date('meeting_date');
             $table->time('meeting_time');
             $table->string('meeting_type');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('platform')->nullable();
             $table->string('meeting_link')->nullable();
             $table->timestamps();

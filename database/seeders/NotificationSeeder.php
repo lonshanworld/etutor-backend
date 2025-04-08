@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class NotificationSeeder extends Seeder
 {
@@ -13,25 +14,66 @@ class NotificationSeeder extends Seeder
     public function run(): void
     {
         $notifications = [
-            ['user_id' => 1, 'sender_id' => 2, 'title' => 'Meeting Reminder', 'description' => 'You have a scheduled meeting tomorrow at 10:00 AM.', 'is_read' => 0],
-            ['user_id' => 3, 'sender_id' => 1, 'title' => 'Account Alert', 'description' => 'Your account password was recently changed.', 'is_read' => 1],
-            ['user_id' => 2, 'sender_id' => 3, 'title' => 'New Message', 'description' => 'You have received a new message from User 3.', 'is_read' => 0],
-            ['user_id' => 4, 'sender_id' => 1, 'title' => 'System Update', 'description' => 'A new system update is available. Please update your system.', 'is_read' => 0],
-            ['user_id' => 5, 'sender_id' => 2, 'title' => 'Event Invitation', 'description' => 'You have been invited to the company event happening next week.', 'is_read' => 1],
-            ['user_id' => 6, 'sender_id' => 3, 'title' => 'Task Deadline', 'description' => 'Your task is due tomorrow at 5:00 PM.', 'is_read' => 0],
-            ['user_id' => 7, 'sender_id' => 4, 'title' => 'Promotion Notification', 'description' => 'Congratulations! You have been promoted to a new position.', 'is_read' => 1],
-            ['user_id' => 8, 'sender_id' => 5, 'title' => 'Security Alert', 'description' => 'We detected a new login from an unknown device.', 'is_read' => 0],
-            ['user_id' => 9, 'sender_id' => 6, 'title' => 'Account Verification', 'description' => 'Please verify your account by clicking the link below.', 'is_read' => 0],
-            ['user_id' => 10, 'sender_id' => 7, 'title' => 'Password Reset', 'description' => 'Click the link to reset your password.', 'is_read' => 1]
+            [
+                'type' => 'App\Notifications\MeetingReminder',
+                'notifiable_type' => 'App\Models\User',
+                'notifiable_id' => 1,
+                'data' => json_encode([
+                    'title' => 'Meeting Reminder',
+                    'message' => 'You have a scheduled meeting tomorrow at 10:00 AM.',
+                    'action_url' => '/meetings/1'
+                ])
+            ],
+            [
+                'type' => 'App\Notifications\AccountAlert',
+                'notifiable_type' => 'App\Models\User',
+                'notifiable_id' => 2,
+                'data' => json_encode([
+                    'title' => 'Account Alert',
+                    'message' => 'Your account password was recently changed.',
+                    'action_url' => '/settings/security'
+                ])
+            ],
+            [
+                'type' => 'App\Notifications\NewMessage',
+                'notifiable_type' => 'App\Models\User',
+                'notifiable_id' => 3,
+                'data' => json_encode([
+                    'title' => 'New Message',
+                    'message' => 'You have received a new message from User 3.',
+                    'action_url' => '/messages/inbox'
+                ])
+            ],
+            [
+                'type' => 'App\Notifications\SystemUpdate',
+                'notifiable_type' => 'App\Models\User',
+                'notifiable_id' => 4,
+                'data' => json_encode([
+                    'title' => 'System Update',
+                    'message' => 'A new system update is available. Please update your system.',
+                    'action_url' => '/system/updates'
+                ])
+            ],
+            [
+                'type' => 'App\Notifications\EventInvitation',
+                'notifiable_type' => 'App\Models\User',
+                'notifiable_id' => 5,
+                'data' => json_encode([
+                    'title' => 'Event Invitation',
+                    'message' => 'You have been invited to the company event happening next week.',
+                    'action_url' => '/events/5'
+                ])
+            ]
         ];
 
         foreach ($notifications as $notification) {
             DB::table('notifications')->insert([
-                'user_id' => $notification['user_id'],
-                'sender_id' => $notification['sender_id'],
-                'title' => $notification['title'],
-                'description' => $notification['description'],
-                'is_read' => $notification['is_read'],
+                'id' => Str::uuid(),
+                'type' => $notification['type'],
+                'notifiable_type' => $notification['notifiable_type'],
+                'notifiable_id' => $notification['notifiable_id'],
+                'data' => $notification['data'],
+                'read_at' => null,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

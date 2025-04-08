@@ -37,7 +37,7 @@ class MeetingSeeder extends Seeder
                 'meeting_date' => '2025-03-17',
                 'meeting_time' => '09:30:00',
                 'location' => 'Room 5, Building B',
-                'platform' => 'online',
+                'platform' => null,
                 'meeting_link' => null
             ],
             [

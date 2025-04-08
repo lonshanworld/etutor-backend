@@ -45,6 +45,7 @@ use App\Http\Controllers\Api\Staff\UpdateTutorAccountController;
 use App\Http\Controllers\Api\Students\GetStudentController;
 use App\Http\Controllers\Api\Subjects\GetSubjectController;
 use App\Http\Controllers\Api\TutoringSessions\GetStudentsByTutorController;
+use App\Http\Controllers\Api\TutoringSessions\GetTutorByStudentController;
 use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetNoteController;
@@ -91,7 +92,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('roles', GetRoleController::class);
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
     Route::get('tutoring_sessions', GetTutoringSessionController::class);
-    Route::get('tutors/{user_id}/students', GetStudentsByTutorController::class);
+    Route::get('tutors/my_students', GetStudentsByTutorController::class);
+    Route::get('students/my_tutor', GetTutorByStudentController::class);
 });
 
 Route::get('check-email', CheckEmailController::class);

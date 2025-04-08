@@ -9,27 +9,29 @@ use App\Models\Tutor;
 use App\Models\TutoringSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Laravel\Sanctum\Sanctum;
 
 class GetStudentsByTutorController extends Controller
 {
-    public function __invoke(Request $request, string $user_id)
+    public function __invoke(Request $request)
     {
         try {
-            $tutor = Tutor::where('user_id', $user_id)->first();
+            $tutor = Tutor::where('user_id', auth('sanctum')->user()->id)->first();
             
             if (!$tutor) {
                 return response()->json(['message' => 'Tutor not found'], 404);
             }
-
+            
             $studentIds = TutoringSession::where('tutor_id', $tutor->id)->pluck('student_id');
             $students = Student::with('user')
                 ->whereIn('id', $studentIds)
-                ->paginate($request->per_page ?? config('app.paginate.count'));
+                ->get();
+
 
             return StudentInfoResource::collection($students);
         } catch (\Throwable $th) {
             //throw $th;
-            Log::info('get student by tutor', [
+            Log::error('get student by tutor', [
                 'message' => $th->getMessage()
             ]);
             return response()->error();

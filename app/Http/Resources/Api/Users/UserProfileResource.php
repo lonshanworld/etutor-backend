@@ -31,6 +31,7 @@ class UserProfileResource extends JsonResource
         switch($this->role->name) {
             case 'staff':
                 $data['staff'] = [
+                    'staff_id' => $this->staff->id ?? null,
                     'start_date' => $this->staff->start_date ?? null,
                     'end_date' => $this->staff->end_date ?? null,
                     'emergency_contact_name' => $this->staff->emergency_contact_name ?? null,
@@ -40,6 +41,7 @@ class UserProfileResource extends JsonResource
             case 'tutor':
                 $subject = $this->tutor && $this->tutor->subject_id ? \App\Models\Subject::find($this->tutor->subject_id) : null;
                 $data['tutor'] = [
+                    'tutor_id' => $this->tutor->id ?? null,
                     'subject_id' => $this->tutor->subject_id ?? null,
                     'subject_name' => $subject->name ?? null,
                     'qualifications' => $this->tutor->qualifications ?? null,
@@ -49,6 +51,7 @@ class UserProfileResource extends JsonResource
             case 'student':
                 $major = $this->student && $this->student->major_id ? \App\Models\Major::find($this->student->major_id) : null;
                 $data['student'] = [
+                    'student_id' => $this->student->id ?? null,
                     'major_id' => $this->student->major_id ?? null,
                     'major_name' => $major->name ?? null,
                     'enrollment_date' => $this->student->enrollment_date ?? null,

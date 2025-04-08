@@ -23,7 +23,7 @@ class MeetingSeeder extends Seeder
             [
                 'creator_id' => 3,
                 'meeting_subject' => 'Data Structures and Algorithms',
-                'meeting_type' => 'virtual',
+                'meeting_type' => 'Virtual',
                 'meeting_date' => '2025-03-16',
                 'meeting_time' => '14:00:00',
                 'location' => 'online',
@@ -43,7 +43,7 @@ class MeetingSeeder extends Seeder
             [
                 'creator_id' => 4,
                 'meeting_subject' => 'Computer Networks',
-                'meeting_type' => 'virtual',
+                'meeting_type' => 'Virtual',
                 'meeting_date' => '2025-03-18',
                 'meeting_time' => '15:00:00',
                 'location' => 'online',
@@ -53,7 +53,7 @@ class MeetingSeeder extends Seeder
             [
                 'creator_id' => 5,
                 'meeting_subject' => 'Artificial Intelligence',
-                'meeting_type' => 'virtual',
+                'meeting_type' => 'Virtual',
                 'meeting_date' => '2025-03-19',
                 'meeting_time' => '11:00:00',
                 'location' => 'online',

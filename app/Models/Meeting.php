@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MeetingType;
+use App\Enums\PlatformType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,7 +31,8 @@ class Meeting extends Model
     protected function casts(): array
     {
         return [
-            'meeting_type' => MeetingType::class
+            'meeting_type' => MeetingType::class,
+            'platform' => PlatformType::class
         ];
     }
 

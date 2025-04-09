@@ -16,7 +16,9 @@ class StudentInfoResource extends JsonResource
     {
         return [
             'user_id' => $this->user->id,
-            'name' => $this->user->first_name . ' ' . $this->user->middle_name . ' ' . $this->user->last_name,
+            'first_name' => $this->user->first_name,
+            'middle_name' => $this->user->middle_name,
+            'last_name' => $this->user->last_name,
             'profile_picture' => $this->user->profile_picture,
             'email' => $this->user->email,
             'phone_number' => $this->user->phone_number

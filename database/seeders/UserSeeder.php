@@ -52,6 +52,8 @@ class UserSeeder extends Seeder
     /**
      * Create a user with the given attributes
      */
+    private $avatarCounter = 1;
+
     private function createUser($firstName, $middleName, $lastName, $dob, $email, $nationality, $gender, $address, $phone, $passport, $roleId, $status)
     {
         DB::table('users')->insert([
@@ -66,7 +68,7 @@ class UserSeeder extends Seeder
             'address' => $address,
             'phone_number' => $phone,
             'passport' => $passport,
-            'profile_picture' => null,
+            'profile_picture' => 'https://i.pravatar.cc/300?img=' . $this->avatarCounter++,
             'role_id' => $roleId,
             'status' => $status,
             'created_at' => now(),

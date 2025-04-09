@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Files\DownloadFileController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
+use App\Http\Controllers\Api\Meeting\DeleteMeetingController;
 use App\Http\Controllers\Api\Meeting\Records\CreateMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\Records\GetMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\GetMeetingController;

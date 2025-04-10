@@ -16,19 +16,21 @@ class TutorInfoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user_id' => $this->user->id,
-            'first_name' => $this->user->first_name,
-            'middle_name' => $this->user->middle_name,
-            'last_name' => $this->user->last_name,
-            'profile_picture' => $this->user->profile_picture,
-            'subject' => $this->subject_id,
+            'user_id' => $this->user?->id,
+            'first_name' => $this->user?->first_name,
+            'middle_name' => $this->user?->middle_name,
+            'last_name' => $this->user?->last_name,
+            'profile_picture' => $this->user?->profile_picture,
+            'subject_id' => $this->subject_id,
+            'subject_name' => $this->subject?->name,
             'qualification' => $this->qualifications,
             'start_date' => $this->created_at,
             'experience' => $this->experience,
-            'email' => $this->user->email,
-            'phone_number' => $this->user->phone_number,
-            'role' => new RoleResource($this->user->role),
-            'gender' => $this->user->gender
+            'email' => $this->user?->email,
+            'phone_number' => $this->user?->phone_number,
+            'role_id' => $this->user?->role?->id,
+            'role_name' => $this->user?->role?->name,
+            'gender' => $this->user?->gender
         ];
     }
 }

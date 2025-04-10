@@ -29,4 +29,9 @@ class Tutor extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function subject(): BelongsTo
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }

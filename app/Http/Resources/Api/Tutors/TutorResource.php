@@ -48,12 +48,16 @@ class TutorResource extends JsonResource
                             'id' => $session->id,
                             'tutor' => [
                                 'id' => $session->tutor->id,
-                                'name' => $session->tutor->user->first_name . ' ' . $session->tutor->user->last_name,
+                                'first_name' => $session->tutor->user->first_name,
+                                'middle_name' => $session->tutor->user->middle_name,
+                                'last_name' => $session->tutor->user->last_name,
                                 'email' => $session->tutor->user->email,
                             ],
                             'student' => [
                                 'id' => $session->student->id,
-                                'name' => $session->student->user->first_name . ' ' . $session->student->user->last_name,
+                                'first_name' => $session->student->user->first_name,
+                                'middle_name' => $session->student->user->middle_name,
+                                'last_name' => $session->student->user->last_name,
                                 'email' => $session->student->user->email,
                                 'major' => [
                                     'id' => $session->student->major_id,

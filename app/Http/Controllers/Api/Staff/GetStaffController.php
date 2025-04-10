@@ -16,13 +16,13 @@ class GetStaffController extends Controller
                 $query->where('name', 'admin')
                     ->orWhere('name', 'staff');
             })
-            ->when($request->email, function($query) use($request) {
-                $query->where('email', $request->email);
-            })
-            ->when($request->name, function($query) use($request) {
-                $query->where('first_name', 'like', '%'.$request->name.'%')
-                    ->orWhere('middle_name', 'like', '%'.$request->name.'%')
-                    ->orWhere('last_name', 'like', '%'.$request->name.'%');
+            ->when($request->search, function($query) use($request) {
+                $query->where(function($q) use($request) {
+                    $q->where('email', 'like', '%'.$request->search.'%')
+                        ->orWhere('first_name', 'like', '%'.$request->search.'%')
+                        ->orWhere('middle_name', 'like', '%'.$request->search.'%')
+                        ->orWhere('last_name', 'like', '%'.$request->search.'%');
+                });
             })
             ->paginate(config('app.paginate.count'));
 

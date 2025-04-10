@@ -45,32 +45,26 @@ class CreateMeetingController extends Controller
             DB::commit();
 
             return response()->json([
-                'meetings' => [
-                    [
-                        'id' => $meeting->id,
-                        'creator_id' => $meeting->creator_id,
-                        'subject' => $meeting->meeting_subject,
-                        'date' => $meeting->meeting_date,
-                        'time' => $meeting->meeting_time,
-                        'type' => $meeting->meeting_type,
-                        'location' => $meeting->location,
-                        'platform' => $meeting->platform,
-                        'link' => $meeting->meeting_link,
-                        'creator' => [
-                            'id' => $meeting->creator->id,
-                            'name' => $meeting->creator->first_name . ' ' . $meeting->creator->last_name,
-                            'email' => $meeting->creator->email,
-                            'profile_picture' => $meeting->creator->profile_picture
-                        ],
-                        'participants' => $meeting->participants->map(function($participant) {
-                            return [
-                                'id' => $participant->user->id,
-                                'name' => $participant->user->first_name . ' ' . $participant->user->last_name,
-                                'email' => $participant->user->email
-                            ];
-                        })
-                    ]
-                ]
+                'id' => $meeting->id,
+                'creator_id' => $meeting->creator_id,
+                'subject' => $meeting->meeting_subject,
+                'date' => $meeting->meeting_date,
+                'time' => $meeting->meeting_time,
+                'type' => $meeting->meeting_type,
+                'location' => $meeting->location,
+                'platform' => $meeting->platform,
+                'link' => $meeting->meeting_link,
+                'creator_id' => $meeting->creator->id,
+                'creator_name' => $meeting->creator->first_name . ' ' . $meeting->creator->last_name,
+                'creator_email' => $meeting->creator->email,
+                'creator_profile_picture' => $meeting->creator->profile_picture,
+                'participants' => $meeting->participants->map(function($participant) {
+                    return [
+                        'id' => $participant->user->id,
+                        'name' => $participant->user->first_name . ' ' . $participant->user->last_name,
+                        'email' => $participant->user->email
+                    ];
+                })
             ], 201);
         } catch (\Throwable $th) {
             DB::rollBack();

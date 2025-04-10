@@ -25,7 +25,7 @@ class GetTutorByStudentController extends Controller
             $tutorIds = TutoringSession::where('student_id', $student->id)->pluck('tutor_id');
             $tutors = Tutor::with('user')
                 ->whereIn('id', $tutorIds)
-                ->paginate($request->per_page ?? config('app.paginate.count'));
+                ->get();
 
             return TutorInfoResource::collection($tutors);
         } catch (\Throwable $th) {

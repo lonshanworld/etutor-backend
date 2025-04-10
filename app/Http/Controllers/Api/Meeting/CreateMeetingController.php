@@ -56,14 +56,18 @@ class CreateMeetingController extends Controller
                 'link' => $meeting->meeting_link,
                 'creator' => [
                     'id' => $meeting->creator->id,
-                    'name' => $meeting->creator->first_name . ' ' . $meeting->creator->last_name,
+                    'first_name' => $meeting->creator->first_name,
+                    'middle_name' => $meeting->creator->middle_name,
+                    'last_name' => $meeting->creator->last_name,
                     'email' => $meeting->creator->email,
                     'profile_picture' => $meeting->creator->profile_picture
                 ],
                 'participants' => $meeting->participants->map(function($participant) {
                     return [
                         'id' => $participant->user->id,
-                        'name' => $participant->user->first_name . ' ' . $participant->user->last_name,
+                        'first_name' => $participant->user->first_name,
+                        'middle_name' => $participant->user->middle_name,
+                        'last_name' => $participant->user->last_name,
                         'email' => $participant->user->email
                     ];
                 })

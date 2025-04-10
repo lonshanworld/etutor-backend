@@ -16,8 +16,13 @@ class GetStudentController extends Controller
             $students = User::whereHas('role', function ($query) {
                 $query->where('name', 'student');
             })
-                ->when($request->email, function ($query) use ($request) {
-                    $query->where('email', $request->email);
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where(function ($q) use ($request) {
+                        $q->where('email', 'like', '%' . $request->search . '%')
+                          ->orWhere('first_name', 'like', '%' . $request->search . '%')
+                          ->orWhere('middle_name', 'like', '%' . $request->search . '%')
+                          ->orWhere('last_name', 'like', '%' . $request->search . '%');
+                    });
                 })
                 ->with([
                     'student.major',
@@ -26,11 +31,6 @@ class GetStudentController extends Controller
                     'student.studentTutoringSessions.student.user',
                     'student.studentTutoringSessions.student.major'
                 ])
-                ->when($request->name, function ($query) use ($request) {
-                    $query->where('first_name', 'like', '%' . $request->name . '%')
-                        ->orWhere('middle_name', 'like', '%' . $request->name . '%')
-                        ->orWhere('last_name', 'like', '%' . $request->name . '%');
-                })
                 ->paginate(config('app.paginate.count'));
             return StudentResource::collection($students);
         } catch (\Throwable $th) {

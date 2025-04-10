@@ -17,8 +17,13 @@ class GetStaffController extends Controller
                 $query->where('name', 'admin')
                     ->orWhere('name', 'staff');
             })
-            ->when($request->email, function($query) use($request) {
-                $query->where('email', $request->email);
+            ->when($request->search, function($query) use($request) {
+                $query->where(function($q) use($request) {
+                    $q->where('email', 'like', '%'.$request->search.'%')
+                        ->orWhere('first_name', 'like', '%'.$request->search.'%')
+                        ->orWhere('middle_name', 'like', '%'.$request->search.'%')
+                        ->orWhere('last_name', 'like', '%'.$request->search.'%');
+                });
             })
             ->when($request->filter, function($query) use($request) {
                 // Filter users based on activity logs (each user has only one activity log)
@@ -39,11 +44,6 @@ class GetStaffController extends Controller
                         });
                         break;
                 }
-            })
-            ->when($request->name, function($query) use($request) {
-                $query->where('first_name', 'like', '%'.$request->name.'%')
-                    ->orWhere('middle_name', 'like', '%'.$request->name.'%')
-                    ->orWhere('last_name', 'like', '%'.$request->name.'%');
             })
             ->paginate(config('app.paginate.count'));
 

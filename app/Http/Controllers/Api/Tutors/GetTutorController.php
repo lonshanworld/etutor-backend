@@ -19,15 +19,14 @@ class GetTutorController extends Controller
             $tutors = User::whereHas('role', function ($query) {
                 $query->where('name', 'tutor');
             })
-                ->when($request->email, function ($query) use ($request) {
-                    $query->where('email', $request->email);
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where(function ($q) use ($request) {
+                        $q->where('email', 'like', '%' . $request->search . '%')
+                            ->orWhere('first_name', 'like', '%' . $request->search . '%')
+                            ->orWhere('middle_name', 'like', '%' . $request->search . '%')
+                            ->orWhere('last_name', 'like', '%' . $request->search . '%');
+                    });
                 })
-                ->with(['tutor', 'role', 'tutor.tutoringSessions'])
-                ->with([
-                    'tutor.tutoringSessions.tutor.user',
-                    'tutor.tutoringSessions.student.user',
-                    'tutor.tutoringSessions.student.major'
-                ])
                 ->when($request->filter, function ($query) use ($request) {
                     // Filter users based on activity logs (each user has only one activity log)
                     switch ($request->filter) {
@@ -48,12 +47,12 @@ class GetTutorController extends Controller
                             break;
                     }
                 })
-                ->when($request->name, function ($query) use ($request) {
-                    $query->where('first_name', 'like', '%' . $request->name . '%')
-                        ->orWhere('middle_name', 'like', '%' . $request->name . '%')
-                        ->orWhere('last_name', 'like', '%' . $request->name . '%');
-                })
-
+                ->with(['tutor', 'role', 'tutor.tutoringSessions'])
+                ->with([
+                    'tutor.tutoringSessions.tutor.user',
+                    'tutor.tutoringSessions.student.user',
+                    'tutor.tutoringSessions.student.major'
+                ])
                 ->paginate(config('app.paginate.count'));
 
             return TutorResource::collection($tutors);

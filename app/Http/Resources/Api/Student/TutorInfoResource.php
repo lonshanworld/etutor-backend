@@ -15,11 +15,13 @@ class TutorInfoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $names = collect([$this->user?->first_name, $this->user?->middle_name, $this->user?->last_name])
+            ->filter()
+            ->join(' ');
+
         return [
             'user_id' => $this->user?->id,
-            'first_name' => $this->user?->first_name,
-            'middle_name' => $this->user?->middle_name,
-            'last_name' => $this->user?->last_name,
+            'name' => $names,
             'profile_picture' => $this->user?->profile_picture,
             'subject_id' => $this->subject_id,
             'subject_name' => $this->subject?->name,

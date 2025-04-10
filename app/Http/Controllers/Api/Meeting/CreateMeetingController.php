@@ -56,18 +56,18 @@ class CreateMeetingController extends Controller
                 'link' => $meeting->meeting_link,
                 'creator' => [
                     'id' => $meeting->creator->id,
-                    'first_name' => $meeting->creator->first_name,
-                    'middle_name' => $meeting->creator->middle_name,
-                    'last_name' => $meeting->creator->last_name,
+                    'name' => collect([$meeting->creator->first_name, $meeting->creator->middle_name, $meeting->creator->last_name])
+                        ->filter()
+                        ->join(' '),
                     'email' => $meeting->creator->email,
                     'profile_picture' => $meeting->creator->profile_picture
                 ],
                 'participants' => $meeting->participants->map(function($participant) {
                     return [
                         'id' => $participant->user->id,
-                        'first_name' => $participant->user->first_name,
-                        'middle_name' => $participant->user->middle_name,
-                        'last_name' => $participant->user->last_name,
+                        'name' => collect([$participant->user->first_name, $participant->user->middle_name, $participant->user->last_name])
+                            ->filter()
+                            ->join(' '),
                         'email' => $participant->user->email
                     ];
                 })

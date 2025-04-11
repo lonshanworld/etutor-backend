@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\Blog\Likes\ToggleLikeToBlogController;
 use App\Http\Controllers\Api\Blog\Comments\CommentToBlogController;
 use App\Http\Controllers\Api\Blog\DeleteBlogController;
 use App\Http\Controllers\Api\Blog\GetBlogByIdController;
-use App\Http\Controllers\Api\Blog\LikeCommentController;
 use App\Http\Controllers\Api\Email\CheckEmailController;
 use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Files\DeleteFileController;
@@ -19,7 +18,6 @@ use App\Http\Controllers\Api\Files\DownloadFileController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
-use App\Http\Controllers\Api\Meeting\DeleteMeetingController;
 use App\Http\Controllers\Api\Meeting\Records\CreateMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\Records\GetMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\GetMeetingController;
@@ -29,7 +27,6 @@ use App\Http\Controllers\Api\Notification\NotificationController;
 use App\Http\Controllers\Api\Reports\GetActiveUserController;
 use App\Http\Controllers\Api\Reports\GetBrowserUsageController;
 use App\Http\Controllers\Api\Reports\GetViewPageController;
-use App\Http\Controllers\Api\Reports\ViewPageController;
 use App\Http\Controllers\Api\Role\GetRoleController;
 use App\Http\Controllers\Api\Staff\ActivateStudentAccountController;
 use App\Http\Controllers\Api\Staff\AllocateStudentTutorController;
@@ -93,8 +90,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('roles', GetRoleController::class);
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
     Route::get('tutoring_sessions', GetTutoringSessionController::class);
-    Route::get('tutors/my-students', GetStudentsByTutorController::class);
-    Route::get('students/my-tutor', GetTutorByStudentController::class);
 });
 
 Route::get('check-email', CheckEmailController::class);
@@ -106,6 +101,7 @@ Route::middleware('auth:sanctum')->prefix('students')->group(function () {
     Route::post('{id}/account/update', UpdateStudentAccountController::class);
     Route::post('account/deactivate', DeactivateStudentAccountController::class);
     Route::post('account/activate', ActivateStudentAccountController::class);
+    Route::get('my-tutor', GetTutorByStudentController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
@@ -114,6 +110,7 @@ Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     Route::post('toggle/account/status', ToggleStudentAccountController::class);
     Route::post('account/deactivate', DeactivateStudentAccountController::class);
     Route::post('account/activate', ActivateStudentAccountController::class);
+    Route::get('my-students', GetStudentsByTutorController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {

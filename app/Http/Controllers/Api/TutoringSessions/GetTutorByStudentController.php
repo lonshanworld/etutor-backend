@@ -22,12 +22,16 @@ class GetTutorByStudentController extends Controller
                 return response()->json(['message' => 'Student not found'], 404);
             }
             
-            $tutorIds = TutoringSession::where('student_id', $student->id)->pluck('tutor_id');
-            $tutors = Tutor::with('user')
-                ->whereIn('id', $tutorIds)
-                ->get();
+            $tutorId = TutoringSession::where('student_id', $student->id)->value('tutor_id');
+            $tutor = Tutor::with('user')
+                ->where('id', $tutorId)
+                ->first();
 
-            return TutorInfoResource::collection($tutors);
+            if (!$tutor) {
+                return response()->json(['message' => 'Tutor not found'], 404);
+            }
+
+            return new TutorInfoResource($tutor);
         } catch (\Throwable $th) {
             Log::error('get tutor by student', [
                 'message' => $th->getMessage()

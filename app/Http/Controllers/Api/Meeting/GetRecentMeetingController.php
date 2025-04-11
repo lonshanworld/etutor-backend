@@ -17,13 +17,14 @@ class GetRecentMeetingController extends Controller
             $currentTime = now()->format('H:i:s');
 
             // Build the base query
-            $query = Meeting::where(function($query) use ($currentDate, $currentTime) {
-                $query->where('meeting_date', '<', $currentDate)
-                    ->orWhere(function($query) use ($currentDate, $currentTime) {
-                        $query->where('meeting_date', '=', $currentDate)
-                              ->where('meeting_time', '<', $currentTime);
-                    });
-            });
+            $query = Meeting::whereNull('deleted_at')
+                ->where(function($query) use ($currentDate, $currentTime) {
+                    $query->where('meeting_date', '<', $currentDate)
+                        ->orWhere(function($query) use ($currentDate, $currentTime) {
+                            $query->where('meeting_date', '=', $currentDate)
+                                  ->where('meeting_time', '<', $currentTime);
+                        });
+                });
 
             // Filter based on user role
             if ($user->role_id === 2) { // Tutor

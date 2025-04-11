@@ -26,6 +26,7 @@ class GetBlogController extends Controller
             $blogs = Blog::when($request->id, function ($query) use ($request) {
                 $query->where('id', $request->id);
             })
+                ->whereNull('deleted_at')
                 ->with(['files', 'author', 'likes.user', 'comments.user'])
                 ->orderBy('created_at', 'desc');
 

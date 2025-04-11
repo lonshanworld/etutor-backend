@@ -26,6 +26,7 @@ class GetMeetingController extends Controller
 
             // Build the base query
             $query = Meeting::where('meeting_date', '>=', $currentDate)
+                ->whereNull('deleted_at')
                 ->with([
                     'creator:id,first_name,last_name,email,profile_picture',
                     'participants.user:id,first_name,last_name,email'

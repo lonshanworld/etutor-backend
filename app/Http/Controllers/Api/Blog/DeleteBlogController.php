@@ -18,6 +18,9 @@ class DeleteBlogController extends Controller
                     'message' => 'not allow'
                 ], 403);
             }
+            
+            // Delete all associated files first
+            $blog->files()->delete();
             $blog->delete();
             return response()->success([], 'blog deleted');
         } catch (\Throwable $th) {

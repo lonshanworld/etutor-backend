@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Files\DownloadFileController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
+use App\Http\Controllers\Api\Meeting\DeleteMeetingController;
 use App\Http\Controllers\Api\Meeting\Records\CreateMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\Records\GetMeetingRecordController;
 use App\Http\Controllers\Api\Meeting\GetMeetingController;
@@ -142,6 +143,7 @@ Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
     Route::post('create', CreateMeetingController::class);
     Route::get('/', GetMeetingController::class);
     Route::get('recent', GetRecentMeetingController::class);
+    Route::delete('/{meeting}', DeleteMeetingController::class);
 
     Route::prefix('records')->group(function () {
         Route::get('/', GetMeetingRecordController::class);

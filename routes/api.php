@@ -89,8 +89,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('roles', GetRoleController::class);
     Route::get('majors-with-subjects', GetMajorWithSubjectController::class);
     Route::get('tutoring_sessions', GetTutoringSessionController::class);
-    Route::get('tutors/my_students', GetStudentsByTutorController::class);
-    Route::get('students/my_tutor', GetTutorByStudentController::class);
+    Route::get('tutors/my-students', GetStudentsByTutorController::class);
+    Route::get('students/my-tutor', GetTutorByStudentController::class);
 });
 
 Route::get('check-email', CheckEmailController::class);

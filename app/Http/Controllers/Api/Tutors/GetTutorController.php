@@ -22,9 +22,9 @@ class GetTutorController extends Controller
                 ->when($request->search, function ($query) use ($request) {
                     $query->where(function ($q) use ($request) {
                         $q->where('email', $request->search)
-                            ->orWhere('first_name', 'like', '%' . $request->search . '%')
-                            ->orWhere('middle_name', 'like', '%' . $request->search . '%')
-                            ->orWhere('last_name', 'like', '%' . $request->search . '%');
+                            ->orWhere('first_name', 'like', $request->search . '%')
+                            ->orWhere('middle_name', 'like', $request->search . '%')
+                            ->orWhere('last_name', 'like', $request->search . '%');
                     });
                 })
                 ->when($request->filter, function ($query) use ($request) {

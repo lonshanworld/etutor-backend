@@ -13,7 +13,9 @@ class GetBlogByIdController extends Controller
     public function __invoke(string $id)
     {
         try {
-            $blog = Blog::with(['files', 'likes', 'comments.user'])->findOrFail($id);
+            $blog = Blog::with(['files', 'likes', 'comments.user'])
+                ->whereNull('deleted_at')
+                ->findOrFail($id);
             return new BlogResource($blog);
         } catch (ModelNotFoundException $e) {
             return response()->json([

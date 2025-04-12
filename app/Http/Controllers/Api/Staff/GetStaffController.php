@@ -17,35 +17,35 @@ class GetStaffController extends Controller
                 $query->where('name', 'admin')
                     ->orWhere('name', 'staff');
             })
-            ->when($request->search, function($query) use($request) {
-                $query->where(function($q) use($request) {
-                    $q->where('email', $request->search)
-                        ->orWhere('first_name', 'like', $request->search.'%')
-                        ->orWhere('middle_name', 'like', $request->search.'%')
-                        ->orWhere('last_name', 'like', $request->search.'%');
-                });
-            })
-            ->when($request->filter, function($query) use($request) {
-                // Filter users based on activity logs (each user has only one activity log)
-                switch ($request->filter) {
-                    case '0d': // Today
-                        $query->whereHas('activityLog', function($q) {
-                            $q->whereDate('session_login', Carbon::today());
-                        });
-                        break;
-                    case '7d': // Last 7 days
-                        $query->whereHas('activityLog', function($q) {
-                            $q->where('session_login', '>=', Carbon::now()->subDays(7));
-                        });
-                        break;
-                    case '28d': // Last 28 days
-                        $query->whereHas('activityLog', function($q) {
-                            $q->where('session_login', '>=', Carbon::now()->subDays(28));
-                        });
-                        break;
-                }
-            })
-            ->paginate(config('app.paginate.count'));
+                ->when($request->search, function ($query) use ($request) {
+                    $query->where(function ($q) use ($request) {
+                        $q->where('email', $request->search)
+                            ->orWhere('first_name', 'like', $request->search . '%')
+                            ->orWhere('middle_name', 'like', $request->search . '%')
+                            ->orWhere('last_name', 'like', $request->search . '%');
+                    });
+                })
+                ->when($request->filter, function ($query) use ($request) {
+                    // Filter users based on activity logs (each user has only one activity log)
+                    switch ($request->filter) {
+                        case '0d': // Today
+                            $query->whereHas('activityLog', function ($q) {
+                                $q->whereDate('session_login', Carbon::today());
+                            });
+                            break;
+                        case '7d': // Last 7 days
+                            $query->whereHas('activityLog', function ($q) {
+                                $q->where('session_login', '>=', Carbon::now()->subDays(7));
+                            });
+                            break;
+                        case '28d': // Last 28 days
+                            $query->whereHas('activityLog', function ($q) {
+                                $q->where('session_login', '>=', Carbon::now()->subDays(28));
+                            });
+                            break;
+                    }
+                })
+                ->paginate(config('app.paginate.count'));
 
             return StaffResource::collection($staffs);
         } catch (\Throwable $th) {

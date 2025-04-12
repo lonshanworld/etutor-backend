@@ -49,6 +49,7 @@ use App\Http\Controllers\Api\Tutors\GetTutorController;
 use App\Http\Controllers\Api\User\ChangePasswordController;
 use App\Http\Controllers\Api\User\GetNoteController;
 use App\Http\Controllers\Api\User\GetUserProfileController;
+use App\Http\Controllers\Api\User\UpdateProfilePictureController;
 use App\Http\Controllers\GetStudentTutorController;
 use App\Http\Controllers\GetTutoringSessionController;
 use App\Http\Resources\Api\Users\UserProfileResource;
@@ -70,6 +71,9 @@ Route::middleware('auth:sanctum')->prefix('user')->group(function () {
     Route::get('profile', function (Request $request) {
         return new UserProfileResource($request->user());
     });
+
+    Route::post('profile-picture/update', UpdateProfilePictureController::class);
+
     Route::get('/{id}/profile', GetUserProfileController::class);
     Route::post('change-password', ChangePasswordController::class);
 

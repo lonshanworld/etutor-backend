@@ -49,7 +49,8 @@ class LogoutNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'Logout at ' . Carbon::now()
+            'message' => 'Logout at ' . Carbon::now(),
+            'type' => 'logout'
         ];
     }
 }

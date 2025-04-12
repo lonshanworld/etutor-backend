@@ -91,8 +91,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Blog::class);
     }
-
-    public function activityLog() : HasOne
+    
+    public function activityLog()
     {
         return $this->hasOne(ActivityLog::class);
     }

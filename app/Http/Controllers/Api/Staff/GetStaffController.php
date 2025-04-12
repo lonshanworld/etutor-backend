@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Staff\StaffResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class GetStaffController extends Controller
 {
@@ -18,6 +19,26 @@ class GetStaffController extends Controller
             })
             ->when($request->email, function($query) use($request) {
                 $query->where('email', $request->email);
+            })
+            ->when($request->filter, function($query) use($request) {
+                // Filter users based on activity logs (each user has only one activity log)
+                switch ($request->filter) {
+                    case '0d': // Today
+                        $query->whereHas('activityLog', function($q) {
+                            $q->whereDate('session_login', Carbon::today());
+                        });
+                        break;
+                    case '7d': // Last 7 days
+                        $query->whereHas('activityLog', function($q) {
+                            $q->where('session_login', '>=', Carbon::now()->subDays(7));
+                        });
+                        break;
+                    case '28d': // Last 28 days
+                        $query->whereHas('activityLog', function($q) {
+                            $q->where('session_login', '>=', Carbon::now()->subDays(28));
+                        });
+                        break;
+                }
             })
             ->when($request->name, function($query) use($request) {
                 $query->where('first_name', 'like', '%'.$request->name.'%')

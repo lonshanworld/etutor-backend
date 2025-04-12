@@ -49,7 +49,8 @@ class LoginNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => $this->message
+            'message' => $this->message,
+            'type' => 'login'
         ];
     }
 }

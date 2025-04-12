@@ -12,6 +12,10 @@ class UpdateProfilePictureController extends Controller
 {
     public function __invoke(UpdateProfilePictureRequest $updateProfilePictureRequest)
     {
+        Log::info('request body',[
+            'body' => $updateProfilePictureRequest->all()
+        ]);
+        
         try {
             $validated = $updateProfilePictureRequest->validated();
             $profilePicture = $validated['profile_picture'];

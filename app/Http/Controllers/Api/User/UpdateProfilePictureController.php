@@ -10,15 +10,10 @@ use Illuminate\Support\Facades\Storage;
 
 class UpdateProfilePictureController extends Controller
 {
-    public function __invoke(UpdateProfilePictureRequest $updateProfilePictureRequest)
-    {
-        Log::info('request body',[
-            'body' => $updateProfilePictureRequest->all()
-        ]);
-        
+    public function __invoke(Request $request)
+    {   
         try {
-            $validated = $updateProfilePictureRequest->validated();
-            $profilePicture = $validated['profile_picture'];
+            $profilePicture = $request->file('1_profile_picture');
 
             $originalFilename = $profilePicture->getClientOriginalName();
             $path = $profilePicture->storeAs('etuto/attachments', $originalFilename, 's3');

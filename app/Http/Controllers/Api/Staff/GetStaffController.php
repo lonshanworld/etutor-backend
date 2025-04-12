@@ -17,6 +17,7 @@ class GetStaffController extends Controller
                 $query->where('name', 'admin')
                     ->orWhere('name', 'staff');
             })
+
                 ->when($request->search, function ($query) use ($request) {
                     $query->where(function ($q) use ($request) {
                         $q->where('email', $request->search)

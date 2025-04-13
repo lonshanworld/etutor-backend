@@ -18,6 +18,7 @@ class UserProfileResource extends JsonResource
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
             'date_of_birth' => $this->date_of_birth,
+            'profile_picture' => $this->profile_picture,
             'email' => $this->email,
             'nationality' => $this->nationality,
             'gender' => $this->gender,

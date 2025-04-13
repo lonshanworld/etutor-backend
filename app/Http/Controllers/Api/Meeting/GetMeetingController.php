@@ -14,18 +14,30 @@ class GetMeetingController extends Controller
     {
         try {
             $user = auth('sanctum')->user();
+            if (!$user) {
+                return response()->error('Unauthorized', 401);
+            }
+
+            $searchUserId = $request->user_id ?? $user->id;
             $currentDate = now()->format('Y-m-d');
             $currentTime = now()->format('H:i:s');
 
             // Add debug logging for current user
             Log::info('Current user details', [
                 'user_id' => $user->id,
+                'search_user_id' => $searchUserId,
                 'current_date' => $currentDate,
                 'current_time' => $currentTime
             ]);
 
             // Build the base query
-            $query = Meeting::where('meeting_date', '>=', $currentDate)
+            $query = Meeting::where(function($q) use ($currentDate, $currentTime) {
+                    $q->where('meeting_date', '>', $currentDate)
+                      ->orWhere(function($q) use ($currentDate, $currentTime) {
+                          $q->where('meeting_date', $currentDate)
+                            ->where('meeting_time', '>=', $currentTime);
+                      });
+                })
                 ->whereNull('deleted_at')
                 ->with([
                     'creator:id,first_name,last_name,email,profile_picture',
@@ -41,19 +53,16 @@ class GetMeetingController extends Controller
                     'location',
                     'platform',
                     'meeting_link'
-                ]);
+                ])
+                ->when($request->id, function($q) use ($request) {
+                    return $q->where('id', $request->id);
+                })
+                ->whereNull('deleted_at');
 
-            // Filter based on user role
-            if ($user->role_id === 2) { // Tutor
-                $query->where('creator_id', $user->id);
-            } else { // Student
-                $query->whereHas('participants', function($q) use ($user) {
-                    $q->where('user_id', $user->id);
-                });
-            }
-
-            $query->orderBy('meeting_date', 'asc')
-                  ->orderBy('meeting_time', 'asc');
+            // Step 3: Get meetings where user is creator for upcoming meetings
+            $query->where('creator_id', $searchUserId)
+            ->orderBy('meeting_date', 'asc')
+            ->orderBy('meeting_time', 'asc');
                 
             // Add debug logging for participants check
             Log::info('Checking participants table', [

@@ -78,7 +78,10 @@ class CreateMeetingController extends Controller
                 'error' => $th->getMessage(),
                 'request' => $storeMeetingRequest->all()
             ]);
-            return response()->error();
+            return response()->json([
+                'message' => 'Failed to create meeting',
+                'error' => $th->getMessage()
+            ], 500);
         }
     }
 }

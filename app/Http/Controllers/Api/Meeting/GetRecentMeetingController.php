@@ -14,7 +14,10 @@ class GetRecentMeetingController extends Controller
         try {
             $user = auth('sanctum')->user();
             if (!$user) {
-                return response()->error('Unauthorized', 401);
+                return response()->json([
+                    'message' => 'Unauthorized access',
+                    'error' => 'Authentication required'
+                ], 401);
             }
 
             $userId = $request->user_id ?? $user->id;

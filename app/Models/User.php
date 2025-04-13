@@ -44,16 +44,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * Check if user is admin
-     * 
-     * @return bool
-     */
-    public function isAdmin(): bool
-    {
-        return $this->role_id === 1; // Assuming role_id 1 is for admin
-    }
-
-    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>

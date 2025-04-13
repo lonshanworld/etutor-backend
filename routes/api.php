@@ -102,7 +102,7 @@ Route::middleware('auth:sanctum')->prefix('students')->group(function () {
     Route::post('{id}/account/update', UpdateStudentAccountController::class);
     Route::post('account/deactivate', DeactivateStudentAccountController::class);
     Route::post('account/activate', ActivateStudentAccountController::class);
-    Route::get('my-tutor', GetTutorByStudentController::class);
+    Route::post('my-tutor', GetTutorByStudentController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
@@ -111,7 +111,7 @@ Route::middleware('auth:sanctum')->prefix('tutors')->group(function () {
     Route::post('toggle/account/status', ToggleStudentAccountController::class);
     Route::post('account/deactivate', DeactivateStudentAccountController::class);
     Route::post('account/activate', ActivateStudentAccountController::class);
-    Route::get('my-students', GetStudentsByTutorController::class);
+    Route::post('my-students', GetStudentsByTutorController::class);
 });
 
 Route::middleware('auth:sanctum')->prefix('staffs')->group(function () {
@@ -141,8 +141,8 @@ Route::middleware('auth:sanctum')->prefix('blogs')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
     Route::post('create', CreateMeetingController::class);
-    Route::get('/', GetMeetingController::class);
-    Route::get('recent', GetRecentMeetingController::class);
+    Route::post('/', GetMeetingController::class);
+    Route::post('recent', GetRecentMeetingController::class);
     Route::delete('/{meeting}', DeleteMeetingController::class);
 
     Route::prefix('records')->group(function () {

@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum MeetingType: string
 {
-    case VIRTUAL = 'virtual';
+    case VIRTUAL = 'Virtual';
     case INPERSON = 'In-Person';
-    case HYBRID = 'hybrid';
+    case HYBRID = 'Hybrid';
     
     /**
      * Get all available meeting types as array

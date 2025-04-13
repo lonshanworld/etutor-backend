@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\Meeting;
 
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -12,16 +14,19 @@ class GetRecentMeetingController extends Controller
     public function __invoke(Request $request)
     {
         try {
-            $user = auth('sanctum')->user();
+            $request->validate(['user_id' => 'required|integer']);
+            
+            $userId = $request->user_id;
+            $user = User::find($userId);
+            
             if (!$user) {
                 return response()->json([
-                    'message' => 'Unauthorized access',
-                    'error' => 'Authentication required'
-                ], 401);
+                    'message' => 'User not found'
+                ], 404);
             }
-
-            $userId = $request->user_id ?? $user->id;
             
+            $tutorRole = Role::where('name', 'tutor')->first();
+            $isTutor = $user->role_id === $tutorRole->id;
             $currentDate = now()->format('Y-m-d');
             $currentTime = now()->format('H:i:s');
 
@@ -33,8 +38,15 @@ class GetRecentMeetingController extends Controller
                                   ->where('meeting_time', '<', $currentTime);
                         });
                 })
-                // Filter by creator_id only
-                ->where('creator_id', $userId);
+                ->where(function($query) use ($userId, $isTutor) {
+                    if ($isTutor) {
+                        $query->where('creator_id', $userId);
+                    } else {
+                        $query->whereHas('participants', function($q) use ($userId) {
+                            $q->where('user_id', $userId);
+                        });
+                    }
+                });
 
             $meetings = $query
                 ->with([

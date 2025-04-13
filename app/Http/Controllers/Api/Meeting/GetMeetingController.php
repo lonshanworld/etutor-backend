@@ -32,14 +32,6 @@ class GetMeetingController extends Controller
                 'current_date' => $currentDate,
                 'current_time' => $currentTime
             ]);
-            
-            // Validate user access
-            if ($searchUserId !== $user->id && !$user->isAdmin()) {
-                return response()->json([
-                    'message' => 'Unauthorized access',
-                    'error' => 'You can only view your own meetings'
-                ], 403);
-            }
 
             // Build the base query
             $query = Meeting::where(function($q) use ($currentDate, $currentTime) {
@@ -70,7 +62,7 @@ class GetMeetingController extends Controller
                 })
                 ->whereNull('deleted_at');
 
-            // Step 3: Get meetings where user is creator for upcoming meetings
+            //Get meetings where user is creator for upcoming meetings
             $query->where('creator_id', $searchUserId)
             ->orderBy('meeting_date', 'asc')
             ->orderBy('meeting_time', 'asc');

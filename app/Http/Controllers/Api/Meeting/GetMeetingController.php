@@ -15,7 +15,10 @@ class GetMeetingController extends Controller
         try {
             $user = auth('sanctum')->user();
             if (!$user) {
-                return response()->error('Unauthorized', 401);
+                return response()->json([
+                'message' => 'Unauthorized access',
+                'error' => 'Authentication required'
+            ], 401);
             }
 
             $searchUserId = $request->user_id ?? $user->id;
@@ -29,6 +32,14 @@ class GetMeetingController extends Controller
                 'current_date' => $currentDate,
                 'current_time' => $currentTime
             ]);
+            
+            // Validate user access
+            if ($searchUserId !== $user->id && !$user->isAdmin()) {
+                return response()->json([
+                    'message' => 'Unauthorized access',
+                    'error' => 'You can only view your own meetings'
+                ], 403);
+            }
 
             // Build the base query
             $query = Meeting::where(function($q) use ($currentDate, $currentTime) {

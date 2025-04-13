@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Meeting;
 
+use App\Enums\PlatformType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMeetingRequest extends FormRequest
@@ -28,7 +29,7 @@ class StoreMeetingRequest extends FormRequest
             'meeting_time' => 'required|date_format:H:i',
             'meeting_type' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
-            'platform' => 'nullable|string|max:255',
+            'platform' => 'nullable|string|in:' . implode(',', array_column(PlatformType::cases(), 'value')),
             'meeting_link' => 'nullable|string',
             'users' => 'required|array|min:1',
             'users.*' => 'required|integer|exists:users,id'

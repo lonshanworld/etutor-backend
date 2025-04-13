@@ -85,7 +85,8 @@ class GetMeetingController extends Controller
                         'subject' => $meeting->meeting_subject,
                         'date' => $meeting->meeting_date,
                         'time' => $meeting->meeting_time,
-                        'type' => $meeting->meeting_type,
+                        // Convert meeting_type to string value to avoid enum issues
+                        'type' => $meeting->meeting_type?->value ?? $meeting->meeting_type,
                         'location' => $meeting->location,
                         'platform' => $meeting->platform,
                         'link' => $meeting->meeting_link,
@@ -107,7 +108,8 @@ class GetMeetingController extends Controller
             ]);
         } catch (\Throwable $th) {
             Log::info('get meetings api', [
-                'message' => $th->getMessage()
+                'message' => $th->getMessage(),
+                'trace' => $th->getTraceAsString() // Add stack trace for better debugging
             ]);
             return response()->error();
         }

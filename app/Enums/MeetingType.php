@@ -2,8 +2,23 @@
 
 namespace App\Enums;
 
-enum MeetingType : string
+enum MeetingType: string
 {
-    CASE VIRTUAL =  'Virtual';
-    CASE INPERSON = 'In-Person';
+    case VIRTUAL = 'virtual';
+    case INPERSON = 'in-person';
+    case HYBRID = 'hybrid';
+    
+    /**
+     * Get all available meeting types as array
+     *
+     * @return array
+     */
+    public static function toArray(): array
+    {
+        return [
+            self::VIRTUAL->value => 'Virtual',
+            self::INPERSON->value => 'In-Person',
+            self::HYBRID->value => 'Hybrid',
+        ];
+    }
 }

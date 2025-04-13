@@ -13,10 +13,15 @@ class GetRecentMeetingController extends Controller
     {
         try {
             $user = auth('sanctum')->user();
+            if (!$user) {
+                return response()->error('Unauthorized', 401);
+            }
+
+            $userId = $request->user_id ?? $user->id;
+            
             $currentDate = now()->format('Y-m-d');
             $currentTime = now()->format('H:i:s');
 
-            // Build the base query
             $query = Meeting::whereNull('deleted_at')
                 ->where(function($query) use ($currentDate, $currentTime) {
                     $query->where('meeting_date', '<', $currentDate)
@@ -24,16 +29,9 @@ class GetRecentMeetingController extends Controller
                             $query->where('meeting_date', '=', $currentDate)
                                   ->where('meeting_time', '<', $currentTime);
                         });
-                });
-
-            // Filter based on user role
-            if ($user->role_id === 2) { // Tutor
-                $query->where('creator_id', $user->id);
-            } else { // Student
-                $query->whereHas('participants', function($q) use ($user) {
-                    $q->where('user_id', $user->id);
-                });
-            }
+                })
+                // Filter by creator_id only
+                ->where('creator_id', $userId);
 
             $meetings = $query
                 ->with([

@@ -16,7 +16,14 @@ class GetTutorByStudentController extends Controller
     public function __invoke(Request $request)
     {
         try {
-            $student = Student::where('user_id', auth('sanctum')->user()->id)->first();
+            $authUser = auth('sanctum')->user();
+            if (!$authUser) {
+                return response()->json(['message' => 'Unauthenticated'], 401);
+            }
+            
+            // Get student_id from request or use authenticated user's id
+            $studentId = $request->input('user_id', $authUser->id);
+            $student = Student::where('user_id', $studentId)->first();
             
             if (!$student) {
                 return response()->json(['message' => 'Student not found'], 404);

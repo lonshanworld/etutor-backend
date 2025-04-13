@@ -46,6 +46,7 @@ class GetStaffController extends Controller
                             break;
                     }
                 })
+                ->with('activityLog')
                 ->paginate(config('app.paginate.count'));
 
             return StaffResource::collection($staffs);

@@ -17,7 +17,14 @@ class UpdateProfilePictureController extends Controller
 
             $originalFilename = $profilePicture->getClientOriginalName();
             $path = $profilePicture->storeAs('etuto/attachments', $originalFilename, 's3');
-            Storage::disk('s3')->url($path);
+            $storedPath = Storage::disk('s3')->url($path);
+            // 'path' => Storage::disk('s3')->url($path)
+            $user = auth('sanctum')->user();
+            // $user->profile_picture = $storedPath;
+            // $user->save();
+            $user->update([
+                'profile_picture' => $storedPath
+            ]);
 
             return response()->json([
                 'message' => 'updated'

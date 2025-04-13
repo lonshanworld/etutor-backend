@@ -47,6 +47,7 @@ class GetTutorController extends Controller
                             break;
                     }
                 })
+                ->with('activityLog')
                 ->with(['tutor', 'role', 'tutor.tutoringSessions'])
                 ->with([
                     'tutor.tutoringSessions.tutor.user',

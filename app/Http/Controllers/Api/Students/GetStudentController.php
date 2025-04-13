@@ -26,26 +26,31 @@ class GetStudentController extends Controller
                     });
                 })
                 ->when($request->filter, function ($query) use ($request) {
-                    // Filter users based on activity logs (each user has only one activity log)
+                    Log::info('filter', [
+                        'filter' => $request->filter
+                    ]);
+                    
+                    // Use leftJoin with activity_logs table to filter properly
+                    $query->leftJoin('activity_logs', 'users.id', '=', 'activity_logs.user_id');
+                    
+                    // Filter users based on activity logs
                     switch ($request->filter) {
                         case '0d': // Today
-                            $query->whereHas('activityLog', function ($q) {
-                                $q->whereDate('session_login', Carbon::today());
-                            });
+                            $query->whereDate('activity_logs.session_login', Carbon::today());
                             break;
                         case '7d': // Last 7 days
-                            $query->whereHas('activityLog', function ($q) {
-                                $q->where('session_login', '>=', Carbon::now()->subDays(7));
-                            });
+                            $query->where('activity_logs.session_login', '>=', Carbon::now()->subDays(7));
                             break;
                         case '28d': // Last 28 days
-                            $query->whereHas('activityLog', function ($q) {
-                                $q->where('session_login', '>=', Carbon::now()->subDays(28));
-                            });
+                            $query->where('activity_logs.session_login', '>=', Carbon::now()->subDays(28));
                             break;
                     }
+                    
+                    // Select only users fields to avoid ambiguous column references
+                    $query->select('users.*');
                 })
                 ->with([
+                    'activityLog',
                     'student.major',
                     'role',
                     'student.studentTutoringSessions.tutor.user',

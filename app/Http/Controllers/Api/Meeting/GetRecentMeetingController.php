@@ -22,6 +22,14 @@ class GetRecentMeetingController extends Controller
 
             $userId = $request->user_id ?? $user->id;
             
+            // Validate user access
+            if ($userId !== $user->id && !$user->isAdmin()) {
+                return response()->json([
+                    'message' => 'Unauthorized access',
+                    'error' => 'You can only view your own meetings'
+                ], 403);
+            }
+            
             $currentDate = now()->format('Y-m-d');
             $currentTime = now()->format('H:i:s');
 

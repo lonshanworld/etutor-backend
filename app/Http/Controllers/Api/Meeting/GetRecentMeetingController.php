@@ -68,6 +68,12 @@ class GetRecentMeetingController extends Controller
                 ->orderBy('meeting_time', 'desc')
                 ->get();
 
+            if ($meetings->isEmpty()) {
+                return response()->json([
+                    'message' => 'No meetings found'
+                ]);
+            }
+
             return response()->json([
                 'meetings' => $meetings->map(function($meeting) use ($user) {
                     return [

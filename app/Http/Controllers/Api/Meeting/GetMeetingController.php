@@ -109,6 +109,12 @@ class GetMeetingController extends Controller
                 'count' => $meetings->count()
             ]);
 
+            if ($meetings->isEmpty()) {
+                return response()->json([
+                    'message' => 'No meetings found'
+                ], 200);
+            }
+
             return response()->json([
                 'meetings' => $meetings->map(function($meeting) use ($user) {
                     return [

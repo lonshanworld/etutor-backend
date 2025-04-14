@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Api\Students\StudentResource;
 use App\Http\Resources\Api\Tutors\TutorResource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -27,6 +28,35 @@ class GetStudentTutorController extends Controller
                       ->orWhere('last_name', 'like', '%'.$request->name.'%');
                 });
             })
+            ->when($request->search, function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    $q->where('email', $request->search)
+                        ->orWhere('first_name', 'like', $request->search . '%')
+                        ->orWhere('middle_name', 'like', $request->search . '%')
+                        ->orWhere('last_name', 'like', $request->search . '%');
+                });
+            })
+            ->when($request->filter, function ($query) use ($request) {
+                // Filter users based on activity logs (each user has only one activity log)
+                switch ($request->filter) {
+                    case '0d': // Today
+                        $query->whereHas('activityLog', function ($q) {
+                            $q->whereDate('session_login', Carbon::today());
+                        });
+                        break;
+                    case '7d': // Last 7 days
+                        $query->whereHas('activityLog', function ($q) {
+                            $q->where('session_login', '>=', Carbon::now()->subDays(7));
+                        });
+                        break;
+                    case '28d': // Last 28 days
+                        $query->whereHas('activityLog', function ($q) {
+                            $q->where('session_login', '>=', Carbon::now()->subDays(28));
+                        });
+                        break;
+                }
+            })
+            ->with('activityLog')
             ->orderBy('first_name')
             ->orderBy('middle_name')
             ->orderBy('last_name')

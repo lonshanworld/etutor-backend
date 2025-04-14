@@ -9,8 +9,4 @@ enum PlatformType: string
     case ZOOM = 'Zoom';
     case OTHER = 'Other';
     case NULL = '';
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a296999db29cddb0282aab90ef0c7e5c561f8b53

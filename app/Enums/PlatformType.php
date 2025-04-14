@@ -8,5 +8,5 @@ enum PlatformType: string
     case TEAMS = 'Teams';
     case ZOOM = 'Zoom';
     case OTHER = 'Other';
-    case NULL = '';
+    case NULL = null;
 }

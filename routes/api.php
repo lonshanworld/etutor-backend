@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Email\ConfirmOtpController;
 use App\Http\Controllers\Api\Files\DeleteFileController;
 use App\Http\Controllers\Api\Files\GetFilesController;
 use App\Http\Controllers\Api\Files\DownloadFileController;
+use App\Http\Controllers\Api\GetStudentUnassignedController;
 use App\Http\Controllers\Api\Major\GetMajorController;
 use App\Http\Controllers\Api\Major\GetMajorWithSubjectController;
 use App\Http\Controllers\Api\Meeting\CreateMeetingController;
@@ -161,4 +162,5 @@ Route::middleware('auth:sanctum')->prefix('reports')->group(function () {
     Route::get('view-pages', GetViewPageController::class);
     Route::get('active-users', GetActiveUserController::class);
     Route::get('browser-usage', GetBrowserUsageController::class);
+    Route::get('studentsunassigned', GetStudentUnassignedController::class);
 });

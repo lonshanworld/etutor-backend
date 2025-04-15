@@ -34,6 +34,7 @@ class StudentResource extends JsonResource
             'image_id' => $this->image_id,
             'email_verified_at' => $this->email_verified_at,
             'profile_picture' => $this->profile_picture,
+            'activity_logs' => $this->activityLog,
             'student' => [
                 'id' => $this->student->id ?? null,
                 'major_id' => $this->student->major_id ?? null,

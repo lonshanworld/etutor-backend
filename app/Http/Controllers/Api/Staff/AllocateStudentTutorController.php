@@ -8,6 +8,7 @@ use App\Mail\Allocation\AllocateSuccessMail;
 use App\Models\Student;
 use App\Models\TutoringSession;
 use App\Models\User;
+use App\Notifications\User\AssignStudentTutorNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -79,7 +80,8 @@ class AllocateStudentTutorController extends Controller
 
             // Send emails to all students and tutor
             foreach ($students as $student) {
-                Mail::to($student->email)->send(new AllocateSuccessMail($student, $tutor));
+                $student->notify(new AssignStudentTutorNotification($student, $tutor));
+                // Mail::to($student->email)->send(new AllocateSuccessMail($student, $tutor));
             }
             Mail::to($tutor->email)->send(new AllocateSuccessMail($students, $tutor));
 

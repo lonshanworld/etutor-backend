@@ -72,7 +72,17 @@ class GetStudentTutorController extends Controller
                         return new TutorResource($user);
                     }
                     return null;
-                })->filter()
+                })->filter(),
+                'meta' => [
+                    'current_page' => $users->currentPage(),
+                    'from' => $users->firstItem(),
+                    'last_page' => $users->lastPage(),
+                    'links' => $users->linkCollection()->toArray(),
+                    'path' => $users->path(),
+                    'per_page' => $users->perPage(),
+                    'to' => $users->lastItem(),
+                    'total' => $users->total()
+                ]
             ]);
         } catch (\Throwable $th) {
             Log::error('Error fetching users', [

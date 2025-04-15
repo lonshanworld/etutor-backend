@@ -28,22 +28,19 @@ class GetTutorController extends Controller
                     });
                 })
                 ->when($request->filter, function ($query) use ($request) {
-                    // Filter users based on activity logs (each user has only one activity log)
                     switch ($request->filter) {
                         case '0d': // Today
-                            $query->whereHas('activityLog', function ($q) {
-                                $q->whereDate('session_login', Carbon::today());
-                            });
+                            $query->whereDate('activity_logs.session_login', Carbon::today())
+                                ->where('activity_logs.session_logout', '<', Carbon::now());
                             break;
                         case '7d': // Last 7 days
-                            $query->whereHas('activityLog', function ($q) {
-                                $q->where('session_login', '>=', Carbon::now()->subDays(7));
-                            });
+                            // ->whereColumn('session_login', '<', 'session_logout')
+                            $query->whereColumn('activity_logs.session_login', '<', 'activity_logs.session_logout')
+                                ->where('activity_logs.session_logout', '<=', Carbon::now()->subDays(7));
                             break;
                         case '28d': // Last 28 days
-                            $query->whereHas('activityLog', function ($q) {
-                                $q->where('session_login', '>=', Carbon::now()->subDays(28));
-                            });
+                            $query->whereColumn('activity_logs.session_login', '<', 'activity_logs.session_logout')
+                                ->where('activity_logs.session_logout', '<=', Carbon::now()->subDays(28));
                             break;
                     }
                 })

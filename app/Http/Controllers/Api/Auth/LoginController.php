@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Events\AddOnlineUserEvent;
+use App\Events\OnlineRoomEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\ActivityLog;
@@ -44,7 +46,9 @@ class LoginController extends Controller
 
             $user->notify(new LoginNotification($message));
 
-
+            // broadcast(new OnlineRoomEvent($user));
+            broadcast(new AddOnlineUserEvent($user));
+            
             return response()->json([
                 'message' => $message,
                 'token' => $user->createToken($loginRequest->device_name ?? 'web_app')->plainTextToken

@@ -63,4 +63,4 @@ Schedule::call(function () {
             'trace' => $e->getTraceAsString()
         ]);
     }
-})->everyThirtySeconds();
+})->dailyAt('00:00');

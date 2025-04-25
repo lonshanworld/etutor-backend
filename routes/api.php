@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Api\Attachments\UploadAttachmentController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\Logoutcontroller;
@@ -149,7 +150,7 @@ Route::middleware('auth:sanctum')->prefix('meetings')->group(function () {
     Route::prefix('records')->group(function () {
         Route::get('/', GetMeetingRecordController::class);
         Route::post('/', CreateMeetingRecordController::class);
-    }); 
+    });
 });
 
 // Notification routes
@@ -164,3 +165,15 @@ Route::middleware('auth:sanctum')->prefix('reports')->group(function () {
     Route::get('browser-usage', GetBrowserUsageController::class);
     Route::get('studentsunassigned', GetStudentUnassignedController::class);
 });
+
+Route::middleware('auth:sanctum')->prefix('events')->group(function () {
+   Route::post('updateSessionLogin', [ActivityLogController::class, 'updateSessionLogin']);
+
+
+});
+
+
+Route::post('logout', [ActivityLogController::class, 'updateSessionLogoutReq']);
+Route::post('increaseBrowserCount', [GetBrowserUsageController::class, 'increaseBrowserCount']);
+Route::post('increasePageCount', [GetViewPageController::class, 'increasePageCount']);
+Route::get('getSessionLogByUserId', [ActivityLogController::class, 'getLogByUserId']);

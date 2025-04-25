@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
+use App\Listeners\UpdateSessionLogoutTime;
+use App\Models\ActivityLog;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Broadcast;
 use App\Models\User;
 
@@ -46,4 +50,34 @@ Broadcast::channel('rooms.{id}', function(User $user, $id) {
         'email' => $user->email,
         'foundUser' => $foundUser
     ];
+});
+
+Broadcast::channel('session_login', function ($user) {
+    \Log::info("Auth request received for presence.session from user: {$user->id}");
+    if ($user->id) {
+        $activityLog = ActivityLog::where('user_id', $user->id)->first();
+
+        if ($activityLog) {
+            $activityLog->session_login = Carbon::now();
+            $activityLog->visit_count += 1;
+            $activityLog->save();
+        }
+    }
+
+    return ['id' => $user->id, 'name' => $user->name];
+});
+
+Broadcast::channel('session_logout', function ($user) {
+    \Log::info("Auth request received for presence.session from user: {$user->id}");
+    if ($user->id) {
+        $activityLog = ActivityLog::where('user_id', $user->id)->first();
+
+        if ($activityLog) {
+            $activityLog->session_logout = Carbon::now();
+            $activityLog->save();
+        }
+
+    }
+
+    return ['id' => $user->id, 'name' => $user->name];
 });

@@ -23,4 +23,34 @@ class GetViewPageController extends Controller
             return response()->error();
         }
     }
+
+    public function increasePageCount(Request $request)
+    {
+        $route = strtolower($request->query('route'));
+
+        if (!$route) {
+            return response()->json(['message' => 'Route query is required'], 400);
+        }
+
+        try {
+            $page = Page::firstOrCreate(
+                ['url' => $route],
+                ['view_count' => 0]
+            );
+
+            $page->increment('view_count');
+
+            return response()->json([
+                'message' => 'Page view count updated successfully',
+                'page' => $page
+            ]);
+        } catch (\Throwable $th) {
+            Log::error('Error updating view count', [
+                'route' => $route,
+                'error' => $th->getMessage(),
+            ]);
+
+            return response()->json(['message' => 'Something went wrong'], 500);
+        }
+    }
 }

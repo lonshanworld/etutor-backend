@@ -27,6 +27,7 @@ class GetStaffController extends Controller
                     });
                 })
                 ->when($request->filter, function ($query) use ($request) {
+                    $query->leftJoin('activity_logs', 'users.id', '=', 'activity_logs.user_id');
                     // Filter users based on activity logs (each user has only one activity log)
                     switch ($request->filter) {
                         case '0d': // Today

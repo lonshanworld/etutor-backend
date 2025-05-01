@@ -7,6 +7,7 @@ use App\Http\Resources\Api\Tutors\TutorResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class GetTutorController extends Controller
 {
@@ -28,6 +29,7 @@ class GetTutorController extends Controller
                     });
                 })
                 ->when($request->filter, function ($query) use ($request) {
+                    $query->leftJoin('activity_logs', 'users.id', '=', 'activity_logs.user_id');
                     switch ($request->filter) {
                         case '0d': // Today
                             $query->whereDate('activity_logs.session_login', Carbon::today())
@@ -55,6 +57,9 @@ class GetTutorController extends Controller
 
             return TutorResource::collection($tutors);
         } catch (\Throwable $th) {
+            Log::info('get tutor api', [
+                'message' => $th->getMessage()
+            ]);
             return response()->error();
         }
     }

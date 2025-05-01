@@ -173,7 +173,7 @@ Route::middleware('auth:sanctum')->prefix('events')->group(function () {
 });
 
 
-Route::post('logout', [ActivityLogController::class, 'updateSessionLogoutReq']);
+Route::post('/event/logout', [ActivityLogController::class, 'updateSessionLogoutReq']);
 Route::post('increaseBrowserCount', [GetBrowserUsageController::class, 'increaseBrowserCount']);
 Route::post('increasePageCount', [GetViewPageController::class, 'increasePageCount']);
 Route::get('getSessionLogByUserId', [ActivityLogController::class, 'getLogByUserId']);

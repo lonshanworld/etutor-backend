@@ -36,11 +36,14 @@ class LoginController extends Controller
                 ActivityLog::create([
                     'user_id' => $user->id,
                     'ip_address' => $loginRequest->ip(),
-                    'session_login' => Carbon::now()
+                    'session_login' => Carbon::now(),
+                    'visit_count' => 1,
                 ]);
             } else {
                 $lastLogin->update([
-                    'session_login' => Carbon::now()
+                    'session_login' => Carbon::now(),
+                    'visit_count' => $lastLogin->visit_count + 1,
+                    'ip_address' => $loginRequest->ip(),
                 ]);
             }
 
@@ -48,7 +51,7 @@ class LoginController extends Controller
 
             // broadcast(new OnlineRoomEvent($user));
             broadcast(new AddOnlineUserEvent($user));
-            
+
             return response()->json([
                 'message' => $message,
                 'token' => $user->createToken($loginRequest->device_name ?? 'web_app')->plainTextToken

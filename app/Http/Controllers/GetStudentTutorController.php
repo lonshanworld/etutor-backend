@@ -17,9 +17,9 @@ class GetStudentTutorController extends Controller
             $users = User::whereHas('role', function ($query) {
                 $query->whereIn('name', ['student', 'tutor']);
             })
-                ->when($request->email, function ($query) use ($request) {
-                    $query->where('email', $request->email);
-                })
+                // ->when($request->email, function ($query) use ($request) {
+                //     $query->where('email', $request->email);
+                // })
                 ->with(['student', 'tutor', 'role'])
                 ->when($request->search, function ($query) use ($request) {
                     $query->where(function ($q) use ($request) {
@@ -30,6 +30,9 @@ class GetStudentTutorController extends Controller
                     });
                 })
                 ->when($request->filter, function ($query) use ($request) {
+                    // Join with activity_logs table to filter properly
+                    $query->leftJoin('activity_logs', 'users.id', '=', 'activity_logs.user_id');
+                    
                     // Filter users based on activity logs (each user has only one activity log)
                     switch ($request->filter) {
                         case '0d': // Today
@@ -37,7 +40,6 @@ class GetStudentTutorController extends Controller
                                 ->where('activity_logs.session_logout', '<', Carbon::now());
                             break;
                         case '7d': // Last 7 days
-                            // ->whereColumn('session_login', '<', 'session_logout')
                             $query->whereColumn('activity_logs.session_login', '<', 'activity_logs.session_logout')
                                 ->where('activity_logs.session_logout', '<=', Carbon::now()->subDays(7));
                             break;
@@ -46,6 +48,9 @@ class GetStudentTutorController extends Controller
                                 ->where('activity_logs.session_logout', '<=', Carbon::now()->subDays(28));
                             break;
                     }
+                    
+                    // Prevent duplicate results after joining
+                    $query->select('users.*');
                 })
                 ->with('activityLog')
                 ->orderBy('first_name')

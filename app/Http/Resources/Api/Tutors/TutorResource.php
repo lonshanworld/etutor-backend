@@ -50,11 +50,13 @@ class TutorResource extends JsonResource
                                 'id' => $session->tutor->id,
                                 'name' => $session->tutor->user->first_name . ' ' . $session->tutor->user->last_name,
                                 'email' => $session->tutor->user->email,
+                                'profile_picture' => $session->tutor->user->profile_picture ?? null
                             ],
                             'student' => [
                                 'id' => $session->student->id,
                                 'name' => $session->student->user->first_name . ' ' . $session->student->user->last_name,
                                 'email' => $session->student->user->email,
+                                'profile_picture' => $session->student->user->profile_picture ?? null,
                                 'major' => [
                                     'id' => $session->student->major_id,
                                     'name' => $session->student->major->name ?? null

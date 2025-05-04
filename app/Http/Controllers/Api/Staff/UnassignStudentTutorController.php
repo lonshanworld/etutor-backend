@@ -43,6 +43,9 @@ class UnassignStudentTutorController extends Controller
                 });
                 
                 Mail::to($tutor->email)->send(new UnassignSuccessMail($students, $tutor));
+                
+                // Send notification to tutor about unassigned students
+                $tutor->notify(new \App\Notifications\Tutor\UnassignStudentNotification(null, $students));
 
                 // Send emails to each student
                 foreach ($students as $student) {

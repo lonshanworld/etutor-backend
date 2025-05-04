@@ -23,10 +23,16 @@ class GetStudentTutorController extends Controller
                 ->with(['student', 'tutor', 'role'])
                 ->when($request->search, function ($query) use ($request) {
                     $query->where(function ($q) use ($request) {
-                        $q->where('email', $request->search)
-                            ->orWhere('first_name', 'like', $request->search . '%')
-                            ->orWhere('middle_name', 'like', $request->search . '%')
-                            ->orWhere('last_name', 'like', $request->search . '%');
+                        $searchTerms = explode(' ', $request->search);
+                        $q->where(function($innerQuery) use ($searchTerms) {
+                            foreach ($searchTerms as $term) {
+                                $innerQuery->where(function($q) use ($term) {
+                                    $q->where('first_name', 'like', '%'.$term.'%')
+                                      ->orWhere('middle_name', 'like', '%'.$term.'%')
+                                      ->orWhere('last_name', 'like', '%'.$term.'%');
+                                });
+                            }
+                        });
                     });
                 })
                 ->when($request->filter, function ($query) use ($request) {

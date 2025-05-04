@@ -41,6 +41,7 @@ class UnassignStudentTutorController extends Controller
                 $students = $tutorSessions->map(function($session) {
                     return $session->student->user;
                 });
+                
                 Mail::to($tutor->email)->send(new UnassignSuccessMail($students, $tutor));
 
                 // Send emails to each student

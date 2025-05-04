@@ -53,11 +53,9 @@ class UnsignStudentTutorNotification extends Notification
      * @return array
      */
     public function toArray($notifiable)
-    {
-        $tutorName = $this->tutor ? $this->tutor->name : 'your tutor';
-        
+    {  
         return [
-            'message' => "You have been successfully unassigned from $tutorName.",
+            'message' => "You have been unassigned from " . ($this->tutor ? $this->tutor->full_name : 'your tutor') . ".",
             'type' => 'unassignment',
             'tutor_id' => $this->tutor ? $this->tutor->id : null,
         ];

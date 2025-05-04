@@ -54,6 +54,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['full_name'];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -67,6 +74,27 @@ class User extends Authenticatable
             'status' => AccountStatus::class
         ];
     }
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        $name = $this->first_name;
+        
+        if ($this->middle_name) {
+            $name .= ' ' . $this->middle_name;
+        }
+        
+        if ($this->last_name) {
+            $name .= ' ' . $this->last_name;
+        }
+        
+        return $name;
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
